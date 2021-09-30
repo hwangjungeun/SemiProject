@@ -94,6 +94,17 @@
 		html += "</ol>";
 		
 		$("div#olli").html = html;
+		
+		
+		$("input:button[id=gobasket]").bind("click",function(){
+			
+			//alert("클릭이됩니다");
+			
+			location.href= "<%= request.getContextPath()%>/order/basket.go"; //장바구니 페이지로 이동 
+			
+			
+		});
+		
 	});
 	
 	
@@ -116,6 +127,7 @@
 			<div class="topArea container-fluid navbar-header mx-auto text-center">
 				<a class="navbar-brand mx-auto mb-3" href="<%= ctxPath %>/index.go">o H ! &nbsp; D a i L Y</a>
 				<i class="fas fa-shopping-basket fa-2x"></i>
+				<input type="button" id="gobasket" value="장바구니"/>
 				<span class="badge badge-pill badge-light text-black-50">0</span>
 			</div>
 			

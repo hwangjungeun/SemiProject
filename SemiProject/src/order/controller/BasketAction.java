@@ -17,7 +17,7 @@ public class BasketAction extends AbstractController {
 			
 		}
 		else { // index.go에서 장바구니버튼 클릭시(get방식)
-			super.setViewPage("/WEB-INF/basket.jsp");
+			super.setViewPage("/WEB-INF/order/basket.jsp");
 		}
 		
 		
