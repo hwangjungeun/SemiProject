@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 		description = "사용자가 웹에서 *.go 을 했을 경우 이 서블릿이 먼저 응답을 해주도록 한다.", 
 		urlPatterns = { "*.go" }, 
 		initParams = { 
-				@WebInitParam(name = "propertyConfig", value = "C:\\NCS\\workspace(jsp)\\SemiProject\\WebContent\\WEB-INF\\Command.properties", description = "*.go에 대한 class의 맵핑파일이다.")
+				@WebInitParam(name = "propertyConfig", value = "C:\\Users\\82108\\git\\SemiProject\\SemiProject\\WebContent\\WEB-INF\\Command.properties", description = "*.go에 대한 class의 맵핑파일이다.")
 		})
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
