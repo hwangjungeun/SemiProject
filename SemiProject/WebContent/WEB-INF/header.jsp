@@ -205,7 +205,7 @@
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
 				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q&A</a>
+				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/event.jsp">Event</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/delay.jsp">Delay</a>
