@@ -3,13 +3,13 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
-<%--
+
 <%
 
 	String ctxPath = request.getContextPath();
 	//		/SemiProject
 %>
---%>
+
 
     <!-- 푸터 시작 -->
 	<div id="footer" class="conatiner-fluid row py-5">
@@ -62,7 +62,7 @@
 								<p><a href="#">아이디 찾기</a></p>
 								<p><a href="#">비밀번호 찾기</a></p>
 								<p><a href="#">주문조회 바로가기</a></p>
-								<p><a href="#">최근 본 상품</a></p>
+								<p><a href="<%= ctxPath%>/product/recentViewProduct.go">최근 본 상품</a></p>
 							</div>
 							
 							<div class="col-md-4">

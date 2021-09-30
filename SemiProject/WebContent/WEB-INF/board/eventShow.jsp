@@ -130,56 +130,52 @@ tr.view {
 
 
 
-    <div id="container">
-        <div id="contents">
+<div id="container">
+     <div id="contents">
 
 
-<div class="titleArea">
+	<div class="titleArea">
             <h2><font color="#333333">EVENT</font> </h2>
             <p class="desc">이벤트 공지 게시판입니다.</p>
-        </div>
+    </div>
 
 
-<div class="typeWrite ">
+	<div class="typeWrite ">
             <table class="ec-base-table table">
 
-<colgroup>
-<col style="width:130px;">
-<col style="width:auto;">
-</colgroup> 
+			<colgroup>
+			<col style="width:130px;">
+			<col style="width:auto;">
+			</colgroup> 
 
-
-<tr id="top">
-<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;제목</th>
-                    <td>&nbsp;&nbsp;2021 가을맞이 무료배송 이벤트</td>
-                </tr>
-<tr id="bt">
-<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;작성자</th>
-<td id="btt">&nbsp;&nbsp; oh! daily </td>
-                    
-</tr>
-<tr>
-			<td colspan="2"><img src="../images/event.png" alt=""></td>			
-		</tr>
-
-<tr class="view">
-<td colspan="2">
-                        <div class="detail"><br><div class="fr-view fr-view-article"><p><span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">&nbsp;&nbsp;&nbsp;&nbsp;♥</span> welcome autumn <span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">♥</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;10/15 단하루, 무료배송으로 진행되어요 :-)</p><p><br></p><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;*타 쿠폰적용 가능해요.</p><p>&nbsp;&nbsp;&nbsp;&nbsp;*악세사리제품은 무배이벤트에서 제외되어요.</p><br><br></div></div>
-                    </td>
-                </tr>
-</table>
-
+				<tr id="top">
+				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;제목</th>
+				   <td>&nbsp;&nbsp;2021 가을맞이 무료배송 이벤트</td>
+				</tr>
+				<tr id="bt">
+				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;작성자</th>
+				   <td id="btt">&nbsp;&nbsp; oh! daily </td>
+		        </tr>
+				<tr>
+				   <td colspan="2"><img src="../images/event.png" alt=""></td>			
+				</tr>
+		
+				<tr class="view">
+				   <td colspan="2">
+		              <div class="detail"><br><div class="fr-view fr-view-article"><p><span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">&nbsp;&nbsp;&nbsp;&nbsp;♥</span> welcome autumn <span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">♥</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;10/15 단하루, 무료배송으로 진행되어요 :-)</p><p><br></p><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;*타 쿠폰적용 가능해요.</p><p>&nbsp;&nbsp;&nbsp;&nbsp;*악세사리제품은 무배이벤트에서 제외되어요.</p><br><br></div></div>
+		           </td>
+		        </tr>
+		 </table>
 </div>
 <br>
-<div class="button">
-				
-                <a href="<%=ctxPath%>/board/event.go">목록</a>
-                </div>
+		<div class="button">	
+            <a href="<%=ctxPath%>/board/event.go">목록</a>
+        </div>
 
 <br><br><br><br><br><br><br><br><br><br><br><br>
 
 
 </div>
 </div>
-</div>
+
 <jsp:include page="../footer.jsp" />
