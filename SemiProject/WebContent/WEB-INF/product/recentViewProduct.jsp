@@ -18,6 +18,8 @@
 		</div>
 		<br>
 		
+		
+		<!-- 최근본상품 리스트 테이블 시작 -->
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
@@ -31,7 +33,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="verticalM"><div>상품이미지.jpg</div></td>
+						<td class="verticalM" align="center"><img alt="304.jpg" src="../images/304.jpg" width="90" height="100"></td>
 						<td class="verticalM"><div>상품명이 들어갈 곳 moreover blouse(3color) *당일배송가능*</div></td>
 						<td class="verticalM">
 							<ul>
@@ -63,7 +65,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="verticalM"><div>상품2이미지.jpg</div></td>
+						<td class="verticalM" align="center"><img alt="303.jpg" src="../images/303.jpg" width="90" height="100"></td>
 						<td class="verticalM"><div>상품명이 들어갈 곳 sweep alpaca knit(5color)</div></td>
 						<td class="verticalM">
 							<ul>
@@ -88,9 +90,12 @@
 				</tbody>
 			</table>
 		</div>
+		<!-- 최근본상품 리스트 테이블 끝 -->
 		
+		
+		<!-- 페이지바 시작 -->
 		<nav>
-		  <ul class="pagination justify-content-center">
+		  <ul class="pagination justify-content-center" style="margin-top: 30px;">
 		  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
 		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
 		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
@@ -100,6 +105,8 @@
 		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
 		  </ul>
 		</nav>
+		<!-- 페이지바 끝 -->
+		
 		
 	</div>
 	
