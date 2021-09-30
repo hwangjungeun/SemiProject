@@ -44,25 +44,82 @@ p.desc {
 	font-size: 9pt;
 }
 
+#container {
+    width: 1250px;
+    margin: auto;
+}
+
+#contents {
+   /*  position: relative; */
+    margin: auto;
+    min-height: auto;
+}
+
+div.typeWrite{
+	width: 1250px;
+	vertical-align: middle;
+	margin: auto;
+}
 
 img {
 	display: block;
-	width: 600px;
+	width: 700px;
 	height: auto;
-	margin: auto;
+	margin-left: 20px;
+	margin-top: 20px;
 }
 
-table.tb {
-	text-align: center;
-	margin: auto;
-	width: 1000px;
-	
-	border-top-color: dark;
-	border-bottom-color: dark;
+
+.ec-base-table table {
+
+    width: 90%;
+    position: relative;
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+    border-top: 0;
+    color: #fff;
+    line-height: 1.5;
+  }
+
+table {
+    width: 1250px;
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    text-indent: initial;
 }
-table#tb {
-	text-align: center;
-	margin: auto;
+
+tr#top {
+	border-top: 2px solid #dfdfdf;
+}
+tr#bt {
+	border-top: hidden;
+	border-bottom: 1px solid #dfdfdf;
+}
+
+th {
+	font-size: 10pt;
+    padding: 12px 0px 12px 18px;
+}
+td {
+	font-size: 10pt;
+    padding: 8px 0px 7px;
+}
+td#btt {
+	border-bottom: 1px solid #dfdfdf;
+}
+tr.view {
+	border-top: hidden;
+	border-bottom: 2px solid #dfdfdf;
+}
+.button {
+	width: 100px;
+	height: 35px;
+	border: 1px solid #808080;
+    float: right;
+    text-align: center;
+    font-size: 10pt;
+    padding: 5px;
 }
 
 
@@ -71,65 +128,58 @@ table#tb {
 
 <jsp:include page="../header.jsp" />
 
-<div id="wrap">
-    <div id="header">
-    <div class="inner">
-        <div class="topArea">
-            
-</div>
-</div>
-<!-- //category -->
-</div><!-- //sidebar --> 
+
+
     <div id="container">
         <div id="contents">
-            
-<div class="xans-element- xans-board xans-board-readpackage-8 xans-board-readpackage xans-board-8 "><div class="xans-element- xans-board xans-board-title-8 xans-board-title xans-board-8 "><div class="path">
 
-            <ol>
-<li><a href="<%=ctxPath%>/index.go">home</a></li>
-                <li title="현재 위치"><strong>EVENT</strong></li>
-            </ol>
-</div>
+
 <div class="titleArea">
             <h2><font color="#333333">EVENT</font> </h2>
             <p class="desc">이벤트 공지 게시판입니다.</p>
         </div>
-</div>
 
-<div class="ec-base-table typeWrite ">
-            <table class="tb" border="1">
 
-<tr>
-<th scope="row">제목</th>
-<td>2020 크리스마스 무료배송 이벤트</td>
-</tr>
-<tr>
-<th scope="row">작성자</th>
-<td> nearwear </td>
+<div class="typeWrite ">
+            <table class="ec-base-table table">
+
+<colgroup>
+<col style="width:130px;">
+<col style="width:auto;">
+</colgroup> 
+
+
+<tr id="top">
+<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;제목</th>
+                    <td>&nbsp;&nbsp;2021 가을맞이 무료배송 이벤트</td>
+                </tr>
+<tr id="bt">
+<th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;작성자</th>
+<td id="btt">&nbsp;&nbsp; oh! daily </td>
                     
 </tr>
 <tr>
-			<td colspan="2" align="center"><img src="../images/event.png" alt=""></td>			
+			<td colspan="2"><img src="../images/event.png" alt=""></td>			
 		</tr>
 
 <tr class="view">
 <td colspan="2">
-                        <div class="detail"><br><div class="fr-view fr-view-article"><p><span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">♥</span> merry christmas <span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">♥</span></p><p>12/25 단하루, 무료배송으로 진행되어요 :-)</p><p><br></p><p><br></p><p><br></p><p>*타 쿠폰적용 가능해요.</p><p>*악세사리제품은 무배이벤트에서 제외되어요.</p></div></div>
+                        <div class="detail"><br><div class="fr-view fr-view-article"><p><span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">&nbsp;&nbsp;&nbsp;&nbsp;♥</span> welcome autumn <span style="color: rgb(136, 136, 136); font-family: Roboto, NanumBarunGothic, &quot;맑은 고딕&quot;, malgungothic, arial, AppleGothic, Dotum, sans-serif; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">♥</span></p><p>&nbsp;&nbsp;&nbsp;&nbsp;10/15 단하루, 무료배송으로 진행되어요 :-)</p><p><br></p><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;*타 쿠폰적용 가능해요.</p><p>&nbsp;&nbsp;&nbsp;&nbsp;*악세사리제품은 무배이벤트에서 제외되어요.</p><br><br></div></div>
                     </td>
                 </tr>
-
 </table>
-</div>
 
-<div class="ec-base-button ">
-            
-            <span class="gRight">
-                <a href="/board/event/8/" class="btnNormalFix sizeS">목록</a>
-                  </span>
-                
+</div>
+<br>
+<div class="button">
+				
+                <a href="<%=ctxPath%>/board/event.go">목록</a>
                 </div>
 
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
- 
 
+</div>
+</div>
+</div>
 <jsp:include page="../footer.jsp" />

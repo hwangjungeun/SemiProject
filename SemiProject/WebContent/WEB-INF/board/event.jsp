@@ -63,6 +63,12 @@ img {
 .ec-base-button {
     text-align: center;
 }
+a {
+	font-size: 10pt;
+}
+strong {
+	font-size: 10pt;
+}
 
 
 </style>
