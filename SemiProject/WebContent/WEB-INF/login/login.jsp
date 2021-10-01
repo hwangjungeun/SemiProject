@@ -61,10 +61,13 @@
    }
    
    button#btnSubmit{
-       display: block;
+    width: 80%;
+     display: block;
     margin: 0 0 5px;
     padding: 15px;
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #a6a6a6;
    }
    
 </style>
@@ -114,7 +117,8 @@
 	               <%--    
 	                  <button type="button" id="btnSubmit" style="width: 67px; height: 27px; background-image: url('<%= request.getContextPath()%>/images/login.png'); vertical-align: middle; border: none;"></button>
 	               --%>
-	                   <button type="button" id="btnSubmit">로그인</button>
+	                   <button type="button" id="btnSubmit" ><span style ="color:white">로그인</span></button>
+	                   <button type="button" id="btnRegister" ><span style ="color:white">로그인</span></button>
 	               </td>
 	            </tr>
 	            
