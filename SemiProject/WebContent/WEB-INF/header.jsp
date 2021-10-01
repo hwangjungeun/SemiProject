@@ -76,26 +76,7 @@
 	    font-weight: bold;
 	}
 </style>
-<script type="text/javascript">
-	
-	$(document).ready(function(){
-		
-		var html = "<ol class='carousel-indicators'>";
-		for(var i = 0; i<11; i++) {
-			if(i == 0) {
-				html += "<li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>";
-			}
-			else {
-				html += "<li data-target='#carouselExampleIndicators' data-slide-to='"+i+"'></li>";
-			}
-		}
-		html += "</ol>";
-		
-		$("div#olli").html = html;
-	});
-	
-	
-</script>
+
 
 </head>
 <body>
