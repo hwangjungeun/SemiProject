@@ -62,11 +62,11 @@ div.typeWrite{
 }
 
 table.tbl {
-    width: 1200px;
+    width: 1250px;
     margin: auto;
-    border-top: 1px solid #dfdfdf;
+    border-top: 0.8px solid #dfdfdf;
     border-bottom: 1.5px solid #dfdfdf;
-    line-height: 3.5;
+    line-height: 3.8;
     border-left: hidden;
     border-right: hidden;
 }
@@ -96,16 +96,6 @@ span.date {
 span.txtNum {
 	color: #737373;
 }
-.button {
-	width: 100px;
-	height: 35px;
-	border: 1px solid #8c8c8c;
-    float: right;
-    text-align: center;
-    font-size: 10pt;
-    padding: 5px;
-    margin-right: 25px;
-}
 p.searchresult {
 	text-align: center;
 	color: #737373;
@@ -119,6 +109,25 @@ input {
     border: 1px solid #d5d5d5;
     color: #353535;
     font-size: 12px;
+}
+select {
+    display: inline-block;
+    min-width: 100px;
+    height: 22px;
+    line-height: 22px;
+    margin: 0 2 0 0px;
+    padding: 0 0 0 5px;
+    color: #333;
+    border: 1px #d5d5d5 solid;
+}
+a.btn {
+    padding: 2.5px 8px;
+    border: 1px solid #d5d5d5;
+    font-size: 9px;
+    line-height: 17px;
+    vertical-align: middle;
+    text-align: center;
+    color: #353535;
 }
 
 
@@ -138,6 +147,7 @@ input {
             <p class="desc">입고 지연 게시판입니다.</p>
     </div>
 
+	<br>
 
 	<div class="typeWrite ">
             <table class="tbl">
@@ -166,9 +176,6 @@ input {
                     <td>oh! daily</td>
                     <td class="">2021-10-15</td>
                 </tr>
-
-                
-                
 	</tbody>
 	</table><br><br><br><p class="searchresult">검색결과가 없습니다.</p>
     </div>
@@ -194,7 +201,7 @@ input {
 					<option value="member_id">아이디</option>
 					<option value="nick_name">별명</option>
 				</select> 
-					<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> <a href="#none" class="btnBasic" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
+					<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> <a href="#none" class="btn" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
 				</fieldset>
 </div>
 </form>
@@ -203,7 +210,6 @@ input {
 <br><br><br><br><br><br><br><br><br><br><br><br>
 
 
-</div>
 </div>
 
 <jsp:include page="../footer.jsp" />

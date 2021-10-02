@@ -69,6 +69,34 @@ a {
 strong {
 	font-size: 10pt;
 }
+input {
+    height: 22px;
+    line-height: 22px;
+    margin-left: 150px;
+    padding: 2px 4px;
+    border: 1px solid #d5d5d5;
+    color: #353535;
+    font-size: 12px;
+}
+select {
+    display: inline-block;
+    min-width: 100px;
+    height: 22px;
+    line-height: 22px;
+    margin: 0 2 0 0px;
+    padding: 0 0 0 5px;
+    color: #333;
+    border: 1px #d5d5d5 solid;
+}
+a.btn {
+    padding: 2px 8px;
+    border: 1px solid #d5d5d5;
+    font-size: 9px;
+    line-height: 17px;
+    vertical-align: middle;
+    text-align: center;
+    color: #353535;
+}
 
 
 </style>
@@ -117,7 +145,7 @@ strong {
 					<option value="member_id">아이디</option>
 					<option value="nick_name">별명</option>
 				</select> 
-					<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> <a href="#none" class="btnBasic" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
+					<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> <a href="#none" class="btn" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
 				</fieldset>
 </div>
 </form>
