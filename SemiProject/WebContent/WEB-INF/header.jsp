@@ -222,7 +222,7 @@
 				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/delay.jsp">Delay</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
 				         </div>
 					</li>
 				</ul>
