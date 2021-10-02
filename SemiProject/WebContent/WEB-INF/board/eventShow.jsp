@@ -8,7 +8,7 @@
 	//		/SemiProject
 %>    
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko"> 
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <meta charset="UTF-8">
@@ -78,7 +78,7 @@ img {
     border-bottom: 1px solid #dfdfdf;
     border-top: 0;
     color: #fff;
-    line-height: 1.5;
+    line-height: 3;
   }
 
 table {

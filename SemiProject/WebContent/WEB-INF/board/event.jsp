@@ -61,13 +61,39 @@ img {
 	margin: auto;
 }
 .ec-base-button {
+    padding: 10px 0;
     text-align: center;
 }
-a {
+a.imgLink {
 	font-size: 10pt;
 }
 strong {
 	font-size: 10pt;
+}
+select{
+	display: inline-block;
+    min-width: 100px;
+    height: 22px;
+    margin: 0 2 0 0px;
+    padding: 0 0 0 5px;
+    color: #333;
+    border: 1px #d5d5d5 solid;   
+}
+input {
+    height: 22px;
+    padding: 2px 4px;
+    border: 1px solid #d5d5d5;
+    color: #353535;
+    font-size: 12px;
+}
+a.btnBasic {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 2px 8px;
+    border: 1px solid #d5d5d5;
+    line-height: 16px;
+    text-align: center;
+    color: #353535;
 }
 
 
@@ -88,7 +114,7 @@ strong {
 	<ul>
 		<li class="xans-record-" style="list-style-type: none">
              <div class="box">
-                 <a href="" class="imgLink"><img src="../images/event.png" alt="" /></a>
+                 <a href="<%=ctxPath%>/board/eventShow.go" class="imgLink"><img src="../images/event.png" alt="" /></a>
                  <a href="<%=ctxPath%>/board/eventShow.go" class="imgLink"><br> 2021 가을맞이 무료배송 이벤트 </a>
                  <div>
                  <br>
@@ -98,8 +124,8 @@ strong {
         </li>
 </ul>
 </div>
-		<div class="xans-element- xans-board xans-board-buttonlist-8 xans-board-buttonlist xans-board-8 ec-base-button "><span class="gLeft">
-            <form id="boardSearchForm" name="" action="/board/event/8" method="get" target="_top" enctype="multipart/form-data">
+		<div class="ec-base-button"><span class="gLeft">
+            <form id="boardSearchForm">
 				<input id="board_no" name="board_no" value="8" type="hidden">
 				<input id="page" name="page" value="1" type="hidden">
 				<input id="board_sort" name="board_sort" value="" type="hidden"><div class="xans-element- xans-board xans-board-search-8 xans-board-search xans-board-8 "><fieldset class="boardSearch">
