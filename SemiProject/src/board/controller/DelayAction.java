@@ -9,7 +9,11 @@ public class DelayAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+		
+		String method = request.getMethod();
+		
+		//	super.setRedirect(false);
+			super.setViewPage("/WEB-INF/board/delay.jsp");	
 		
 	}
 
