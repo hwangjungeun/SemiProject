@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+
+	String ctxPath = request.getContextPath();
+	//		/SemiProject
+%>
+
+
 <jsp:include page="/WEB-INF/header.jsp" />
 <%-- 헤더 끝 --%>
 <style>
@@ -96,6 +104,7 @@
 
 
 <script type = "text/javascript">
+
 	$(document).ready(function(){
 	  $("button#btnSubmit").click(function(){
 		  goLogin(); // 로그인 시도합니다.
@@ -106,6 +115,11 @@
 			  goLogin(); // 로그인 시도합니다.
 		  }
 	  })
+	  
+	  if ($("input:checkbox[id=saveid]").prop("checked")) {
+			console.log("체크 확인");
+	  }
+	  
 	  
 	})
   
@@ -136,6 +150,12 @@
 			//alert("아이디저장 체크를 해제 하셨네요.");
 			localStorage.removeItem('saveid'); // 체크를 해제하면 지워버린다.
 		}
+		
+		var frm = document.loginFrm;
+		frm.action = "<%= request.getContextPath()%>/index.up",
+		frm.method = "post";
+		frm.submit();	
+		
 	} // end of function goLogin(){}-----------------------------------------
 </script>
 
@@ -169,7 +189,7 @@
 	                  <button type="button" id="btnSubmit" style="width: 67px; height: 27px; background-image: url('<%= request.getContextPath()%>/images/login.png'); vertical-align: middle; border: none;"></button>
 	               --%>
 	                   <button type="button" id="btnSubmit" ><span style ="color:white;" >로그인</span></button>
-	                   <button type="button" id="btnRegister" ><span style ="color:black">회원가입 하기</span></button>
+	                   <button type="button" id="btnRegister" onclick="location.href='<%= ctxPath %>/member/memberRegister.go'"><span style ="color:black">회원가입 하기</span></button>
 	               </td>
 	               
 	               

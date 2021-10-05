@@ -27,7 +27,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			ds = (DataSource)envContext.lookup("jdbc/myoracle");
+			ds = (DataSource)envContext.lookup("jdbc/semoracle");
 			
 			aes = new AES256(SecretMyKey.KEY);
 			// SecretMyKeysms 우리가 만든 비밀키
@@ -61,109 +61,12 @@ public class MemberDAO implements InterMemberDAO {
 	}
 		
 		
-	//ID 중복검사 (tbl_member 테이블에서 userid 가 존재하면 true를 리턴해주고, userid 가 존재하지 않으면 false를 리턴한다)
-	@Override
-	public boolean idDuplicateCheck(String userid) throws SQLException {
-		
-		boolean isExists = false;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql =" select userid "
-					   + " from tbl_member "
-					   + " where userid =? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			
-			rs = pstmt.executeQuery();
-			
-			isExists = rs.next();	// 행이 있으면(중복된 userid) true,
-									// 행이 없으면(사용가능한 userid) false
-					
-		} finally {
-			close();
-		}
-		
-		
-		return isExists;
-	} // end of public boolean idDuplicateCheck(String userid)
 
 	
-	// EMAIL 중복검사 (tbl_member 테이블에서 email이 존재하면 true를 리턴해주고, email이 존재하지 않으면 false를 리턴한다)
-	@Override
-	public boolean emailDuplicateCheck(String email) throws SQLException {
-		
-		boolean isExists = false;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql =" select email "
-					   + " from tbl_member "
-					   + " where email =? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, aes.encrypt(email));
-			// "seokj@gmail.com" ==> aes.encrypt("seokj@gmail.com") 해서 암호화되어 DB에 저장되어 있는 값과 비교
-			
-			rs = pstmt.executeQuery();
-			
-			isExists = rs.next();	// 행이 있으면(중복된 email) true,
-									// 행이 없으면(사용가능한 email) false
-					
-		} catch (UnsupportedEncodingException |GeneralSecurityException e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		
-		
-		return isExists;
-	}// end of public boolean emailDuplicateCheck(String email)
 	
 	
-	// 회원가입을 해주는 메소드 생성
-	@Override
-	public int registerMember(MemberVO member) throws SQLException {
-
-		int n = 0;
-		
-		try {
-			
-			conn = ds.getConnection();
-			
-			String sql = " insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday) "     
-	                   + " values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "; 			
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, member.getUserid());
-			pstmt.setString(2, Sha256.encrypt(member.getPwd()));	// 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다. 
-			pstmt.setString(3, member.getName());
-			pstmt.setString(4, aes.encrypt(member.getEmail()));
-			// 이메일을 AES256 알고리즘으로 양방향 암호화 시킨다.
-			pstmt.setString(5, aes.encrypt(member.getMobile()));
-			// 휴대폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다.
-			pstmt.setString(6, member.getPostcode());
-	        pstmt.setString(7, member.getAddress());
-	        pstmt.setString(8, member.getDetailaddress());
-	        pstmt.setString(9, member.getExtraaddress());
-	        pstmt.setString(10, member.getGender());
-	        pstmt.setString(11, member.getBirthday());
-	        
-	        n= pstmt.executeUpdate();
-			
-		} catch (GeneralSecurityException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		} 
-		
-		return n;
-	} // end of public int registerMember(MemberVO member)
-
+	
+	
 	
 	// 입력받은 paraMap을 가지고 한명의 회원정보를 리턴시켜주는 메소드(로그인처리)
 	@Override
@@ -174,24 +77,24 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			conn= ds.getConnection();
 			
-			String sql = "select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender "+
-						 "     , birthyyyy, birthmm, birthdd, coin, point, registerday, pwdchangegap "+
-						 "     , NVL(lastlogingap, trunc( months_between(sysdate,registerday) )) AS lastlogingap "+
-						 " from "+
-						 " ( "+
-						 " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender "+
-						 "      ,substr(birthday,1,4) AS birthyyyy, substr(birthday,6,2) AS birthmm, substr(birthday,9) AS birthdd "+
-						 "      ,coin, point, to_char(registerday,'yyyy-mm-dd') AS registerday "+
-						 "      ,trunc(months_between(sysdate, lastpwdchangedate)) AS pwdchangegap "+
-						 " from tbl_member "+
-						 " where status = 1 and userid = ? and pwd= ? "+
-						 " ) M "+
-						 " CROSS JOIN "+
-						 " ( "+
-						 " select trunc(months_between(sysdate, max(logindate))) AS lastlogingap "+
-						 " from tbl_loginhistory "+
-						 " where fk_userid = ? "+
-						 " ) H ";
+			String sql = " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, "+
+					" birthyyyy, birthmm, birthdd, height, weight, topsize, bottomsize, point, registerday, pwdchangegap, "+
+					" NVL(lastlogingap, trunc( months_between(sysdate,registerday) )) AS lastlogingap "+
+					" from "+
+					" ( "+
+					" select userid, name , email, mobile, postcode, address, detailaddress, extraaddress, "+
+					" substr(birthday,1,4) as birthyyyy, substr(birthday,6,2) as birthmm, substr(birthday,9) as birthdd "+
+					" , height, weight, topsize, bottomsize, point, registerday, "+
+					" trunc(months_between(sysdate, lastpwdchangedate)) as pwdchangegap "+
+					" from tbl_member "+
+					" where status = 1 and userid = ? and pwd = ? "+
+					" ) M "+
+					" CROSS JOIN "+
+					" ("+
+					" select trunc(months_between(sysdate, max(logindate))) AS lastlogingap "+
+					" from tbl_loginhistory "+
+					" where fk_userid = ? "+
+					" ) H ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
@@ -210,20 +113,22 @@ public class MemberDAO implements InterMemberDAO {
 	            member.setAddress(rs.getString(6));
 	            member.setDetailaddress(rs.getString(7));
 	            member.setExtraaddress(rs.getString(8));
-	            member.setGender(rs.getString(9));
-	            member.setBirthday(rs.getString(10) + rs.getString(11) + rs.getString(12));
-	            member.setCoin(rs.getInt(13));
-	            member.setPoint(rs.getInt(14));
-	            member.setRegisterday(rs.getString(15));
+	            member.setBirthday(rs.getString(9) + rs.getString(10) + rs.getString(11));
+	            member.setHeight(rs.getInt(12));
+	            member.setWeight(rs.getInt(13));
+	            member.setTopsize(rs.getString(14));
+	            member.setBottomsize(rs.getString(15));
+	            member.setPoint(rs.getInt(16));
+	            member.setRegisterday(rs.getString(17));
 	            
-	            if(rs.getInt(16) >= 3) {
+	            if(rs.getInt(18) >= 3) {
 	            	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
 	                // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
 	            	
 	            	member.setRequirePwdChange(true);
 	            	// 로그인시 암호를 변경해라는 alert 를 띄우도록 할때 사용한다.
 	            }
-	            if (rs.getInt(17) >= 12) {
+	            if (rs.getInt(19) >= 12) {
 	            	// 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정
 	            	
 	            	member.setIdle(1);
@@ -363,35 +268,7 @@ public class MemberDAO implements InterMemberDAO {
 	}// end of public int pwdUpdate(Map<String, String> paraMap)
 
 	
-	// DB에 회원의 코인 및 포인트 증가하기
-	@Override
-	public int coinUpdate(Map<String, String> paraMap) throws SQLException {
-		int n = 0;
-		
-		try {
-
-			conn = ds.getConnection();
-
-			String sql = " update tbl_member set coin = coin + ? "
-					   + " 						,point = point + ? " 						
-					   + " where userid = ? ";
-
-			pstmt = conn.prepareStatement(sql);
-
-			// 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다.
-			pstmt.setString(1, paraMap.get("coinmoney"));
-			pstmt.setInt(2, (int) (Integer.parseInt(paraMap.get("coinmoney"))*0.01));
-			pstmt.setString(3, paraMap.get("userid"));
-
-			n = pstmt.executeUpdate();
-
-		} finally {
-			close();
-		}
-
-		return n;
-	} // end of public int coinUpdate(Map<String, String> paraMap)
-
+	
 	
 	// 회원의 개인 정보 변경하기
 	@Override
@@ -437,6 +314,8 @@ public class MemberDAO implements InterMemberDAO {
 
 		return n;
 	} // end of public int updateMember(MemberVO member)
+
+
 
 
 }

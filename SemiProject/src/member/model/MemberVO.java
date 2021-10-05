@@ -11,10 +11,12 @@ public class MemberVO {
 	   private String postcode;           // 우편번호
 	   private String address;            // 주소
 	   private String detailaddress;      // 상세주소
-	   private String extraaddress;       // 참고항목
-	   private String gender;             // 성별   남자:1  / 여자:2
+	   private String extraaddress;       // 참고주소
 	   private String birthday;           // 생년월일   
-	   private int coin;                  // 코인액
+	   private int height;				  // 키
+	   private int weight;				  // 몸무게
+	   private String topsize;			  // 상의 사이즈
+	   private String bottomsize;		  // 하의 사이즈
 	   private int point;                 // 포인트 
 	   private String registerday;        // 가입일자 
 	   private String lastpwdchangedate;  // 마지막으로 암호를 변경한 날짜  
@@ -46,7 +48,7 @@ public class MemberVO {
 	   }
 	   
 	   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
-	         String address, String detailaddress, String extraaddress, String gender, String birthday) {
+	         String address, String detailaddress, String extraaddress,  String birthday) {
 	      this.userid = userid;
 	      this.pwd = pwd;
 	      this.name = name;
@@ -56,148 +58,168 @@ public class MemberVO {
 	      this.address = address;
 	      this.detailaddress = detailaddress;
 	      this.extraaddress = extraaddress;
-	      this.gender = gender;
+	     
 	      this.birthday = birthday;
 	   }
 
-	public String getUserid() {
-		return userid;
-	}
+	
+		public String getUserid() {
+			return userid;
+		}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
+		public void setUserid(String userid) {
+			this.userid = userid;
+		}
 
-	public String getPwd() {
-		return pwd;
-	}
+		public String getPwd() {
+			return pwd;
+		}
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
+		public void setPwd(String pwd) {
+			this.pwd = pwd;
+		}
 
-	public String getName() {
-		return name;
-	}
+		public String getName() {
+			return name;
+		}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+		public void setName(String name) {
+			this.name = name;
+		}
 
-	public String getEmail() {
-		return email;
-	}
+		public String getEmail() {
+			return email;
+		}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+		public void setEmail(String email) {
+			this.email = email;
+		}
 
-	public String getMobile() {
-		return mobile;
-	}
+		public String getMobile() {
+			return mobile;
+		}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+		public void setMobile(String mobile) {
+			this.mobile = mobile;
+		}
 
-	public String getPostcode() {
-		return postcode;
-	}
+		public String getPostcode() {
+			return postcode;
+		}
 
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
-	}
+		public void setPostcode(String postcode) {
+			this.postcode = postcode;
+		}
 
-	public String getAddress() {
-		return address;
-	}
+		public String getAddress() {
+			return address;
+		}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+		public void setAddress(String address) {
+			this.address = address;
+		}
 
-	public String getDetailaddress() {
-		return detailaddress;
-	}
+		public String getDetailaddress() {
+			return detailaddress;
+		}
 
-	public void setDetailaddress(String detailaddress) {
-		this.detailaddress = detailaddress;
-	}
+		public void setDetailaddress(String detailaddress) {
+			this.detailaddress = detailaddress;
+		}
 
-	public String getExtraaddress() {
-		return extraaddress;
-	}
+		public String getExtraaddress() {
+			return extraaddress;
+		}
 
-	public void setExtraaddress(String extraaddress) {
-		this.extraaddress = extraaddress;
-	}
+		public void setExtraaddress(String extraaddress) {
+			this.extraaddress = extraaddress;
+		}
 
-	public String getGender() {
-		return gender;
-	}
+		public String getBirthday() {
+			return birthday;
+		}
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+		public void setBirthday(String birthday) {
+			this.birthday = birthday;
+		}
 
-	public String getBirthday() {
-		return birthday;
-	}
+		public int getHeight() {
+			return height;
+		}
 
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
+		public void setHeight(int height) {
+			this.height = height;
+		}
 
-	public int getCoin() {
-		return coin;
-	}
+		public int getWeight() {
+			return weight;
+		}
 
-	public void setCoin(int coin) {
-		this.coin = coin;
-	}
+		public void setWeight(int weight) {
+			this.weight = weight;
+		}
 
-	public int getPoint() {
-		return point;
-	}
+		public String getTopsize() {
+			return topsize;
+		}
 
-	public void setPoint(int point) {
-		this.point = point;
-	}
+		public void setTopsize(String topsize) {
+			this.topsize = topsize;
+		}
 
-	public String getRegisterday() {
-		return registerday;
-	}
+		public String getBottomsize() {
+			return bottomsize;
+		}
 
-	public void setRegisterday(String registerday) {
-		this.registerday = registerday;
-	}
+		public void setBottomsize(String bottomsize) {
+			this.bottomsize = bottomsize;
+		}
 
-	public String getLastpwdchangedate() {
-		return lastpwdchangedate;
-	}
+		public int getPoint() {
+			return point;
+		}
 
-	public void setLastpwdchangedate(String lastpwdchangedate) {
-		this.lastpwdchangedate = lastpwdchangedate;
-	}
+		public void setPoint(int point) {
+			this.point = point;
+		}
 
-	public int getStatus() {
-		return status;
-	}
+		public String getRegisterday() {
+			return registerday;
+		}
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+		public void setRegisterday(String registerday) {
+			this.registerday = registerday;
+		}
 
-	public int getIdle() {
-		return idle;
-	}
+		public String getLastpwdchangedate() {
+			return lastpwdchangedate;
+		}
 
-	public void setIdle(int idle) {
-		this.idle = idle;
-	}
+		public void setLastpwdchangedate(String lastpwdchangedate) {
+			this.lastpwdchangedate = lastpwdchangedate;
+		}
+
+		public int getStatus() {
+			return status;
+		}
+
+		public void setStatus(int status) {
+			this.status = status;
+		}
+
+		public int getIdle() {
+			return idle;
+		}
+
+		public void setIdle(int idle) {
+			this.idle = idle;
+		}   
+	   
 
 	///////////////////////////////////////////////////////////////
 	
+
+
 	public boolean isRequirePwdChange() {
 		return requirePwdChange;
 	}
