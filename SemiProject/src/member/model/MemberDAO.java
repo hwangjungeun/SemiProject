@@ -27,7 +27,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			ds = (DataSource)envContext.lookup("jdbc/myoracle");
+			ds = (DataSource)envContext.lookup("jdbc/semioracle");
 			
 			aes = new AES256(SecretMyKey.KEY);
 			// SecretMyKeysms 우리가 만든 비밀키
@@ -134,8 +134,9 @@ public class MemberDAO implements InterMemberDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday) "     
-	                   + " values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "; 			
+			String sql = " insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress,"
+					   + " birthday, height, weight, topsize, bottomsize) "     
+	                   + " values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "; 			
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -150,8 +151,11 @@ public class MemberDAO implements InterMemberDAO {
 	        pstmt.setString(7, member.getAddress());
 	        pstmt.setString(8, member.getDetailaddress());
 	        pstmt.setString(9, member.getExtraaddress());
-	        pstmt.setString(10, member.getGender());
-	        pstmt.setString(11, member.getBirthday());
+	        pstmt.setString(10, member.getBirthday());
+	        pstmt.setString(11, member.getHeight());
+	        pstmt.setString(12, member.getWeight());
+	        pstmt.setString(13, member.getTopsize());
+	        pstmt.setString(14, member.getBottomsize());
 	        
 	        n= pstmt.executeUpdate();
 			
@@ -210,9 +214,7 @@ public class MemberDAO implements InterMemberDAO {
 	            member.setAddress(rs.getString(6));
 	            member.setDetailaddress(rs.getString(7));
 	            member.setExtraaddress(rs.getString(8));
-	            member.setGender(rs.getString(9));
 	            member.setBirthday(rs.getString(10) + rs.getString(11) + rs.getString(12));
-	            member.setCoin(rs.getInt(13));
 	            member.setPoint(rs.getInt(14));
 	            member.setRegisterday(rs.getString(15));
 	            
