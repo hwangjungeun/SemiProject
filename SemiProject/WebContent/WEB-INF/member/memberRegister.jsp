@@ -3,40 +3,44 @@
 
 <%
    String ctxPath = request.getContextPath();
-   //      /MyMVC
 %>
 
     
 <jsp:include page="../header.jsp" />
 
 <style>
-   table#tblMemberRegister {
-          width: 93%;
-          
-          /* 선을 숨기는 것 */
-          border: hidden;
-          
-          margin: 10px;
-   }  
-   
-   table#tblMemberRegister #th {
-         height: 40px;
-         text-align: center;
-         background-color: silver;
-         font-size: 14pt;
-   }
-   
-   table#tblMemberRegister td {
-         /* border: solid 1px gray;  */
-         line-height: 30px;
-         padding-top: 8px;
-         padding-bottom: 8px;
-   }
-   
-   .star { color: red;
-           font-weight: bold;
-           font-size: 13pt;
-   }
+table#tblMemberRegister {
+	width: 93%;
+	margin: 10px;
+}
+
+div.titleArea {
+	color: #353535;
+	border: 1px solid #d9d9d9;
+	width: 200px;
+	height: 40px;
+	margin-bottom: 30px;
+}
+
+table#tblMemberRegister td {
+	margin: 0 5px;
+	line-height: 25px;
+	padding: 10px 8px;
+}
+table#tblMemberRegister td:first-child {
+	border: solid 1px #d9d9d9;
+	border-left: none;
+}
+table#tblMemberRegister td:last-child {
+	border: solid 1px #d9d9d9;
+	border-right: none;
+}
+
+.star {
+	color: #b4c5e4;
+	font-weight: bold;
+	font-size: 13pt;
+}
 </style>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -50,7 +54,7 @@
 	$(document).ready(function(){
 		
 		$("span.error").hide();
-		$("input#name").focus();
+		$("input#userid").focus();
 		
 		$("input#name").blur(function(){
 			// blur ==> focus가 있다가 focus를 잃어버림
@@ -228,7 +232,7 @@
 			
 		});// 아이디가 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 		
-		$("img#zipcodeSearch").click(function(){
+		$("span#zipcodeSearch").click(function(){
 	         new daum.Postcode({
 	               oncomplete: function(data) {
 	                   // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -275,6 +279,27 @@
 	               }
 	           }).open();               
 	      });
+		$("input#detailAddress").blur(function(){
+				// blur ==> focus가 있다가 focus를 잃어버림
+				
+				
+				var detailAddress = $(this).val().trim();
+				if(detailAddress == "") {
+					// 입력하지 않거나 공백만 입력한 경우
+					$("table#tblMemberRegister :input").prop("disabled",true);
+					$(this).prop("disabled",false);
+					// $(this).next().next().next().show();
+					$(this).parent().find(".error").show();
+					$(this).focus();
+				}
+				else {
+					// 공백이 아닌 글자를 입력했을 경우
+					$("table#tblMemberRegister :input").prop("disabled",false);
+					// $(this).next().next().next().hide();
+					$(this).parent().find(".error").hide();
+				}
+				
+			});
 
 		////////////////////////////////////////////////////////////////////////			
 		
@@ -298,120 +323,17 @@
 				ddhtml += "<option>"+i+"</option>"
 			}
 		}
-		$("select#birthdd").html(ddhtml);
-		
-		// === jQuery UI 의 datepicker === //
-		$("input#datepicker").datepicker({
-	                 dateFormat: 'yy-mm-dd'  //Input Display Format 변경
-	                ,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-	                ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-	                ,changeYear: true        //콤보박스에서 년 선택 가능
-	                ,changeMonth: true       //콤보박스에서 월 선택 가능                
-	                ,showOn: "both"          //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-	                ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-	                ,buttonImageOnly: true   //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-	                ,buttonText: "선택"       //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-	                ,yearSuffix: "년"         //달력의 년도 부분 뒤에 붙는 텍스트
-	                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-	                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-	                ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-	                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-	              //,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-	              //,maxDate: "+1M" //최대 선택일자(+1D:하루후, +1M:한달후, +1Y:일년후)                
-		});                    
-	            
-		//초기값을 오늘 날짜로 설정
-		$('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
-	    /////////////////////////////////////////////////////
-		
-		// === 전체 datepicker 옵션 일괄 설정하기 ===  
-        //     한번의 설정으로 $("input#fromDate"), $('input#toDate')의 옵션을 모두 설정할 수 있다.
-          $(function() {
-              //모든 datepicker에 대한 공통 옵션 설정
-              $.datepicker.setDefaults({
-                  dateFormat: 'yy-mm-dd' //Input Display Format 변경
-                  ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-                  ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-                  ,changeYear: true //콤보박스에서 년 선택 가능
-                  ,changeMonth: true //콤보박스에서 월 선택 가능                
-               // ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-               // ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-               // ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-               // ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-                  ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-                  ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-                  ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-                  ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-                  ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-               // ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-               // ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
-              });
-   
-              //input을 datepicker로 선언
-              $("input#fromDate").datepicker();                    
-              $("input#toDate").datepicker();
-              
-              //From의 초기값을 오늘 날짜로 설정
-              $('input#fromDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-              
-              //To의 초기값을 3일후로 설정
-              $('input#toDate').datepicker('setDate', '+3D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-          });
 		
 		///////////////   아이디 중복검사하기     ////////////////////////////////////////////////////
-		$("img#idcheck").click(function(){
+		$("span#idcheck").click(function(){
 			b_flagIdDuplicateClick = true;
 			
-			// 첫번째 방법
 			$.ajax({
-				url: "<%= ctxPath%>/member/idDuplicateCheck.up",
-				type: "post",
-				data: {"userid":$("input#userid").val()},
-// 				dataType: "json",
-				success: function(text) {
-					// text ==> "{"isExists":false}" (문자열) 
-					// text ==> "{"isExists":true}"  (문자열)
-					
-					// alert("확인용 typeof(text): "+typeof(text));
-					// 확인용 typeof(text): String 
-					// 확인용 typeof(text): object <== dataType: "json"쓴 경우
-					
-					JSON.stringify;	// 자바객체를 String Type으로 변경해주는 것
-					
-					var jsonObj =  JSON.parse(text);	// Obj
-					// JSON.parse(text); 은 JSON 형식으로 되어진 문자열을 자바스크립트 객체로 변환해주는 것이다.
-                    // 조심할 것은 text 는 반드시 JSON 형식으로 되어진 문자열이어야 한다.
-					
-					// alert("확인용 typeof(jsonObj): "+typeof(jsonObj));
-					// 확인용 typeof(jsonObj): object
-					
-					if(jsonObj.isExists) {
-						// true, 입력한 userid가 이미 사용 중이라면
-						$("span#idcheckResult").html($("input#userid").val()+"은 이미 사용 중 이므로 사용불가 합니다.").css("color","orange");
-						$("input#userid").val("");
-						
-					
-					}
-					else {
-						// false, 입력한 userid가 DB 테이블에 존재하지 않는 경우
-						$("span#idcheckResult").html($("input#userid").val()+"은 사용가능 합니다.").css("color","green");
-					}
-				},
-				error: function(request, status, error){
-	                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	                   }
-			}); 
-			
-			// 두번째 방법
-			<%-- 
-			$.ajax({
-				url: "<%= ctxPath%>/member/idDuplicateCheck.up",
+				url: "<%= ctxPath%>/member/idDuplicateCheck.go",
 				type: "post",
 				data: {"userid":$("input#userid").val()},
 				dataType: "json",
 				success: function(json) {
-					// json 자체가 객체
-					
 					
 					if(json.isExists) {
 						// true, 입력한 userid가 이미 사용 중이라면
@@ -428,7 +350,6 @@
 	                   alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	                   }
 			}); 
-			--%>
 			
 			
 		}); // end of $("img#idCheck").click(function(){})
@@ -478,15 +399,9 @@
 		if(boolFlag) {
 			return;	// 종료
 		}
-		var radioCheckedLength = $("input:radio[name=gender]:checked").length;
-		
-		if(radioCheckedLength == 0) {
-			alert("성별을 선택하여 주세요");
-			return;
-		}
 		
 		var checkboxCheckedLength = $("input:checkbox[id=agree]:checked").length;
-		if(checkboxCheckedLength == 0) {
+		if(checkboxCheckedLength != 2) {
 			alert("이용약관에 동의해 주세요");
 			return;
 		}
@@ -507,7 +422,7 @@
 	
 		var frm = document.registerFrm;
 		
-		frm.action= "memberRegister.up";
+		frm.action= "memberRegister.go";
 		frm.method= "post";
 		frm.submit();
 		
@@ -522,7 +437,7 @@
 		
 		// 첫번째 방법
 		$.ajax({
-			url: "<%= ctxPath%>/member/emailDuplicateCheck.up",
+			url: "<%= ctxPath%>/member/emailDuplicateCheck.go",
 			type: "post",
 			data: {"email":$("input#email").val()},
 			dataType: "json",
@@ -551,198 +466,194 @@
 
 <div class="row" id="divRegisterFrm">
    <div class="col-md-12" align="center">
-   <form name="registerFrm">
+
+		<div class="titleArea">
+			<h1 style="font-size: 13pt; margin: 7px 0;">REGISTER</h1>
+		</div>
+		<form name="registerFrm">
    
-   <table id="tblMemberRegister">
-      <thead>
-      <tr>
-          <%-- 아래의 ${name_scope_request}&nbsp; 은 <c:set var="변수명" value="${값}" scope="" /> 를 테스트 하기 위해서 사용하는 것임. --%> 
-           <th colspan="2" id="th">::: 회원가입 (<span style="font-size: 10pt; font-style: italic;"><span class="star">*</span>표시는 필수입력사항</span>) :::</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">성명&nbsp;<span class="star">*</span></td>
-         <td style="width: 80%; text-align: left;">
-             <input type="text" name="name" id="name" class="requiredInfo" /> 
-            <span class="error">성명은 필수입력 사항입니다.</span>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">아이디&nbsp;<span class="star">*</span></td>
-         <td style="width: 80%; text-align: left;">
-             <input type="text" name="userid" id="userid" class="requiredInfo" />&nbsp;&nbsp;
-             <!-- 아이디중복체크 -->
-             <img id="idcheck" src="../images/b_id_check.gif" style="vertical-align: middle;" />
-             <span id="idcheckResult"></span>
-             <span class="error">아이디는 필수입력 사항입니다.</span>
-         </td> 
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">비밀번호&nbsp;<span class="star">*</span></td>
-         <td style="width: 80%; text-align: left;"><input type="password" name="pwd" id="pwd" class="requiredInfo" />
-            <span class="error">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로 입력하세요.</span>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">비밀번호확인&nbsp;<span class="star">*</span></td>
-         <td style="width: 80%; text-align: left;"><input type="password" id="pwdcheck" class="requiredInfo" /> 
-            <span class="error">암호가 일치하지 않습니다.</span>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">이메일&nbsp;<span class="star">*</span></td>
-         <td style="width: 80%; text-align: left;"><input type="text" name="email" id="email" class="requiredInfo" placeholder="abc@def.com" /> 
-             <span class="error">이메일 형식에 맞지 않습니다.</span>
-             
-             <%-- ==== 퀴즈 시작 ==== --%>
-             <span style="display: inline-block; width: 80px; height: 30px; border: solid 1px gray; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</span> 
-             <span id="emailCheckResult"></span>
-             <%-- ==== 퀴즈 끝 ==== --%>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">연락처</td>
-         <td style="width: 80%; text-align: left;">
-             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;-&nbsp;
-             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
-             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" />
-             <span class="error">휴대폰 형식이 아닙니다.</span>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">우편번호</td>
-         <td style="width: 80%; text-align: left;">
-            <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
-            <%-- 우편번호 찾기 --%>
-            <img id="zipcodeSearch" src="../images/b_zipcode.gif" style="vertical-align: middle;" />
-            <span class="error">우편번호 형식이 아닙니다.</span>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 20%; font-weight: bold;">주소</td>
-         <td style="width: 80%; text-align: left;">
-            <input type="text" id="address" name="address" size="40" placeholder="주소" /><br/>
-            <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
-            <span class="error">주소를 입력하세요</span>
-         </td>
-      </tr>
-      
-      <tr>
-         <td style="width: 20%; font-weight: bold;">성별</td>
-         <td style="width: 80%; text-align: left;">
-            <input type="radio" id="male" name="gender" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
-            <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
-         </td>
-      </tr>
-      
-      <tr>
-         <td style="width: 20%; font-weight: bold;">생년월일</td>
-         <td style="width: 80%; text-align: left;">
-            <input type="number" id="birthyyyy" name="birthyyyy" min="1950" max="2050" step="1" value="1995" style="width: 80px;" required />
-            
-            <select id="birthmm" name="birthmm" style="margin-left: 2%; width: 70px; padding: 8px;">
-               <%-- 
-               <option value ="01">01</option>
-               <option value ="02">02</option>
-               <option value ="03">03</option>
-               <option value ="04">04</option>
-               <option value ="05">05</option>
-               <option value ="06">06</option>
-               <option value ="07">07</option>
-               <option value ="08">08</option>
-               <option value ="09">09</option>
-               <option value ="10">10</option>
-               <option value ="11">11</option>
-               <option value ="12">12</option>
-               --%>
-            </select> 
-            
-            <select id="birthdd" name="birthdd" style="margin-left: 2%; width: 70px; padding: 8px;">
-               <%-- 
-               <option value ="01">01</option>
-               <option value ="02">02</option>
-               <option value ="03">03</option>
-               <option value ="04">04</option>
-               <option value ="05">05</option>
-               <option value ="06">06</option>
-               <option value ="07">07</option>
-               <option value ="08">08</option>
-               <option value ="09">09</option>
-               <option value ="10">10</option>
-               <option value ="11">11</option>
-               <option value ="12">12</option>
-               <option value ="13">13</option>
-               <option value ="14">14</option>
-               <option value ="15">15</option>
-               <option value ="16">16</option>
-               <option value ="17">17</option>
-               <option value ="18">18</option>
-               <option value ="19">19</option>
-               <option value ="20">20</option>
-               <option value ="21">21</option>
-               <option value ="22">22</option>
-               <option value ="23">23</option>
-               <option value ="24">24</option>
-               <option value ="25">25</option>
-               <option value ="26">26</option>
-               <option value ="27">27</option>
-               <option value ="28">28</option>
-               <option value ="29">29</option>
-               <option value ="30">30</option>
-               <option value ="31">31</option>
-               --%>
-            </select> 
-         </td>
-      </tr>
-      
-      <tr>
-         <td style="width: 20%; font-weight: bold;">생년월일</td>
-         <td style="width: 80%; text-align: left;">
-            <input type="text" id="datepicker">
-         </td>
-      </tr>
-      
-      <tr>
-         <td style="width: 20%; font-weight: bold;">재직기간</td>
-         <td style="width: 80%; text-align: left;">
-            From: <input type="text" id="fromDate">&nbsp;&nbsp; 
-            To: <input type="text" id="toDate">
-         </td>
-      </tr>
-         
-      <tr>
-         <td colspan="2" style="text-align: center; vertical-align: middle;">
-            <iframe src="../iframeAgree/infoagree.html" width="85%" height="150px" class="box" ></iframe>
-            <!-- WEB_INF에는 jsp파일만 넣을 수 있다.  -->
-         </td>
-      </tr>
-      <tr>
-         <td colspan="2">
-            <label for="agree">이용약관에 동의합니다</label>&nbsp;&nbsp;<input type="checkbox" id="agree" />
-         </td>
-      </tr>
-      <tr>
-         <td colspan="2" style="text-align: center; vertical-align: middle;">
-            <iframe src="../iframeAgree/shoppingagree.html" width="85%" height="150px" class="box" ></iframe>
-            <!-- WEB_INF에는 jsp파일만 넣을 수 있다.  -->
-         </td>
-      </tr>
-      <tr>
-         <td colspan="2">
-            <label for="agree">이용약관에 동의합니다</label>&nbsp;&nbsp;<input type="checkbox" id="agree" />
-         </td>
-      </tr>
-      <tr>
-         <td colspan="2" style="line-height: 90px;" class="text-center">
-            <%-- 
-            <button type="button" id="btnRegister" style="background-image:url('/MyMVC/images/join.png'); border:none; width: 135px; height: 34px;" onClick="goRegister();"></button> 
-            --%>
-            <button type="button" id="btnRegister" class="btn btn-dark btn-lg" onClick="goRegister();">가입하기</button> 
-         </td>
-      </tr>
-      </tbody>
-   </table>
+	   <table id="tblMemberRegister">
+	      <tbody>
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">아이디&nbsp;<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;">
+	             <input type="text" name="userid" id="userid" class="requiredInfo" />&nbsp;&nbsp;
+	             <!-- 아이디중복체크 -->
+	             <span id="idcheck" style="display: inline-block; width: 90px; height: 25px; background-color:#f2f2f2; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;">아이디중복확인</span> 
+	             <span id="idcheckResult"></span>
+	             <span class="error">아이디는 필수입력 사항입니다.</span>
+	         </td> 
+	      </tr>
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">비밀번호&nbsp;<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;"><input type="password" name="pwd" id="pwd" class="requiredInfo" />
+	            <span class="error">암호는 영문자,숫자,특수기호가 혼합된 8~15 글자로 입력하세요.</span>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">비밀번호확인&nbsp;<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;"><input type="password" id="pwdcheck" class="requiredInfo" /> 
+	            <span class="error">암호가 일치하지 않습니다.</span>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">이름&nbsp;<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;">
+	             <input type="text" name="name" id="name" class="requiredInfo" /> 
+	            <span class="error">이름은 필수입력 사항입니다.</span>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">이메일&nbsp;<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;"><input type="text" name="email" id="email" class="requiredInfo" placeholder="abc@def.com" /> 
+	             <span class="error">이메일 형식에 맞지 않습니다.</span>
+	             
+	             <span style="display: inline-block; width: 90px;  height: 25px; background-color:#f2f2f2; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; cursor: pointer;" onclick="isExistEmailCheck();">이메일중복확인</span> 
+	             <span id="emailCheckResult"></span>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">주소<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;">
+	            <input type="text" id="postcode" name="postcode" size="6" maxlength="5" style="margin-bottom: 5px;"/>&nbsp;&nbsp;
+	            <span id="zipcodeSearch" style="display: inline-block; width: 80px;  height: 25px; background-color:#f2f2f2; border-radius: 5px; font-size: 8pt; text-align: center; margin-left: 10px; margin-bottom: 5px; cursor: pointer;" >우편번호</span> 
+	            <span class="error">우편번호 형식이 아닙니다.</span>
+	            <br>
+	            <input type="text" id="address" name="address" size="40" placeholder="주소" style="margin-bottom: 5px;" /><br/>
+	            <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
+	            <span class="error">주소를 입력하세요</span>
+	         </td>
+	      </tr>
+	     
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">연락처<span class="star">*</span></td>
+	         <td style="width: 80%; text-align: left;">
+	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;-&nbsp;
+	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
+	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" />
+	             <span class="error">휴대폰 형식이 아닙니다.</span>
+	         </td>
+	      </tr>
+	      
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">생년월일</td>
+	         <td style="width: 80%; text-align: left;">
+	            <input type="number" id="birthyyyy" name="birthyyyy" min="1950" max="2050" step="1" value="1995" style="width: 80px;" required />
+	            
+	            <select id="birthmm" name="birthmm" style="margin-left: 2%; width: 70px; padding: 6px;">
+	               <option value ="01">01</option>
+	               <option value ="02">02</option>
+	               <option value ="03">03</option>
+	               <option value ="04">04</option>
+	               <option value ="05">05</option>
+	               <option value ="06">06</option>
+	               <option value ="07">07</option>
+	               <option value ="08">08</option>
+	               <option value ="09">09</option>
+	               <option value ="10">10</option>
+	               <option value ="11">11</option>
+	               <option value ="12">12</option>
+	            </select> 
+	            
+	            <select id="birthdd" name="birthdd" style="margin-left: 2%; width: 70px; padding: 6px;">
+	               <option value ="01">01</option>
+	               <option value ="02">02</option>
+	               <option value ="03">03</option>
+	               <option value ="04">04</option>
+	               <option value ="05">05</option>
+	               <option value ="06">06</option>
+	               <option value ="07">07</option>
+	               <option value ="08">08</option>
+	               <option value ="09">09</option>
+	               <option value ="10">10</option>
+	               <option value ="11">11</option>
+	               <option value ="12">12</option>
+	               <option value ="13">13</option>
+	               <option value ="14">14</option>
+	               <option value ="15">15</option>
+	               <option value ="16">16</option>
+	               <option value ="17">17</option>
+	               <option value ="18">18</option>
+	               <option value ="19">19</option>
+	               <option value ="20">20</option>
+	               <option value ="21">21</option>
+	               <option value ="22">22</option>
+	               <option value ="23">23</option>
+	               <option value ="24">24</option>
+	               <option value ="25">25</option>
+	               <option value ="26">26</option>
+	               <option value ="27">27</option>
+	               <option value ="28">28</option>
+	               <option value ="29">29</option>
+	               <option value ="30">30</option>
+	               <option value ="31">31</option>
+	            </select> 
+	         </td>
+	      </tr>
+	      
+	      <tr>
+	         <td style="width: 20%; font-weight: bold;">상세 사이즈</td>
+	         <td style="width: 80%; text-align: left;">
+	            <span>키: </span>
+	            <input type="text" id="height" name="height" size="6" maxlength="3" placeholder="(cm)" style=" margin-right: 2%; width: 60px; text-align: right;"/>
+	            <span>몸무게: </span>
+	            <input type="text" id="weight" name="weight" size="6" maxlength="3"  placeholder="(kg)" style="margin-right: 2%; width: 60px; text-align: right;"/>
+	            <span>상의사이즈: </span>
+	            <select id="topsize" name="topsize" style="margin-right: 2%; width: 60px; padding: 6px;">
+	               <option value="" selected disabled>선택</option>
+	               <option value ="S">S</option>
+	               <option value ="M">M</option>
+	               <option value ="L">L</option>
+	            </select>
+	            
+	            <span>하의사이즈: </span>
+	            <select id="bottomsize" name="bottomsize" style="margin-right: 2%; width: 60px; padding: 6px;">
+	               <option value="" selected disabled>선택</option>
+	               <option value ="S">S</option>
+	               <option value ="M">M</option>
+	               <option value ="L">L</option>
+	            </select>
+	           </td>
+	         </tr>
+	      
+	      <tr>
+	         <td colspan="2" style="border: none; padding-top: 50px;">
+	            <h2>[필수] 이용약관 동의</h2>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td colspan="2" style="border: none;">
+	            <iframe src="../iframeAgree/infoagree.html" width="85%" height="150px" class="box" ></iframe>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td colspan="2" style="border: none; padding-top: 0;">
+	            <label for="agree">이용약관에 동의하십니까?</label>&nbsp;&nbsp;<input type="checkbox" id="agree" />&nbsp;&nbsp;<label>동의함</label>
+	         </td>
+	      </tr>
+	      
+	      <tr>
+	         <td colspan="2" style="border: none; padding-top: 50px;">
+	            <h2>[필수] 개인정보 수집 및 이용 동의</h2>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td colspan="2" style="border: none;" >
+	            <iframe src="../iframeAgree/shoppingagree.html" width="85%" height="150px" class="box" ></iframe>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td colspan="2" style="border: none; padding-top: 0;">
+	            <label for="agree">이용약관에 동의하십니까?</label>&nbsp;&nbsp;<input type="checkbox" id="agree" />&nbsp;&nbsp;<label>동의함</label>
+	         </td>
+	      </tr>
+	      <tr>
+	         <td colspan="2" style="line-height: 90px; border: none;" class="text-center" >
+	            <button type="button" id="btnRegister" class="btn btn-dark btn-lg" onClick="goRegister();">회원가입</button> 
+	         </td>
+	      </tr>
+	      </tbody>
+	   </table>
    </form>
    </div>
 </div>
