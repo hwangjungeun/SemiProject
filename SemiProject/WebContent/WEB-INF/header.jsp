@@ -160,7 +160,7 @@
 						<div class="dropdown-menu" aria-labelledby="blouseDropdown">
 				           <a class="dropdown-item" href="#">BLOUSE</a>
 				           <a class="dropdown-item" href="#">SHIRTS</a>
-				         </div>
+				        </div>
 					</li>
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="pantsDropdown" data-toggle="dropdown">PANTS</a>
@@ -169,7 +169,7 @@
 				           <a class="dropdown-item" href="#">반바지</a>
 				           <a class="dropdown-item" href="#">긴바지</a>
 				           <a class="dropdown-item" href="#">슬렉스</a>
-				         </div>
+				        </div>
 					</li>
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="skirtDropdown" data-toggle="dropdown">SKIRT</a>
@@ -177,14 +177,14 @@
 				           <a class="dropdown-item" href="#">미니</a>
 				           <a class="dropdown-item" href="#">미디</a>
 				           <a class="dropdown-item" href="#">롱</a>
-				         </div>
+				        </div>
 					</li>
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="dressDropdown" data-toggle="dropdown">DRESS</a>
 						<div class="dropdown-menu" aria-labelledby="dressDropdown">
 				           <a class="dropdown-item" href="#">One-Piece</a>
 				           <a class="dropdown-item" href="#">Two-Piece</a>
-				         </div>
+				        </div>
 					</li>
 					<li class="nav-item mx-2"><a class="nav-link" href="#">SHOES &amp; BAG</a>
 					<div class="dropdown-menu" aria-labelledby="Dropdown">
@@ -197,7 +197,7 @@
 						<div class="dropdown-menu" aria-labelledby="accDropdown">
 				           <a class="dropdown-item" href="#">귀걸이</a>
 				           <a class="dropdown-item" href="#">기타</a>
-				         </div>
+				        </div>
 					</li>
 					<li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li>
 					<li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li>
@@ -205,14 +205,15 @@
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
 				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
-				         </div>
+				        </div>
 					</li>
 				</ul>
 			</div>
 		</nav>
 	</div>
 	<!-- 상단 네비게이션 끝 -->
+	

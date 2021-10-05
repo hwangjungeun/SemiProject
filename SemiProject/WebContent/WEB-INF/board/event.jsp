@@ -27,7 +27,7 @@
 #contents {
     position: relative;
     margin: 0 auto;
-    min-height: 750px;
+    min-height: 800px;
 }
 
 .titleArea {
@@ -98,63 +98,67 @@ a.btn {
     color: #353535;
 }
 
-
 </style>
 
 <jsp:include page="../header.jsp" />
 
- <div class="container-fluid">
-      <div id="contents">
-	  <div class="titleArea" >
+<div class="container-fluid">
+	<div id="contents">
+	  	<div class="titleArea" >
            <h2 id="event" align="center" ><font color="#333333">EVENT</font> </h2>
            <p class="desc" align="center">이벤트 공지 게시판입니다.</p>
            <p class="imgArea"><img src="https://nearwear.co.kr/web/upload/bc4d43b5f82e421450e1539def2717e1.jpg"></p>
-      </div>
+     	</div>
 
 
-	<div class="xans-element- xans-board xans-board-list-8 xans-board-list xans-board-8">	
-	<ul>
-		<li class="xans-record-" style="list-style-type: none">
-             <div class="box">
-                 <a href="" class="imgLink"><img src="../images/event.png" alt="" /></a>
-                 <a href="<%=ctxPath%>/board/eventShow.go" class="imgLink"><br> 2021 가을맞이 무료배송 이벤트 </a>
-                 <div>
-                 <br>
-                     <strong>oh! daily</strong>
-                 </div>
-             </div>
-        </li>
-</ul>
-</div>
-		<div class="xans-element- xans-board xans-board-buttonlist-8 xans-board-buttonlist xans-board-8 ec-base-button "><span class="gLeft">
+		<div class="xans-element- xans-board xans-board-list-8 xans-board-list xans-board-8">	
+			<ul>
+				<li class="xans-record-" style="list-style-type: none">
+            	 <div class="box">
+                 	<a href="" class="imgLink"><img src="../images/event.png" alt="" /></a>
+                 	<a href="<%=ctxPath%>/board/eventShow.go" class="imgLink"><br> 2021 가을맞이 무료배송 이벤트 </a>
+                 	<div>
+                 		<br>
+                   		<strong>oh! daily</strong>
+                	</div>
+            	 </div>
+       			</li>
+			</ul>
+		</div>
+		<div class="xans-element- xans-board xans-board-buttonlist-8 xans-board-buttonlist xans-board-8 ec-base-button "><span class="gLeft"></span>
             <form id="boardSearchForm" name="" action="/board/event/8" method="get" target="_top" enctype="multipart/form-data">
 				<input id="board_no" name="board_no" value="8" type="hidden">
 				<input id="page" name="page" value="1" type="hidden">
-				<input id="board_sort" name="board_sort" value="" type="hidden"><div class="xans-element- xans-board xans-board-search-8 xans-board-search xans-board-8 "><fieldset class="boardSearch">
-				<br><br><br>
-				<p><select id="search_date" name="search_date">
-					<option value="week">일주일</option>
-					<option value="month">한달</option>
-					<option value="month3">세달</option>
-					<option value="all">전체</option>
-				</select> 
-				<select id="search_key" name="search_key">
-					<option value="subject">제목</option>
-					<option value="content">내용</option>
-					<option value="writer_name">글쓴이</option>
-					<option value="member_id">아이디</option>
-					<option value="nick_name">별명</option>
-				</select> 
-					<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> <a href="#none" class="btn" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
-				</fieldset>
-</div>
-</form>
-</div>
-
-
-
-            
+				<input id="board_sort" name="board_sort" value="" type="hidden">
+				<div class="xans-element-1 xans-board xans-board-search-8 xans-board-search xans-board-8 ">
+					<fieldset class="boardSearch">
+						<br><br><br>
+						<p>
+							<select id="search_date" name="search_date">
+								<option value="week">일주일</option>
+								<option value="month">한달</option>
+								<option value="month3">세달</option>
+								<option value="all">전체</option>
+							</select> 
+							<select id="search_key" name="search_key">
+								<option value="subject">제목</option>
+								<option value="content">내용</option>
+								<option value="writer_name">글쓴이</option>
+								<option value="member_id">아이디</option>
+								<option value="nick_name">별명</option>
+							</select> 
+							<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> 
+							<a href="#none" class="btn" onclick="BOARD.form_submit('boardSearchForm');">찾기</a>
+						</p>
+					</fieldset>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 <jsp:include page="../footer.jsp" />
+
+
+
 
