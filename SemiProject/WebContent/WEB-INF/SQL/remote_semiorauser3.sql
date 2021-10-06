@@ -191,3 +191,62 @@ commit;
 
 select * from tbl_product;
 
+
+
+
+----2021-10-06 수------------------------------------------------------------
+
+-- **** 최근본상품 테이블 생성하기 **** --
+create table tbl_recentViewProduct
+(recentseq     NUMBER                           --최근본상품번호
+,fk_userid     VARCHAR2(40) not null            --회원아이디 
+,fk_pseq       NUMBER(8)    not null            --제품번호
+,viewday       DATE         default sysdate     --최근본일자
+,constraint PK_tbl_recentViewProduct primary key(recentseq)
+,constraint FK_tbl_recentViewProduct foreign key(fk_userid) references tbl_member(userid)
+,constraint FK_tbl_recentViewProduct2 foreign key(fk_pseq) references tbl_product(pseq)
+);
+--Table TBL_RECENTVIEWPRODUCT이(가) 생성되었습니다.
+
+-- **** 최근본상품 시퀀스 생성하기 **** --
+create sequence recentseq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence RECENTSEQ이(가) 생성되었습니다.
+
+-- **** 위시리스트 테이블 생성하기 **** --
+create table tbl_wishlist
+(wishseq     NUMBER                  --위시리스트번호
+,fk_userid     VARCHAR2(40) not null   --회원아이디 
+,fk_pseq       NUMBER(8)    not null   --제품번호
+
+,constraint PK_tbl_wishlist primary key(wishseq)
+,constraint FK_tbl_wishlist foreign key(fk_userid) references tbl_member(userid)
+,constraint FK_tbl_wishlist2 foreign key(fk_pseq) references tbl_product(pseq)
+);
+--Table TBL_WISHLIST이(가) 생성되었습니다.
+
+-- **** 위시리스트 시퀀스 생성하기 **** --
+create sequence wishseq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence WISHSEQ이(가) 생성되었습니다.
+
+select * from tbl_recentViewProduct;
+
+select * from tbl_wishlist;
+
+select * from tbl_member;
+-- leess, eomjh
+
+------------------------------------------------
+-- 최근 본 상품 목록 조회하기
+select * 
