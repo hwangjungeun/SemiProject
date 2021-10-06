@@ -7,6 +7,6 @@ import java.util.Map;
 public interface InterProductDAO {
 
 	// 최근본상품 목록을 조회(select)하는 메소드
-	List<ProductVO> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException;
+	List<RecentViewProdVO> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException;
 
 }

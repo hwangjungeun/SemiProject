@@ -31,10 +31,10 @@ public class RecentViewProductAction extends AbstractController {
 				
 				Map<String,String> paraMap = new HashMap<>(); // paraMap에 where절 조건 담을꺼야(userid)
 				
-				paraMap.put("userid", userid);
+				paraMap.put("userid", "eomjh"); // ##################( 로그인merge된거 받기전까지 코드 돌리는용으로, "eomjh"대신 userid다. )##################
 				
-				
-				List<ProductVO> productList = pdao.selectRecentViewProduct(paraMap);
+				List<RecentViewProdVO> productList = pdao.selectRecentViewProduct(paraMap);
+				// System.out.println("확인용 productList => " + productList);
 				
 				request.setAttribute("productList", productList);
 				

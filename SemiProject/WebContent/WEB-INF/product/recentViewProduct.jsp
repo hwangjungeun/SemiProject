@@ -24,7 +24,7 @@
 		
 		<!-- 최근본상품 리스트 테이블 시작 -->
 		<c:if test="${empty requestScope.productList}"> <!-- 없든지 텅빈거다. -->
-			최근 본 상품 내역이 없습니다.
+			<h4 style="border-top: solid 1px #d9d9d9; border-bottom: solid 1px #d9d9d9; padding-top: 50px; padding-bottom: 50px;" align="center">최근 본 상품 내역이 없습니다.</h4>
 		</c:if>
 		
 		<c:if test="${not empty requestScope.productList}">
@@ -40,11 +40,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="pvo" items="${requestScope.productList}">
+						<c:forEach var="rvpvo" items="${requestScope.productList}">
 							
 							<tr>
-								<td class="verticalM" align="center"><img alt="304.jpg" src="../images/304.jpg" width="90" height="100"></td>
-								<td class="verticalM"><div>상품명이 들어갈 곳 moreover blouse(3color) *당일배송가능*</div></td>
+								<td class="verticalM" align="center"><img alt="${rvpvo.pvo.pimage1}" src="../images/${rvpvo.pvo.pimage1}" width="90" height="100"></td>
+								<td class="verticalM"><div>${rvpvo.pvo.pname}(3color) *당일배송가능*</div></td>
 								<td class="verticalM">
 									<ul>
 										<li>
@@ -67,7 +67,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="verticalM" align="center"><strong>39,000원</strong></td>
+								<td class="verticalM" align="center"><strong>${rvpvo.pvo.price}원</strong></td>
 								<td class="verticalM" align="center"> <!-- align을 통해 내부를 가운데정렬 -->
 									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">장바구니</button>
 									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">주문하기</button>
@@ -81,73 +81,6 @@
 			</div>
 			<!-- 최근본상품 리스트 테이블 끝 -->
 		</c:if>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-					<!-- <tr>
-						<td class="verticalM" align="center"><img alt="304.jpg" src="../images/304.jpg" width="90" height="100"></td>
-						<td class="verticalM"><div>상품명이 들어갈 곳 moreover blouse(3color) *당일배송가능*</div></td>
-						<td class="verticalM">
-							<ul>
-								<li>
-									컬러 : <br>
-									<select style="width: 100%"> select태그의 너비를 양옆으로 쫙 넓힘
-										<option>-[필수]옵션을 선택해 주세요-</option>
-										<option>아이보리</option>
-										<option>블루</option>
-										<option>카키</option>
-										<option>피치[품절]</option>
-									</select>
-								</li>
-								<li>
-									사이즈 : <br>
-									<select style="width: 100%">
-										<option>-[필수]옵션을 선택해 주세요-</option>
-										<option>S</option>
-										<option>M</option>
-									</select>
-								</li>
-							</ul>
-						</td>
-						<td class="verticalM" align="center"><strong>39,000원</strong></td>
-						<td class="verticalM" align="center"> align을 통해 내부를 가운데정렬
-							<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">장바구니</button>
-							<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">주문하기</button>
-							<button type="button" class="btn btn-outline-secondary" style="display: block;">삭제하기</button>
-						</td>
-					</tr>
-					<tr>
-						<td class="verticalM" align="center"><img alt="303.jpg" src="../images/303.jpg" width="90" height="100"></td>
-						<td class="verticalM"><div>상품명이 들어갈 곳 sweep alpaca knit(5color)</div></td>
-						<td class="verticalM">
-							<ul>
-								<li>
-									컬러 : <br>
-									<select style="width: 100%"> select태그의 너비를 양옆으로 쫙 넓힘
-										<option>-[필수]옵션을 선택해 주세요-</option>
-										<option>라이트그레이</option>
-										<option>다크그레이[품절]</option>
-										<option>아이보리[품절]</option>
-									</select>
-								</li>
-							</ul>
-						</td>
-						<td class="verticalM" align="center"><strong>47,600원</strong></td>
-						<td class="verticalM" align="center">
-								<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">장바구니</button>
-								<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">주문하기</button>
-								<button type="button" class="btn btn-outline-secondary" style="display: block;">삭제하기</button>
-						</td>
-					</tr> -->
-		
-		
-		
 		
 		
 		

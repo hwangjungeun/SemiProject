@@ -1,8 +1,7 @@
 package product.model;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.naming.*;
 import javax.sql.DataSource;
@@ -41,32 +40,41 @@ public class ProductDAO implements InterProductDAO {
     
     // 최근본상품 목록을 조회(select)하는 메소드
 	@Override
-	public List<ProductVO> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException {
+	public List<RecentViewProdVO> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException {
 		
-		List<ProductVO> productList = null;
+		List<RecentViewProdVO> productList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
 			
+			String sql = " select pname, pimage1, pimage2, price, fk_sseq, viewday " + 
+						 " from tbl_recentViewProduct V JOIN tbl_product P " + 
+						 " ON V.fk_pseq = P.pseq " + 
+						 " where fk_userid = ? " + 
+						 " order by viewday desc ";
 			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
 			
+			rs = pstmt.executeQuery();
 			
-			
-			
-			/*
-			 * String sql = " select imgno, imgfilename, imgbigo " + " from tbl_main_image "
-			 * + " order by imgno asc ";
-			 * 
-			 * pstmt = conn.prepareStatement(sql);
-			 * 
-			 * rs = pstmt.executeQuery();
-			 * 
-			 * while(rs.next()) { ImageVO imgvo = new ImageVO();
-			 * imgvo.setImgno(rs.getInt(1)); imgvo.setImgfilename(rs.getString(2));
-			 * imgvo.setImgbigo(rs.getString(3));
-			 * 
-			 * imgList.add(imgvo); }// end of while------------------
-			 */		
+			while(rs.next()) {
+				
+				RecentViewProdVO rvpvo = new RecentViewProdVO();
+				
+				ProductVO pvo = new ProductVO();
+				pvo.setPname(rs.getString(1));
+				pvo.setPimage1(rs.getString(2));
+				pvo.setPimage2(rs.getString(3));
+				pvo.setPrice(rs.getInt(4));
+				pvo.setFk_sseq(rs.getString(5));
+				rvpvo.setPvo(pvo);
+				
+				rvpvo.setViewday(rs.getString(6));
+				
+				productList.add(rvpvo);
+				
+			}// end of while------------------------------------------------
 			
 		} finally {
 			close();
