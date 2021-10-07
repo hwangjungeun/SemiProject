@@ -18,6 +18,7 @@
 	}
 	tbody td {
 		border-left: none;
+		text-align: center;
 	}
 </style>
 
@@ -36,7 +37,7 @@
 <div class="container">
 	<h1 class="text-center">POINT</h1>
 	
-	<table id="memberTbl" class="table" style="width: 90%; margin-top: 20px; border: solid 1px #d6d6d6">
+	<table id="memberTbl" class="table" style="width: 100%; margin-top: 20px; border: solid 1px #d6d6d6">
 		
 		<thead>
 			<tr>
@@ -50,26 +51,20 @@
 			</tr>
 			<tr>
 				<th>사용가능 적립금</th>
-				<td></td>
+				<td>${requestScope.point_canuse }</td>
 			</tr>
 			<tr>
 				<th>사용된 적립금</th>
-				<td></td>
+				<td>${requestScope.point_used }</td>
 			</tr>
 			<tr>
 				<th>미가용 적립금</th>
-				<td></td>
+				<td>${requestScope.point_unuse }</td>
 			</tr>
 		</tbody>
 		
 	</table>
 </div>
-
-<nav class="my-5">
-	<div style="display: flex; width: 80%;">
-		<ul class="pagination" style="margin: auto;">${requestScope.pageBar }</ul>
-	</div>	
-</nav>
 
 
 <jsp:include page="../footer.jsp" />
