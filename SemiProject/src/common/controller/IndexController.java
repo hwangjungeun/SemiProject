@@ -20,7 +20,7 @@ public class IndexController extends AbstractController {
 //		System.out.println("### IndexController 클래스의 execute() 메소드 호출됨 ### ");
 		
 		
-		super.setViewPage("WEB-INF/index.jsp");	// /WEB-INF/main.up
+		super.setViewPage("/WEB-INF/index.jsp");	// /WEB-INF/main.up
 		
 	}
 	

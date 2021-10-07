@@ -440,5 +440,7 @@ public class MemberDAO implements InterMemberDAO {
 		return n;
 	} // end of public int updateMember(MemberVO member)
 
+	
+
 
 }
