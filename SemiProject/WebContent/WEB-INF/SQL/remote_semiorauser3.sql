@@ -284,11 +284,31 @@ insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'pink');
 commit;
 
 ----------------------------------------------------------------------------------
+-- 카테고리상위 테이블 삽입
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'OUTER');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'TOP');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'BLOUSE');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'PANTS');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'SKIRT');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'DRESS');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'BAG');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'ACC');
+--1 행 이(가) 삽입되었습니다.
 
+-- 카테고리하위 테이블 삽입
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'JACKET',1);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'CARDIGAN',1);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'TSHIRTS',2);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'KNIT',2);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'BLOUSE',3);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'DENIM',4);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'MINI',5);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'ONEPIECE',6);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'BACKPACK',7);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'EARRING',8);
+--1 행 이(가) 삽입되었습니다.
 
-
-
-
+------------------------------------------------------------------------------------------------------------
 
 
 -- 최근 본 상품 dao
