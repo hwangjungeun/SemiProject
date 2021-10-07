@@ -47,7 +47,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select pname, pimage1, pimage2, price, fk_sseq, viewday " + 
+			String sql = " select pname, pimage, price " + 
 						 " from tbl_recentViewProduct V JOIN tbl_product P " + 
 						 " ON V.fk_pseq = P.pseq " + 
 						 " where fk_userid = ? " + 
@@ -64,13 +64,9 @@ public class ProductDAO implements InterProductDAO {
 				
 				ProductVO pvo = new ProductVO();
 				pvo.setPname(rs.getString(1));
-				pvo.setPimage1(rs.getString(2));
-				pvo.setPimage2(rs.getString(3));
-				pvo.setPrice(rs.getInt(4));
-				pvo.setFk_sseq(rs.getString(5));
+				pvo.setPimage(rs.getString(2));
+				pvo.setPrice(rs.getInt(3));
 				rvpvo.setPvo(pvo);
-				
-				rvpvo.setViewday(rs.getString(6));
 				
 				productList.add(rvpvo);
 				

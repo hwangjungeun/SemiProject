@@ -2,19 +2,14 @@ package product.model;
 
 public class ProductVO {
 	
-	
-	private String pseq;		// 제품번호
-	private String pname;   	// 제품명
-	private String fk_cseq; 	// 카테고리대분류번호
-	private String pimage1; 	// 제품이미지1
-	private String pimage2; 	// 제품이미지2
-	private int pqty;     		// 제품재고량
-	private int price;    		// 제품정가
-	private String fk_sseq; 	// 스펙번호
-	private String pcontent;	// 제품설명
+	private String pseq; 		// 제품번호
+	private String fk_clseq; 	// 카테고리하위번호
+	private String pname; 		// 제품명
+	private String pimage; 		// 제품이미지
+	private int price; 			// 제품정가
+	private String pcontent; 	// 제품설명
 	private int point; 			// 포인트점수
-	private String pinputdate;	// 제품입고일자
-	
+	private String pinputdate; 	// 제품입고일자
 	
 	public String getPseq() {
 		return pseq;
@@ -22,6 +17,14 @@ public class ProductVO {
 	
 	public void setPseq(String pseq) {
 		this.pseq = pseq;
+	}
+	
+	public String getFk_clseq() {
+		return fk_clseq;
+	}
+	
+	public void setFk_clseq(String fk_clseq) {
+		this.fk_clseq = fk_clseq;
 	}
 	
 	public String getPname() {
@@ -32,36 +35,12 @@ public class ProductVO {
 		this.pname = pname;
 	}
 	
-	public String getFk_cseq() {
-		return fk_cseq;
+	public String getPimage() {
+		return pimage;
 	}
 	
-	public void setFk_cseq(String fk_cseq) {
-		this.fk_cseq = fk_cseq;
-	}
-	
-	public String getPimage1() {
-		return pimage1;
-	}
-	
-	public void setPimage1(String pimage1) {
-		this.pimage1 = pimage1;
-	}
-	
-	public String getPimage2() {
-		return pimage2;
-	}
-	
-	public void setPimage2(String pimage2) {
-		this.pimage2 = pimage2;
-	}
-	
-	public int getPqty() {
-		return pqty;
-	}
-	
-	public void setPqty(int pqty) {
-		this.pqty = pqty;
+	public void setPimage(String pimage) {
+		this.pimage = pimage;
 	}
 	
 	public int getPrice() {
@@ -70,14 +49,6 @@ public class ProductVO {
 	
 	public void setPrice(int price) {
 		this.price = price;
-	}
-	
-	public String getFk_sseq() {
-		return fk_sseq;
-	}
-	
-	public void setFk_sseq(String fk_sseq) {
-		this.fk_sseq = fk_sseq;
 	}
 	
 	public String getPcontent() {
@@ -103,6 +74,8 @@ public class ProductVO {
 	public void setPinputdate(String pinputdate) {
 		this.pinputdate = pinputdate;
 	}
+	
+	
 	
 	
 }

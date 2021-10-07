@@ -43,7 +43,7 @@
 						<c:forEach var="rvpvo" items="${requestScope.productList}">
 							
 							<tr>
-								<td class="verticalM" align="center"><img alt="${rvpvo.pvo.pimage1}" src="../images/${rvpvo.pvo.pimage1}" width="90" height="100"></td>
+								<td class="verticalM" align="center"><img alt="${rvpvo.pvo.pimage}" src="../images/${rvpvo.pvo.pimage}" width="90" height="100"></td>
 								<td class="verticalM"><div>${rvpvo.pvo.pname}(3color) *당일배송가능*</div></td>
 								<td class="verticalM">
 									<ul>
