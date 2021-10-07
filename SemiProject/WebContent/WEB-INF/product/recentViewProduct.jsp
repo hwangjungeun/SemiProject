@@ -57,14 +57,6 @@
 												<option>피치[품절]</option>
 											</select>
 										</li>
-										<li>
-											사이즈 : <br>
-											<select style="width: 100%">
-												<option>-[필수]옵션을 선택해 주세요-</option>
-												<option>S</option>
-												<option>M</option>
-											</select>
-										</li>
 									</ul>
 								</td>
 								<td class="verticalM" align="center"><strong>${rvpvo.pvo.price}원</strong></td>
