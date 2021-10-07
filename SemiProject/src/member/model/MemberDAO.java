@@ -65,8 +65,55 @@ public class MemberDAO implements InterMemberDAO {
 	
 	
 	
+<<<<<<< HEAD
 	
 	
+=======
+	// 회원가입을 해주는 메소드 생성
+	@Override
+	public int registerMember(MemberVO member) throws SQLException {
+
+		int n = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress,"
+					   + " birthday, height, weight, topsize, bottomsize) "     
+	                   + " values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "; 			
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, member.getUserid());
+			pstmt.setString(2, Sha256.encrypt(member.getPwd()));	// 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다. 
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, aes.encrypt(member.getEmail()));
+			// 이메일을 AES256 알고리즘으로 양방향 암호화 시킨다.
+			pstmt.setString(5, aes.encrypt(member.getMobile()));
+			// 휴대폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다.
+			pstmt.setString(6, member.getPostcode());
+	        pstmt.setString(7, member.getAddress());
+	        pstmt.setString(8, member.getDetailaddress());
+	        pstmt.setString(9, member.getExtraaddress());
+	        pstmt.setString(10, member.getBirthday());
+	        pstmt.setString(11, member.getHeight());
+	        pstmt.setString(12, member.getWeight());
+	        pstmt.setString(13, member.getTopsize());
+	        pstmt.setString(14, member.getBottomsize());
+	        
+	        n= pstmt.executeUpdate();
+			
+		} catch (GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+		
+		return n;
+	} // end of public int registerMember(MemberVO member)
+
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 	
 	// 입력받은 paraMap을 가지고 한명의 회원정보를 리턴시켜주는 메소드(로그인처리)
 	@Override
@@ -113,6 +160,7 @@ public class MemberDAO implements InterMemberDAO {
 	            member.setAddress(rs.getString(6));
 	            member.setDetailaddress(rs.getString(7));
 	            member.setExtraaddress(rs.getString(8));
+<<<<<<< HEAD
 	            member.setBirthday(rs.getString(9) + rs.getString(10) + rs.getString(11));
 	            member.setHeight(rs.getInt(12));
 	            member.setWeight(rs.getInt(13));
@@ -120,6 +168,11 @@ public class MemberDAO implements InterMemberDAO {
 	            member.setBottomsize(rs.getString(15));
 	            member.setPoint(rs.getInt(16));
 	            member.setRegisterday(rs.getString(17));
+=======
+	            member.setBirthday(rs.getString(10) + rs.getString(11) + rs.getString(12));
+	            member.setPoint(rs.getInt(14));
+	            member.setRegisterday(rs.getString(15));
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 	            
 	            if(rs.getInt(18) >= 3) {
 	            	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true

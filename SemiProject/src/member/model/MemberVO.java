@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 public class MemberVO {
 	private String userid;             // 회원아이디
+<<<<<<< HEAD
 	   private String pwd;                // 비밀번호 (SHA-256 암호화 대상)
 	   private String name;               // 회원명
 	   private String email;              // 이메일 (AES-256 암호화/복호화 대상)
@@ -23,7 +24,29 @@ public class MemberVO {
 	   private int status;                // 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 	   private int idle;                  // 휴면유무         0: 활동중  /  1 : 휴면중 
 	                                      // 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정 
+=======
+	private String pwd; // 비밀번호 (SHA-256 암호화 대상)
+	private String name; // 회원명
+	private String email; // 이메일 (AES-256 암호화/복호화 대상)
+	private String mobile; // 연락처 (AES-256 암호화/복호화 대상)
+	private String postcode; // 우편번호
+	private String address; // 주소
+	private String detailaddress; // 상세주소
+	private String extraaddress; // 참고항목
+	private String birthday; // 생년월일
+	private String height; // 키
+	private String weight; // 몸무게
+	private String topsize; // 상의사이즈
+	private String bottomsize; // 하의사이즈
+	private int point; // 포인트
+	private String registerday; // 가입일자
+	private String lastpwdchangedate; // 마지막으로 암호를 변경한 날짜
+	private int status; // 회원탈퇴유무 1: 사용가능(가입중) / 0:사용불능(탈퇴)
+	private int idle; // 휴면유무 0: 활동중 / 1 : 휴면중
+						// 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정 
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 	   
+<<<<<<< HEAD
 	   /////////////////////////////////////////////////////////////////////
 	   
 	   private boolean requirePwdChange = false;
@@ -61,6 +84,48 @@ public class MemberVO {
 	     
 	      this.birthday = birthday;
 	   }
+=======
+   /////////////////////////////////////////////////////////////////////
+   
+   private boolean requirePwdChange = false;
+   // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
+   // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
+   
+   /////////////////////////////////////////////////////////////////////
+   
+   public MemberVO() {}
+   
+   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+         String address, String detailaddress, String extraaddress) {
+      this.userid = userid;
+      this.pwd = pwd;
+      this.name = name;
+      this.email = email;
+      this.mobile = mobile;
+      this.postcode = postcode;
+      this.address = address;
+      this.detailaddress = detailaddress;
+      this.extraaddress = extraaddress;
+   }
+   
+   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+         String address, String detailaddress, String extraaddress, String birthday, String height, String weight, String topsize, String bottomsize) {
+      this.userid = userid;
+      this.pwd = pwd;
+      this.name = name;
+      this.email = email;
+      this.mobile = mobile;
+      this.postcode = postcode;
+      this.address = address;
+      this.detailaddress = detailaddress;
+      this.extraaddress = extraaddress;
+      this.birthday = birthday;
+      this.height = height;
+      this.weight = weight;
+      this.topsize = topsize;
+      this.bottomsize = bottomsize;
+   }
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 
 	
 		public String getUserid() {
@@ -135,6 +200,7 @@ public class MemberVO {
 			this.extraaddress = extraaddress;
 		}
 
+<<<<<<< HEAD
 		public String getBirthday() {
 			return birthday;
 		}
@@ -146,11 +212,17 @@ public class MemberVO {
 		public int getHeight() {
 			return height;
 		}
+=======
+	public String getBirthday() {
+		return birthday;
+	}
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 
 		public void setHeight(int height) {
 			this.height = height;
 		}
 
+<<<<<<< HEAD
 		public int getWeight() {
 			return weight;
 		}
@@ -162,14 +234,57 @@ public class MemberVO {
 		public String getTopsize() {
 			return topsize;
 		}
+=======
+	public int getPoint() {
+		return point;
+	}
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 
 		public void setTopsize(String topsize) {
 			this.topsize = topsize;
 		}
 
+<<<<<<< HEAD
 		public String getBottomsize() {
 			return bottomsize;
 		}
+=======
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public String getTopsize() {
+		return topsize;
+	}
+
+	public void setTopsize(String topsize) {
+		this.topsize = topsize;
+	}
+
+	public String getBottomsize() {
+		return bottomsize;
+	}
+
+	public void setBottomsize(String bottomsize) {
+		this.bottomsize = bottomsize;
+	}
+
+	public String getRegisterday() {
+		return registerday;
+	}
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 
 		public void setBottomsize(String bottomsize) {
 			this.bottomsize = bottomsize;
@@ -240,6 +355,8 @@ public class MemberVO {
 
 		return age;
 	}
+	
+	
 	   
 	   
 }
