@@ -35,10 +35,10 @@
 <script type="text/javascript" src="<%=ctxPath %>/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 
-<%-- 
+
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.css" />
-<script type="text/javascript" src="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
- --%>
+<script type="text/javascript" src="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.js"></script> 
+
 
 <style type="text/css">
 	ul {
@@ -94,6 +94,17 @@
 		html += "</ol>";
 		
 		$("div#olli").html = html;
+		
+		
+		$("input:button[id=gobasket]").bind("click",function(){
+			
+			//alert("클릭이됩니다");
+			
+			location.href= "<%= request.getContextPath()%>/order/basket.go"; //장바구니 페이지로 이동 
+			
+			
+		});
+		
 	});
 	
 	
@@ -115,8 +126,13 @@
 
 			<div class="topArea container-fluid navbar-header mx-auto text-center">
 				<a class="navbar-brand mx-auto mb-3" href="<%= ctxPath %>/index.go">o H ! &nbsp; D a i L Y</a>
-				<i class="fas fa-shopping-basket fa-2x"></i>
-				<span class="badge badge-pill badge-light text-black-50">0</span>
+				<div>
+					<a href="<%= ctxPath%>/order/basket.go">
+						<i class="fas fa-shopping-basket fa-2x"></i>	
+						<span class="badge badge-pill badge-light text-black-50">0</span>
+					</a>
+					<!--<input type="button" id="gobasket" value="장바구니"/>-->
+				</div>
 			</div>
 			
 			<div class="bottomArea ml-auto my-3">
@@ -135,12 +151,12 @@
 			
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="nav mx-auto">
-					<li class="nav-item mx-2"><a class="nav-link" href="#">BEST</a></li>
+					<li class="nav-item mx-2"><a class="nav-link" href="<%= ctxPath %>/product/bestList.go">BEST</a></li>
 					<li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li>
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="outerDropdown" data-toggle="dropdown">OUTER</a>
 						<div class="dropdown-menu" aria-labelledby="outerDropdown">
-				           <a class="dropdown-item" href="#">코트</a>
+				           <a class="dropdown-item" href="<%= ctxPath %>/product/productListForm.go">코트</a>
 				           <a class="dropdown-item" href="#">자켓</a>
 				           <a class="dropdown-item" href="#">가디건</a>
 				           <a class="dropdown-item" href="#">야상</a>
@@ -209,8 +225,8 @@
 				           <a class="dropdown-item" href="#">Notice</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/event.jsp">Event</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/delay.jsp">Delay</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
 				         </div>
 					</li>
 				</ul>
