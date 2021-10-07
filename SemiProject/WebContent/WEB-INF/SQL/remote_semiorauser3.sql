@@ -257,6 +257,131 @@ nocycle
 nocache;
 -- Sequence ODRSEQNUMSEQ이(가) 생성되었습니다.
 
+-- ********************************************************* --
+-- *************** 여기서부터 개발 시작입니다~~~~ *************** --
+-- ********************************************************* --
+
+----------------------------------------------------------------------------------
+-- 색상 insert
+insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'black');
+insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'white');
+insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'gray');
+insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'blue');
+insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'green');
+insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'pink');
+-- 1 행 이(가) 삽입되었습니다.
+commit;
+
+----------------------------------------------------------------------------------
+-- 카테고리상위 insert
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'OUTER');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'TOP');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'BLOUSE');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'PANTS');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'SKIRT');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'DRESS');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'BAG');
+insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'ACC');
+--1 행 이(가) 삽입되었습니다.
+
+-- 카테고리하위 insert
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'JACKET',1);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'CARDIGAN',1);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'TSHIRTS',2);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'KNIT',2);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'BLOUSE',3);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'DENIM',4);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'MINI',5);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'ONEPIECE',6);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'BACKPACK',7);
+insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'EARRING',8);
+--1 행 이(가) 삽입되었습니다.
+
+------------------------------------------------------------------------------------------------------------
+-- 제품 insert
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,2,'riha angora cardigan','300_0.jpg',28900,'데일리한 무드로 활용도 높게 착용하기 좋은 브이넥 니트가디건 소개해드려요 데일리하게 내어입기 좋은 핏이며, 티셔츠에나, 단독으로 입으셔도 타이트 하지 않은 여유있는 핏으로 더욱 슬림하게 연출해드려요, 컬러는 총 5가지 컬러보여드릴게요',28900*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,1,5,'300_green.jpg',2);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,1,'toy cotton pants','302_0.jpg',28900,'군더더기없는 깔끔한 아웃핏의 팬츠입니다 ! 일자로 깔끔하게 떨어지는 스트레이트라인으로 슬림한 연출이 가능해요 어디에나 매치하기좋은 깔끔한 디자인으로 차분한 톤 색감이 주는 멋스러운 무드가 돋보이는 팬츠로 계절구애없이 착용가능합니다 ♡',28900*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,2,2,'302_white.jpg',4);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,4,'sweep alpaca knit','303_0.jpg',47600,'울과 알파카 소재 혼방으로 따뜻하게 착용하기 좋구요! 롱헤어감이 느껴지는 니트 소재로, 고급스러운 무드가 연출돼요! 톡톡 튀는 컬러감으로 포인트 주기 좋으니, 얼른 소장해보세요! :-)',47600*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,3,4,'303_blue.jpg',3);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,3,6,'303_pink.jpg',2);
+--------------------------------------------------------------------------------------
+
+commit;
+
+desc tbl_product;
+desc tbl_poption;
+
+---------------------------------------------------------------------------------
+-- 최근 본 상품 insert
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',1,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',2,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'leess',2,sysdate);
+
+
+-- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
+select pimage, pname, price, fk_sseq, viewday
+from tbl_recentViewProduct V JOIN tbl_product P
+ON V.fk_pseq = P.pseq
+where fk_userid = 'eomjh'
+order by viewday desc;
+
+
+-- V.fk_userid, V.fk_pseq, V.viewday, P.pseq, P.pname, P.pimage, P.price
+select P.pname, P.pimage, P.price
+from tbl_recentViewProduct V JOIN tbl_product P
+ON V.fk_pseq = P.pseq
+where V.fk_userid = 'eomjh'
+order by viewday desc;
+-- 동일함(아래는 P.V.등 테이블명을 안써준거임).
+select pname, pimage, price
+from tbl_recentViewProduct V JOIN tbl_product P
+ON V.fk_pseq = P.pseq
+where fk_userid = 'eomjh'
+order by viewday desc;
+-- 최근본상품 목록을 보여줄때, 색상옵션은 생각할 필요가 없다. -> 우선 이걸로 최근본상품 목록을 보여주고,
+-- 옵션 select태그를 사용자가 누르면, change이벤트가 발생하면 ajax로 처리.
+
+
+select P.pname, C.cname
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+where P.pseq = '3';
+-- 해당하는 제품에 옵션으로, 무슨 색상들이 있는지 보여줌.
+
+
+
+select *
+from tbl_recentViewProduct V JOIN tbl_product P
+ON V.fk_pseq = P.pseq
+JOIN tbl_poption O 
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq;
+-- 이거 최근본상품,제품,옵션,색상을 묶은건데 사용할 곳 없음.
+
+
 ----------------------------------------------------------------------------
 select * from tbl_categoryU;
 select * from tbl_categoryL;
@@ -272,50 +397,4 @@ select * from tbl_orderdetail;
 select * from tbl_member; -- leess, eomjh
 
 desc tbl_member;
-----------------------------------------------------------------------------------
-
-insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'black');
-insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'white');
-insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'gray');
-insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'blue');
-insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'green');
-insert into tbl_pcolor(cseq, cname) values(seq_tbl_pcolor_cseq.nextval, 'pink');
--- 1 행 이(가) 삽입되었습니다.
-commit;
-
-----------------------------------------------------------------------------------
--- 카테고리상위 테이블 삽입
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'OUTER');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'TOP');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'BLOUSE');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'PANTS');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'SKIRT');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'DRESS');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'BAG');
-insert into tbl_categoryU(cuseq, cuname) values(seq_tbl_categoryU_cuseq.nextval, 'ACC');
---1 행 이(가) 삽입되었습니다.
-
--- 카테고리하위 테이블 삽입
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'JACKET',1);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'CARDIGAN',1);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'TSHIRTS',2);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'KNIT',2);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'BLOUSE',3);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'DENIM',4);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'MINI',5);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'ONEPIECE',6);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'BACKPACK',7);
-insert into tbl_categoryL(clseq, clname,fk_cuseq) values(seq_tbl_categoryL_clseq.nextval, 'EARRING',8);
---1 행 이(가) 삽입되었습니다.
-
-------------------------------------------------------------------------------------------------------------
-
-
--- 최근 본 상품 dao
-select pname, pimage1, pimage2, price, fk_sseq, viewday
-from tbl_recentViewProduct V JOIN tbl_product P
-ON V.fk_pseq = P.pseq
-where fk_userid = 'eomjh'
-order by viewday desc;
-
----------------------------------------------------------------------------------
+desc tbl_recentViewProduct;
