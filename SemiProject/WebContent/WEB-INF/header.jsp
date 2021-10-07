@@ -15,8 +15,6 @@
 <html lang="ko">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>오!데일리</title>
 
@@ -35,8 +33,8 @@
 <script type="text/javascript" src="<%=ctxPath %>/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.css" />
-<script type="text/javascript" src="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+<%-- <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.css" />
+<script type="text/javascript" src="<%=ctxPath %>/jquery-ui-1.11.4.custom/jquery-ui.js"></script> --%>
 
 <style type="text/css">
 	ul {
@@ -59,7 +57,11 @@
 	div a {
 		color: black;
 	}
-	
+	h1 {
+		display: block;
+	    font-size: 15px;
+	    font-weight: bold;
+	}
 	h2 {
 		display: block;
 	    font-size: 12px;
