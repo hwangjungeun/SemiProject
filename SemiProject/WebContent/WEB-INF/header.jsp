@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <%
@@ -38,12 +37,21 @@
 		padding-left: 0;  
 	}
 	div#footer{
-		background-color: #d9d9d9;
+		background-color: #f2f2f2;
 	}	
 	a.navbar-brand {
 		color: #4d4d4d;
 		font-family: Copperplate, Fantasy;
-		font-size: 25pt;
+		font-size: 28pt;
+	}
+	div#click{
+		font-size: 9pt;
+	}
+	a#Dropdown{
+		font-size: 9pt;
+	}
+	a.nav-link{
+		font-size: 9pt;
 	}
 	span.badge {
 		position: absolute; 
@@ -69,23 +77,40 @@
 	    font-size: 13px;
 	    font-weight: bold;
 	}
+	
 	.bottomArea > a{
 	color: red;
 	display : inline-block;
 	}
 	
-	button#logout{
-		color: balck;
-	}
+	
 </style>
 <script type="text/javascript">
-
-function goLogOut(){
+	
+	$(document).ready(function(){
+		
+		var html = "<ol class='carousel-indicators'>";
+		for(var i = 0; i<11; i++) {
+			if(i == 0) {
+				html += "<li data-target='#carouselExampleIndicators' data-slide-to='0' class='active'></li>";
+			}
+			else {
+				html += "<li data-target='#carouselExampleIndicators' data-slide-to='"+i+"'></li>";
+			}
+		}
+		html += "</ol>";
+		
+		$("div#olli").html = html;
+	});
+	
+	function goLogOut(){
 		
 		// 로그아웃을 처리해주는 페이지로 이동
 		location.href = "<%=request.getContextPath()%>/login/logout.go";
 		
 	}
+	
+	
 </script>
 
 </head>
@@ -208,7 +233,7 @@ function goLogOut(){
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
 				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
+				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q&A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/event.jsp">Event</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/delay.jsp">Delay</a>
