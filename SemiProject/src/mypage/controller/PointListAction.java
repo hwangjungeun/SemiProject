@@ -14,9 +14,6 @@ public class PointListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		HttpSession session = request.getSession();
-		MemberVO mvo = (MemberVO) session.getAttribute("loginuser");
-		
 		String userid = request.getParameter("userid");
 		
 		InterPointDAO mdao = new PointDAO();
