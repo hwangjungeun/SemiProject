@@ -44,7 +44,7 @@
 <div id="tbl_div" class="container">
 	<h1 class="text-center">POINT</h1>
 	
-	<table id="memberTbl" class="table" style="width: 100%; margin-top: 20px; border: solid 1px #d6d6d6">
+	<table id="memberTbl" class="table" style="width: 80%; margin: 50px auto; border: solid 1px #d6d6d6">
 		
 		<thead>
 			<tr>
