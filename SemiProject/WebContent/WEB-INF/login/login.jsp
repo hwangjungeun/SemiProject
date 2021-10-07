@@ -152,7 +152,7 @@
 		}
 		
 		var frm = document.loginFrm;
-		frm.action = "<%= request.getContextPath()%>/index.up",
+		frm.action = "<%= request.getContextPath()%>/login/login.go",
 		frm.method = "post";
 		frm.submit();	
 		
@@ -206,7 +206,39 @@
 	       </table>
 	   </form>  
 	</div>
-
+	
+	 <%-- ****** 아이디 찾기 Modal ****** --%>
+  <div class="modal fade" id="userIdfind">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal header -->
+        <div class="modal-header">
+          <h4 class="modal-title">아이디 찾기</h4>
+          <button type="button" class="close myclose" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div id="idFind">
+             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath()%>/login/idFind.go">
+             </iframe>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+	
+	
+	
+	
 <%-- 풋터 시작 --%> 
 <jsp:include page="/WEB-INF/footer.jsp" />
 </body>

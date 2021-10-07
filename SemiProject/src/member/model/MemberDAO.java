@@ -27,7 +27,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			ds = (DataSource)envContext.lookup("jdbc/semoracle");
+			ds = (DataSource)envContext.lookup("jdbc/semioracle");
 			
 			aes = new AES256(SecretMyKey.KEY);
 			// SecretMyKeysms 우리가 만든 비밀키

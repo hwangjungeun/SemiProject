@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <%
@@ -68,8 +69,24 @@
 	    font-size: 13px;
 	    font-weight: bold;
 	}
+	.bottomArea > a{
+	color: red;
+	display : inline-block;
+	}
+	
+	button#logout{
+		color: balck;
+	}
 </style>
+<script type="text/javascript">
 
+function goLogOut(){
+		
+		// 로그아웃을 처리해주는 페이지로 이동
+		location.href = "<%=request.getContextPath()%>/login/logout.go";
+		
+	}
+</script>
 
 </head>
 <body>
@@ -92,8 +109,20 @@
 			</div>
 			
 			<div class="bottomArea ml-auto my-3">
-				<a href="<%= ctxPath %>/login/login.go">LOGIN</a>
+			<c:if test ="${empty sessionScope.loginuser}">
+				<a href="<%= ctxPath %>/login/logintry.go">LOGIN</a>
 				<a href="<%= ctxPath %>/member/memberRegister.go">JOIN US</a>
+			</c:if>
+			
+			<!-- 세션에 로그인 유저 아이디가 있을때 , 즉 로그인 성공 했을 때 -->
+			<c:if test = "${not empty sessionScope.loginuser }">
+			
+                                   어서오세요[<span style="color: black; font-weight: bold;">${(sessionScope.loginuser).name}</span>]님
+                <br/>다양하고 특별한 혜택을 누리세요!
+                 &nbsp; &nbsp;<button type="button" class="btn btn-danger" onclick="goLogOut()">로그아웃</button><br/>
+             
+		    	<a href="<%= ctxPath %>/member/memberRegister.go">MyPage</a>
+			</c:if>
 				<a href="#">NOTICE</a>
 				<a href="#">Q&amp;A</a>
 			</div>
