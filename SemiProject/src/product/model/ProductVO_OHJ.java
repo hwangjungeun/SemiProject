@@ -1,6 +1,6 @@
 package product.model;
 
-public class ProductVO {
+public class ProductVO_OHJ {
 	
 	private String pseq; 		// 제품번호
 	private String fk_clseq; 	// 카테고리하위번호

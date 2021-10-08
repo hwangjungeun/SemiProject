@@ -27,13 +27,13 @@ public class RecentViewProductAction extends AbstractController {
 			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신이 최근본상품을 보는 경우
 				
-				InterProductDAO pdao = new ProductDAO();
+				InterProductDAO_OHJ pdao = new ProductDAO_OHJ();
 				
 				Map<String,String> paraMap = new HashMap<>(); // paraMap에 where절 조건 담을꺼야(userid)
 				
 				paraMap.put("userid", "eomjh"); // ##################( 로그인merge된거 받기전까지 코드 돌리는용으로, "eomjh"대신 userid다. )##################
 				
-				List<RecentViewProdVO> productList = pdao.selectRecentViewProduct(paraMap);
+				List<RecentViewProdVO_OHJ> productList = pdao.selectRecentViewProduct(paraMap);
 				// System.out.println("확인용 productList => " + productList);
 				
 				request.setAttribute("productList", productList);

@@ -7,7 +7,7 @@ import javax.naming.*;
 import javax.sql.DataSource;
 
 
-public class ProductDAO implements InterProductDAO {
+public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 	
 	private DataSource ds; // DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool) 이다.
 	private Connection conn;
@@ -15,7 +15,7 @@ public class ProductDAO implements InterProductDAO {
 	private ResultSet rs;
 	
 	// 기본생성자
-	public ProductDAO() {
+	public ProductDAO_OHJ() {
 		try {
 			Context initContext = new InitialContext();
 		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -40,9 +40,9 @@ public class ProductDAO implements InterProductDAO {
     
     // 최근본상품 목록을 조회(select)하는 메소드
 	@Override
-	public List<RecentViewProdVO> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException {
+	public List<RecentViewProdVO_OHJ> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException {
 		
-		List<RecentViewProdVO> productList = new ArrayList<>();
+		List<RecentViewProdVO_OHJ> productList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
@@ -60,9 +60,9 @@ public class ProductDAO implements InterProductDAO {
 			
 			while(rs.next()) {
 				
-				RecentViewProdVO rvpvo = new RecentViewProdVO();
+				RecentViewProdVO_OHJ rvpvo = new RecentViewProdVO_OHJ();
 				
-				ProductVO pvo = new ProductVO();
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
 				pvo.setPname(rs.getString(1));
 				pvo.setPimage(rs.getString(2));
 				pvo.setPrice(rs.getInt(3));

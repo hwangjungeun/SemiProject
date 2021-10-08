@@ -1,13 +1,13 @@
 package product.model;
 
-public class RecentViewProdVO {
+public class RecentViewProdVO_OHJ {
 	
 	private String recentseq; // 최근본상품번호
 	private String fk_userid; // 회원아이디 
 	private String fk_pseq;   // 제품번호
 	private String viewday;   // 최근본일자
 	
-	private ProductVO pvo; 	// 부모테이블인 ProductVO를 select용.(tbl_product와 tbl_recentViewProduct의 JOIN) 
+	private ProductVO_OHJ pvo; 	// 부모테이블인 ProductVO를 select용.(tbl_product와 tbl_recentViewProduct의 JOIN) 
 							// 제품에 대한 모든 정보가 들어옴
 	
 	public String getRecentseq() {
@@ -44,11 +44,11 @@ public class RecentViewProdVO {
 
 	////////////////////////////////////////////
 	// select용
-	public ProductVO getPvo() {
+	public ProductVO_OHJ getPvo() {
 		return pvo;
 	}
 
-	public void setPvo(ProductVO pvo) {
+	public void setPvo(ProductVO_OHJ pvo) {
 		this.pvo = pvo;
 	}
 	
