@@ -12,6 +12,23 @@
 	}
 	
 </style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$("select#colorOptSelect").click(function(){
+			
+			$.ajax({
+				url:"<%= request.getContextPath()%>/product/viewColorOption.go",
+				
+			});
+			
+		});
+		
+	});// end of $("select#colorOptSelect").click(function(){})--------------------------------
+	
+</script>
 	
 	<div class = "container px-0">
 	
@@ -44,17 +61,17 @@
 							
 							<tr>
 								<td class="verticalM" align="center"><img alt="${rvpvo.pvo.pimage}" src="../images/${rvpvo.pvo.pimage}" width="90" height="100"></td>
-								<td class="verticalM"><div>${rvpvo.pvo.pname}(3color) *당일배송가능*</div></td>
+								<td class="verticalM"><div>${rvpvo.pvo.pname}(3color)</div></td>
 								<td class="verticalM">
 									<ul>
 										<li>
 											컬러 : <br>
-											<select style="width: 100%"> <!-- select태그의 너비를 양옆으로 쫙 넓힘 -->
+											<select id="colorOptSelect" style="width: 100%"> <!-- select태그의 너비를 양옆으로 쫙 넓힘 -->
 												<option>-[필수]옵션을 선택해 주세요-</option>
-												<option>아이보리</option>
+												<!-- <option>아이보리</option>
 												<option>블루</option>
 												<option>카키</option>
-												<option>피치[품절]</option>
+												<option>피치[품절]</option> -->
 											</select>
 										</li>
 									</ul>
