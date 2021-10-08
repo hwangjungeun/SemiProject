@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 		urlPatterns = { "*.go" }, 
 		initParams = { 
 				@WebInitParam(name = "propertyConfig", value = "C:\\Users\\82108\\git\\SemiProject\\SemiProject\\WebContent\\WEB-INF\\Command.properties", description = "*.go에 대한 class의 맵핑파일이다.")
-		})
+		})                                              
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

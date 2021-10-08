@@ -15,6 +15,8 @@ public class IdFindAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		System.out.println("~~~~~ 호호호");
+		
 		String method = request.getMethod();
 		// "GET" or "POST"
 		
@@ -51,7 +53,7 @@ public class IdFindAction extends AbstractController {
 		
 		// super.setRedirect(false);
 		super.setViewPage("/WEB-INF/login/idFind.jsp");
-	}
 
 	}
 
+}

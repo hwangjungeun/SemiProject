@@ -55,7 +55,7 @@ public class LoginAction extends AbstractController {
 		if(loginuser != null) {
 			
 			if(loginuser.getIdle() == 1) {
-				 String message = "로그인을 한지 1년지 지나서 휴면상태로 되었습니다. 관리자가에게 문의 바랍니다.";
+				 String message = "로그인을 한지 1년지 지나서 휴면상태로 되었습니다. 관리자에게 문의 바랍니다.";
 		         String loc = request.getContextPath() + "/index.go";
 		         // 원래는 위와 같이 index.up이 아니라 휴면인 계정을 풀어주는 페이지로 잡아주어야 한다.
 		         
@@ -112,7 +112,7 @@ public class LoginAction extends AbstractController {
 	
 		else {
 			// System.out.println(">>> 확인용 로그인 실패!!! <<<");
-	         String message = "로그인 실패";
+	         String message = "아이디 또는 비밀번호를 확인하세요";
 	         String loc = "javascript:history.back()";
 	         
 	         request.setAttribute("message", message);

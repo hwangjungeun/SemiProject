@@ -157,6 +157,7 @@
 		frm.submit();	
 		
 	} // end of function goLogin(){}-----------------------------------------
+	
 </script>
 
 
@@ -185,9 +186,7 @@
 	            <tr>
 	               <td colspan="2" align="center" style="padding: 10px;">
 	                  <input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
-	               <%--    
-	                  <button type="button" id="btnSubmit" style="width: 67px; height: 27px; background-image: url('<%= request.getContextPath()%>/images/login.png'); vertical-align: middle; border: none;"></button>
-	               --%>
+	         
 	                   <button type="button" id="btnSubmit" ><span style ="color:white;" >로그인</span></button>
 	                   <button type="button" id="btnRegister" onclick="location.href='<%= ctxPath %>/member/memberRegister.go'"><span style ="color:black">회원가입 하기</span></button>
 	               </td>
@@ -221,7 +220,7 @@
         <!-- Modal body -->
         <div class="modal-body">
           <div id="idFind">
-             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath()%>/login/idFind.go">
+             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/idSearch.go">
              </iframe>
           </div>
         </div>
@@ -235,7 +234,34 @@
     </div>
   </div>
 	
-	
+  <%-- ****** 비밀번호 찾기 Modal ****** --%>
+  <div class="modal fade" id="passwdFind">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal header -->
+        <div class="modal-header">
+          <h4 class="modal-title">비밀번호 찾기</h4>
+          <button type="button" class="close myclose" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div id="pwFind">
+             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/pwdSearch.go">  
+             </iframe>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+>
 	
 	
 	
