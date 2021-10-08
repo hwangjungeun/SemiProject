@@ -23,5 +23,5 @@
 hs_err_pid*
 
 #공동작업
-FrontController.java
-Command.properties
+C:/Users/82108/git/SemiProject/SemiProject/src/common/controller/FrontController.java
+C:/Users/82108/git/SemiProject/SemiProject/WebContent/WEB-INF/Command.properties
