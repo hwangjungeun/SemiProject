@@ -21,7 +21,8 @@
 			
 			$.ajax({
 				url:"<%= request.getContextPath()%>/product/viewColorOption.go",
-				
+				type:"post",
+				data:{"pseq":"################"}
 			});
 			
 		});
