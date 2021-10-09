@@ -12,7 +12,7 @@ import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
 
-public class MemberDAO implements InterMemberDAO {
+public class MemberDAO_HJE implements InterMemberDAO_HJE {
 
 	private DataSource ds;
 	// DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool) 이다.
@@ -22,7 +22,7 @@ public class MemberDAO implements InterMemberDAO {
 	private AES256 aes;
 	
 	// 기본 생성자
-	public MemberDAO() {
+	public MemberDAO_HJE() {
 		
 		try {
 			Context initContext = new InitialContext();
@@ -126,7 +126,7 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 회원가입을 해주는 메소드 생성
 	@Override
-	public int registerMember(MemberVO member) throws SQLException {
+	public int registerMember(MemberVO_HJE member) throws SQLException {
 
 		int n = 0;
 		
@@ -171,8 +171,8 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 입력받은 paraMap을 가지고 한명의 회원정보를 리턴시켜주는 메소드(로그인처리)
 	@Override
-	public MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException {
-		MemberVO member = null;
+	public MemberVO_HJE selectOneMember(Map<String, String> paraMap) throws SQLException {
+		MemberVO_HJE member = null;
 		
 		
 		try {
@@ -205,7 +205,7 @@ public class MemberDAO implements InterMemberDAO {
 			rs= pstmt.executeQuery();
 			
 			if(rs.next()) {
-				member = new MemberVO();
+				member = new MemberVO_HJE();
 				member.setUserid(rs.getString(1));
 				member.setName(rs.getString(2));
 				member.setEmail( aes.decrypt(rs.getString(3)) );	//복호화
@@ -397,7 +397,7 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 회원의 개인 정보 변경하기
 	@Override
-	public int updateMember(MemberVO member) throws SQLException {
+	public int updateMember(MemberVO_HJE member) throws SQLException {
 
 		int n = 0;
 		

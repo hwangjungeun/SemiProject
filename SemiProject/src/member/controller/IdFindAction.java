@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
+import member.model.InterMemberDAO_HJE;
+import member.model.MemberDAO_HJE;
 
 public class IdFindAction extends AbstractController {
 
@@ -25,7 +25,7 @@ public class IdFindAction extends AbstractController {
 			String email = request.getParameter("email");
 			
 			
-			InterMemberDAO mdao = new MemberDAO();
+			InterMemberDAO_HJE mdao = new MemberDAO_HJE();
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("name", name);
