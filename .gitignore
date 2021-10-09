@@ -18,15 +18,13 @@
 *.zip
 *.tar.gz
 *.rar
-*.js
-*.sql
-*.js
+
+
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 #공동작업
-FrontController.java
-Command.properties
-header.jsp
-footer.jsp
+/SemiProject/src/common/controller/FrontController.java
+/SemiProject/WebContent/WEB-INF/Command.properties
+/SemiProject/src/common/controller/Test1.java
