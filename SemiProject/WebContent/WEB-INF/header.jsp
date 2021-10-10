@@ -11,7 +11,7 @@
 %>
 
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="ko">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -42,12 +42,21 @@
 		padding-left: 0;  
 	}
 	div#footer{
-		background-color: #d9d9d9;
+		background-color: #f2f2f2;
 	}	
 	a.navbar-brand {
 		color: #4d4d4d;
 		font-family: Copperplate, Fantasy;
-		font-size: 25pt;
+		font-size: 28pt;
+	}
+	div#click{
+		font-size: 9pt;
+	}
+	a#Dropdown{
+		font-size: 9pt;
+	}
+	a.nav-link{
+		font-size: 9pt;
 	}
 	span.badge {
 		position: absolute; 
@@ -77,6 +86,16 @@
 	    font-size: 13px;
 	    font-weight: bold;
 	}
+	
+	.bottomArea > a{
+	margin-left:10px;
+	font-size : 10pt;
+	font-weight : bold;
+	color: #ffe6e6;
+	display : inline-block;
+	}
+	
+	
 </style>
 <script type="text/javascript">
 	
@@ -107,6 +126,13 @@
 		
 	});
 	
+	function goLogOut(){
+		
+		// 로그아웃을 처리해주는 페이지로 이동
+		location.href = "<%=request.getContextPath()%>/login/logout.go";
+		
+	}
+	
 	
 </script>
 
@@ -136,8 +162,24 @@
 			</div>
 			
 			<div class="bottomArea ml-auto my-3">
-				<a href="<%= ctxPath %>/login/login.go">LOGIN</a>
+			<c:if test ="${empty sessionScope.loginuser}">
+				<a href="<%= ctxPath %>/login/logintry.go">LOGIN</a>
 				<a href="<%= ctxPath %>/member/memberRegister.go">JOIN US</a>
+			</c:if>
+			
+			<!-- 세션에 로그인 유저 아이디가 있을때 , 즉 로그인 성공 했을 때 -->
+			<c:if test = "${not empty sessionScope.loginuser }">
+			
+                                   어서오세요[<span style="color: black; font-weight: bold;">${(sessionScope.loginuser).name}</span>]님
+                <br/>다양하고 특별한 혜택을 누리세요!
+                 &nbsp; &nbsp;<button type="button" class="btn btn-danger" onclick="goLogOut()">로그아웃</button><br/>
+             
+		    	<a href="<%= ctxPath %>/member/memberRegister.go">MyPage</a>
+			</c:if>
+			<!-- 어드민으로 로그인 했을때 만 매니저 란이 활성화 된다.  -->
+			<c:if test = "${(sessionScope.loginuser).userid == 'admin' }">
+				<a href="#">MANAGER</a>
+			</c:if>
 				<a href="#">NOTICE</a>
 				<a href="#">Q&amp;A</a>
 			</div>
@@ -152,7 +194,7 @@
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="nav mx-auto">
 					<li class="nav-item mx-2"><a class="nav-link" href="<%= ctxPath %>/product/bestList.go">BEST</a></li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li>
+					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li> -->
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="outerDropdown" data-toggle="dropdown">OUTER</a>
 						<div class="dropdown-menu" aria-labelledby="outerDropdown">
@@ -217,8 +259,8 @@
 				           <a class="dropdown-item" href="#">기타</a>
 				         </div>
 					</li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li>
+					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li> -->
+					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li> -->
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
