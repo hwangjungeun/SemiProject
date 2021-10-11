@@ -69,6 +69,6 @@ public class RecentViewProductAction extends AbstractController {
 		}
 */		
 		
-	}
+	}// end of public void execute(HttpServletRequest request, HttpServletResponse response)----------------------------------
 
 }
