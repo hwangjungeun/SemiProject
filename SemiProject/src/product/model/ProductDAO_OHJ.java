@@ -174,8 +174,56 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 	}// end of public List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap)-----------------------
 
 	
-	
-	
+	// 제품번호,옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
+	@Override
+	public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException {
+		
+		List<POptionVO_OHJ> orderList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select cimage, pname, cname, price, point " + 
+						 " from tbl_product P JOIN tbl_poption O " + 
+						 " ON P.pseq = O.fk_pseq " + 
+						 " JOIN tbl_pcolor C " + 
+						 " ON O.fk_cseq = C.cseq " + 
+						 " where pseq = ? and opseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pseq"));
+			pstmt.setString(2, paraMap.get("opseq"));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				POptionVO_OHJ povo = new POptionVO_OHJ();
+				povo.setCimage(rs.getString(1));
+				
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
+				pvo.setPname(rs.getString(2));
+				
+				PColorVO_OHJ pcvo = new PColorVO_OHJ();
+				pcvo.setCname(rs.getString(3));
+				
+				pvo.setPrice(rs.getInt(4));
+				pvo.setPoint(rs.getInt(5));
+				
+				povo.setPvo(pvo);
+				povo.setPcvo(pcvo);
+				
+				orderList.add(povo);
+				
+			}// end of if------------------------------------------------
+			
+		} finally {
+			close();
+		}
+		
+		return orderList;
+	}// end of public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap)-----------------------
+
 	
 	
 }

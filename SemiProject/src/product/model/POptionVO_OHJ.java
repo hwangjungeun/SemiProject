@@ -9,7 +9,9 @@ public class POptionVO_OHJ {
 	private int cnt; 		// 옵션재고량
 	
 	private PColorVO_OHJ pcvo; // 부모테이블인 PColorVO_OHJ를 select용.
+	private ProductVO_OHJ pvo; // 부모테이블인 ProductVO_OHJ를 select용.
 
+	
 	public String getOpseq() {
 		return opseq;
 	}
@@ -59,7 +61,14 @@ public class POptionVO_OHJ {
 	public void setPcvo(PColorVO_OHJ pcvo) {
 		this.pcvo = pcvo;
 	}
-	
-	
+	// select용
+	public ProductVO_OHJ getPvo() {
+		return pvo;
+	}
+
+	public void setPvo(ProductVO_OHJ pvo) {
+		this.pvo = pvo;
+	}
+
 	
 }

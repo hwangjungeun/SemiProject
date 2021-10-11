@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="../header.jsp" />
@@ -278,6 +279,52 @@
 	});// end of $(document).ready(function(){})----------------------------
 	
 	
+	// Function Declaration
+	
+	// == 체크박스 전체선택 / 전체해제 == //
+	function fun_allCheck(bool){
+		
+		// console.log("확인용 bool => " + bool);
+		
+		var arrProduct_order = document.getElementsByName("product_order");
+		
+		for(var i=0; i<arrProduct_order.length; i++){
+			arrProduct_order[i].checked = bool; /* 넘어온게 true면 true, false면 false */
+		}// end of for-------------------------------
+			
+	}// end of function fun_allCheck(bool){}----------------------------
+	
+	
+	// == 체크박스 전체선택 / 전체해제 에서 
+	//    하위 체크박스에 체크가 1개라도 체크가 해제되면 체크박스 전체선택/전체해제 체크박스도 체크가 해제되고
+	//    하위 체크박스에 체크가 모두 체크가 되어지면  체크박스 전체선택/전체해제 체크박스도 체크가 되어지도록 하는 것 == // 
+	function fun_orderCheck(){
+		
+		var arrProduct_order = document.getElementsByName("product_order");
+		
+		var bFlag = false;
+		for(var i=0; i<arrProduct_order.length; i++){
+			
+			if( !arrProduct_order[i].checked ){
+				// 하위 체크박스(주문하고자하는 제품 체크박스)에 체크가 1개라도 체크가 해제되면
+				bFlag = true;
+				break; /* 더이상 나머지 체크박스에 해제된게 있는지 확인할 필요는 없음 */
+			}
+			
+		}// end of for---------------------------------
+		
+		if(bFlag){
+			// 하위 체크박스(주문하고자하는 제품 체크박스)에 체크가 1개라도 체크가 해제되면
+			document.getElementById("allCheck").checked = false;
+		}
+		else{
+			// 하위 체크박스(주문하고자하는 제품 체크박스)에 모두가 체크가 된 경우라면
+			document.getElementById("allCheck").checked = true;
+		}
+		
+	}// end of function fun_orderCheck(){-------------------------------
+	
+	
 	// 결제하기 버튼 클릭시, 배송 정보를 넘겨줘야함.
 	function goPurchase(){
 		
@@ -309,10 +356,8 @@
 	//	frm.method = "get"; // (memberRegister회원가입정보는 비공개)#################################################################################
 	//	frm.submit();//#######################################################################################################################
 		
-	
 	}// end of function goPurchase()------------------------------------------------
- 
-	
+ 	
 </script>
 
 	<div class = "container px-0">
@@ -340,89 +385,107 @@
   		<!-- 혜택정보 끝 -->
 		
 		
-		<!-- 국내배송상품 주문내역 테이블 시작 -->
+		
+		
+		
+		
+		
+		
+		
+		
 		<div style="margin-top: 30px; font-weight: bold; font-size: 12px;">국내배송상품 주문내역</div>
 		
-		<div class="table-responsive">
-			<table class="table table-hover">
-				<thead>
-					<tr style="text-align: center;"> <!-- 글자 가운데정렬 -->
-						<th>
-							<!-- 모두선택/해제 => /JavaScriptStudy/WebContent/05checkbox/01checkBoxTest.html를 참고함. -->
-							<input type="checkbox" id="allCheck" onClick="fun_allCheck(this.checked);" />
-						</th>
-						<th>이미지</th>
-						<th>상품정보</th>
-						<th>판매가</th>
-						<th>수량</th>
-						<th>적립금</th>
-						<th>배송구분</th>
-						<th>배송비</th>
-						<th>합계</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="verticalM" align="center"> <!-- 모두선택/해제 => 이 부분의 name,id,value 등은 값 바꿔줘야해~~~ -->
-							<input type="checkbox" name="product_china" id="product_china1" value="china01" onclick="fun_chinaCheck()" />
-						</td>
-						<td class="verticalM" align="center"><img alt="305.jpg" src="../images/305.jpg" width="90" height="100"></td>
-						<td class="verticalM">
-							<strong>상품명이 들어갈 곳 (BURNER) chemi autumn pants (2color) *당일배송가능*</strong>
-							<ul style="margin-top: 15px;">
-								<li>[옵션: 아이보리/S]</li>
-							</ul>
-						</td>
-						<td class="verticalM" align="center"><strong>29,000원</strong></td>
-						<td class="verticalM" align="center">
-							<span>1</span>
-						</td>
-						<td class="verticalM" align="center">
-							<img alt="301coins.png" src="../images/301coins.png" width="15" height="15">
-							<span>290원</span>
-						</td>
-						<td class="verticalM" align="center"><span>기본배송</span></td>
-						<td class="verticalM" align="center">
-							<div>[고정]</div>
-						</td>
-						<td class="verticalM" align="center"><strong>29,000원</strong></td>
-					</tr>
-					<tr>
-						<td class="verticalM" align="center"> <!-- 모두선택/해제 => 이 부분의 name,id,value 등은 값 바꿔줘야해~~~ -->
-							<input type="checkbox" name="product_china" id="product_china1" value="china01" onclick="fun_chinaCheck()" />
-						</td>
-						<td class="verticalM" align="center"><img alt="306.jpg" src="../images/306.jpg" width="90" height="100"></td>
-						<td class="verticalM">
-							<strong>상품명이 들어갈 곳 sente knit (3color)</strong>
-							<ul style="margin-top: 15px;">
-								<li>[옵션: 블루]</li>
-							</ul>
-						</td>
-						<td class="verticalM" align="center"><strong>34,000원</strong></td>
-						<td class="verticalM" align="center">
-							<span>1</span>
-						</td>
-						<td class="verticalM" align="center">
-							<img alt="301coins.png" src="../images/301coins.png" width="15" height="15">
-							<span>340원</span>
-						</td>
-						<td class="verticalM" align="center"><span>기본배송</span></td>
-						<td class="verticalM" align="center">
-							<div>[고정]</div>
-						</td>
-						<td class="verticalM" align="center"><strong>34,000원</strong></td>
-					</tr>
-					<tr style="border-bottom: 1px solid #d9d9d9;">
-						<td></td>
-						<td colspan="8">
-							<div style="float: left;">[기본배송]</div>
-							<div style="float: right;">상품구매금액 63,000 + 배송비 2,500 = 합계 : 65,500원</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<!-- 국내배송상품 주문내역 테이블 끝 -->
+		<!-- orderList가 존재하는지 존재안하는지에 따라 달라짐. 시작-->
+		<c:if test="${empty requestScope.orderList}"> <!-- 없든지 텅빈거다. -->
+			<h4 style="border-top: solid 1px #d9d9d9; border-bottom: solid 1px #d9d9d9; padding-top: 50px; padding-bottom: 50px;" align="center">주문하고자하는 내역에 일치하는 상품 또는 색상이 존재하지 않습니다.</h4>
+		</c:if>
+		
+		<c:if test="${not empty requestScope.orderList}">
+		
+			<!-- 국내배송상품 주문내역 테이블 시작 -->
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr style="text-align: center;"> <!-- 글자 가운데정렬 -->
+							<th>
+								<!-- 모두선택/해제 => /JavaScriptStudy/WebContent/05checkbox/01checkBoxTest.html를 참고함. -->
+								<input type="checkbox" id="allCheck" onClick="fun_allCheck(this.checked);" />
+							</th>
+							<th>이미지</th>
+							<th>상품정보</th>
+							<th>판매가</th>
+							<th>수량</th>
+							<th>적립금</th>
+							<th>배송구분</th>
+							<th>배송비</th>
+							<th>합계</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						<c:forEach var="povo" items="${requestScope.orderList}" >
+							
+							<tr>
+								<td class="verticalM" align="center"> <!-- 모두선택/해제 -->
+									<input type="checkbox" name="product_order" onclick="fun_orderCheck()" />
+								</td>
+								<td class="verticalM" align="center"><img alt="${povo.cimage}" src="../images/${povo.cimage}" width="90" height="100"></td>
+								<td class="verticalM">
+									<strong>${povo.pvo.pname} (2color)</strong>
+									<ul style="margin-top: 15px;">
+										<li>[옵션: ${povo.pcvo.cname}]</li>
+									</ul>
+								</td>
+								<td class="verticalM" align="center"><strong>${povo.pvo.price}원</strong></td>
+								<td class="verticalM" align="center">
+									<span>1</span>
+								</td>
+								<td class="verticalM" align="center">
+									<img alt="301coins.png" src="../images/301coins.png" width="15" height="15">
+									<span>${povo.pvo.point}원</span>
+								</td>
+								<td class="verticalM" align="center"><span>기본배송</span></td>
+								<td class="verticalM" align="center">
+									<div>[고정]</div>
+								</td>
+								<td class="verticalM" align="center"><strong>${povo.pvo.price}원</strong></td>
+							</tr>
+							
+						</c:forEach>
+						
+						<tr style="border-bottom: 1px solid #d9d9d9;">
+							<td></td>
+							<td colspan="8">
+								<div style="float: left;">[기본배송]</div>
+								<div style="float: right;">상품구매금액 63,000 + 배송비 2,500 = 합계 : 65,500원</div>
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+			<!-- 국내배송상품 주문내역 테이블 끝 -->
+			
+		</c:if>
+		<!-- orderList가 존재하는지 존재안하는지에 따라 달라짐. 끝-->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		<div style="margin-bottom: 10px;">상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</div>
 		<div style="height: 30px;">

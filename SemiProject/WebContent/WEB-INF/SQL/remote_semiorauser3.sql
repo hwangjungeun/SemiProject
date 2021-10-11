@@ -417,6 +417,24 @@ ON W.fk_pseq = P.pseq
 where fk_userid = 'eomjh'
 order by wishseq desc;
 
+--***********************************************************************************************--
+-- 제품번호/옵션번호/주문수량 을 통해 주문FORM테이블 select하기
+-- 이미지,제품명,옵션의 색상명,판매가,수량,(적립금,배송구분,배송비,합계)
+select O.cimage, P.pname, C.cname, P.price, P.point
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+where pseq = 3 and opseq = 4;
+-- 동일함(아래는 P.V.등 테이블명을 안써준거임).
+select cimage, pname, cname, price, point
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+where pseq = 3 and opseq = 4;
+
+
 ----------------------------------------------------------------------------
 show user;
 

@@ -15,4 +15,7 @@ public interface InterProductDAO_OHJ {
 	// 위시리스트 목록을 조회(select)하는 메소드
 	List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap) throws SQLException;
 
+	// 제품번호,옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
+	List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException;
+
 }
