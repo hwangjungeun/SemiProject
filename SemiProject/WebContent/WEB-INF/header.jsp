@@ -265,7 +265,7 @@
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
 				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>

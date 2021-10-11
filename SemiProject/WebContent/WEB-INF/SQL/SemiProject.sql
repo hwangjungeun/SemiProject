@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 create user SEMIORAUSER3 identified by cclass
 default tablespace users;
 
@@ -29,27 +29,6 @@ idle from tbl_member where userid = 'admin';
 
 select * from tbl_member;
 
-
-userid
-pwd
-name
-email
-mobile
-posetcode
-address
-detailaddress
-extraaddress
-birthday
-height
-weight
-topsize
-bottomsize
-point
-registerday
-lastpwdchangedate
-status
-idle
-
 create table tbl_loginhistory
 (fk_userid   varchar2(40) not null 
 ,logindate   date default sysdate not null
@@ -79,7 +58,6 @@ where status = 1 and userid = 'admin' and pwd = '9695b88a59a1610320897fa84cb7e14
  where fk_userid = 'admin'
  ) H;
 
-=======
 -- Semi Project --
 
 show user;
@@ -130,3 +108,53 @@ values('hje0121', '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8
 alter table tbl_member modify topsize varchar2(2) default '-'; 
 alter table tbl_member modify bottomsize varchar2(2) default '-'; 
 >>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
+=======
+show user;
+
+select *
+from tab;
+
+select *
+from tbl_member;
+
+drop table tbl_qna purge;
+
+CREATE TABLE tbl_qna
+( 
+  board_num NUMBER,             -- 글 번호
+  board_id VARCHAR2(50),        -- 글 작성자 
+  board_subject VARCHAR2(100),  -- 글 제목
+  board_content VARCHAR2(2000), -- 글 내용
+  board_count number default 0 not null,          -- 글 조회수
+  board_date date default sysdate, -- 작성일
+  CONSTRAINT PK_tbl_qna PRIMARY KEY(board_num)
+);
+-- Table tbl_qna이(가) 생성되었습니다.
+
+create sequence board_num
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle;
+-- 게시판 시퀀스
+
+drop sequence board_num;
+
+select *
+from tbl_qna;
+
+select board_num, board_id, board_subject, board_content, board_count, board_date
+from tbl_qna;
+
+insert into tbl_qna(board_num, board_subject, board_id, board_count, board_date) values(board_num.nextval,'상품 문의', 'j*****', default, default);
+insert into tbl_qna(board_num, board_subject, board_id, board_count, board_date) values(board_num.nextval,'상품 문의', 'k*****', default, default);
+
+
+commit;
+
+select count(*) -- 207
+from tbl_qna
+where board_id != 'admin';
+
+>>>>>>> refs/heads/kimminkyung

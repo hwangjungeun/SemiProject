@@ -14,6 +14,6 @@
 
 <jsp:include page="./header.jsp" />
 	
-	
+<%-- 	시작페이지 --%>
 	
 <jsp:include page="./footer.jsp" />
