@@ -9,6 +9,7 @@
 	self.close(); // 팝업창 닫기(팝업창이 있으면 닫고, 없으면 닫을 필요 없음)
 	opener.location.reload(true); // 부모창 새로 고침
 //	opener.history.go(0); // 부모창 새로 고침
+
 	/*   
        location.href="javascript:history.go(-2);";  // 이전이전 페이지로 이동 
        location.href="javascript:history.go(-1);";  // 이전 페이지로 이동
@@ -19,4 +20,5 @@
        location.href="javascript:location.reload(true)"; // 현재 페이지로 이동(==새로고침) 서버에 가서 다시 읽어옴. 
        location.href="javascript:history.forward();";    // 다음 페이지로 이동.
 	*/
+	
 </script>
