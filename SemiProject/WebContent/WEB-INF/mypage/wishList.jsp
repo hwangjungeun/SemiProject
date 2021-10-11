@@ -12,6 +12,55 @@
 	}
 	
 </style>
+
+<script type="text/javascript">
+	
+	// Function Declaration
+	// == 체크박스 전체선택 / 전체해제 == //
+	function fun_allCheck(bool){
+		
+		// console.log("확인용 bool => " + bool);
+		
+		var arrProduct_wish = document.getElementsByName("product_wish");
+		
+		for(var i=0; i<arrProduct_wish.length; i++){
+			arrProduct_wish[i].checked = bool; /* 넘어온게 true면 true, false면 false */
+		}// end of for-------------------------------
+			
+	}// end of function fun_allCheck(bool){}----------------------------
+	
+	
+	// == 체크박스 전체선택 / 전체해제 에서 
+	//    하위 체크박스에 체크가 1개라도 체크가 해제되면 체크박스 전체선택/전체해제 체크박스도 체크가 해제되고
+	//    하위 체크박스에 체크가 모두 체크가 되어지면  체크박스 전체선택/전체해제 체크박스도 체크가 되어지도록 하는 것 == // 
+	function fun_wishCheck(){
+		
+		var arrProduct_wish = document.getElementsByName("product_wish");
+		
+		var bFlag = false;
+		for(var i=0; i<arrProduct_wish.length; i++){
+			
+			if( !arrProduct_wish[i].checked ){
+				// 하위 체크박스(위시리스트 제품 체크박스)에 체크가 1개라도 체크가 해제되면
+				bFlag = true;
+				break; /* 더이상 나머지 체크박스에 해제된게 있는지 확인할 필요는 없음 */
+			}
+			
+		}// end of for---------------------------------
+		
+		if(bFlag){
+			// 하위 체크박스(위시리스트 제품 체크박스)에 체크가 1개라도 체크가 해제되면
+			document.getElementById("allCheck").checked = false;
+		}
+		else{
+			// 하위 체크박스(위시리스트 제품 체크박스)에 모두가 체크가 된 경우라면
+			document.getElementById("allCheck").checked = true;
+		}
+		
+	}// end of function fun_wishCheck(){-------------------------------
+	
+	
+</script>
 	
 	<div class = "container px-0">
 	
@@ -53,7 +102,7 @@
 							
 							<tr>
 								<td class="verticalM" align="center"> <!-- 모두선택/해제 => 이 부분의 name,id,value 등은 값 바꿔줘야해~~~ -->
-									<input type="checkbox" name="product_china" id="product_china1" value="china01" onclick="fun_chinaCheck()" />
+									<input type="checkbox" name="product_wish" onclick="fun_wishCheck()" />
 								</td>
 								<td class="verticalM" align="center"><img alt="${wlvo.povo.cimage}" src="../images/${wlvo.povo.cimage}" width="90" height="100"></td>
 								<td class="verticalM">
