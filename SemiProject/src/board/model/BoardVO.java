@@ -81,5 +81,6 @@ public class BoardVO {
 		this.board_date = board_date;
 	}
 
+
 	
 }

@@ -37,7 +37,7 @@ select board_num, board_id, board_subject, board_content, board_count, board_dat
 from tbl_qna;
 
 insert into tbl_qna(board_num, board_subject, board_id, board_count, board_date) values(board_num.nextval,'상품 문의', 'j*****', default, default);
-
+insert into tbl_qna(board_num, board_subject, board_id, board_count, board_date) values(board_num.nextval,'상품 문의', 'k*****', default, default);
 
 commit;
 

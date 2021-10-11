@@ -103,6 +103,7 @@ public class BoardDAO implements InterBoardDAO {
  	            
  	            if(rs.next()) {
  	               
+
  	               BoardVO bvo = new BoardVO();
  	               bvo.setBoard_num(rs.getInt(1));
  	               bvo.setBoard_id(rs.getString(2));
