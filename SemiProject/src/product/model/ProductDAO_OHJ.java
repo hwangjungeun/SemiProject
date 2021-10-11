@@ -47,7 +47,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select pname, pimage, price " + 
+			String sql = " select pname, pimage, price, pseq " + 
 						 " from tbl_recentViewProduct V JOIN tbl_product P " + 
 						 " ON V.fk_pseq = P.pseq " + 
 						 " where fk_userid = ? " + 
@@ -66,6 +66,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 				pvo.setPname(rs.getString(1));
 				pvo.setPimage(rs.getString(2));
 				pvo.setPrice(rs.getInt(3));
+				pvo.setPseq(rs.getString(4));
 				rvpvo.setPvo(pvo);
 				
 				productList.add(rvpvo);
@@ -77,7 +78,43 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		}
 		
 		return productList;
-	}// end of public List<ProductVO> selectRecentViewProduct(Map<String, String> paraMap)------------------------------
+	}// end of public List<ProductVO> selectRecentViewProduct(Map<String, String> paraMap)-----------------------
+
+	
+	// 제품번호를 이용해서 옵션(색상의 종류)을 조회(select)하는 메소드
+	@Override
+	public List<Map<String, String>> viewColorOption(String pseq) throws SQLException {
+		
+		List<Map<String, String>> colorList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select C.cname " + 
+						 " from tbl_product P JOIN tbl_poption O " + 
+						 " ON P.pseq = O.fk_pseq " + 
+						 " JOIN tbl_pcolor C " + 
+						 " ON O.fk_cseq = C.cseq " + 
+						 " where P.pseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,  pseq);
+			
+			rs = pstmt.executeQuery();	
+			
+			while(rs.next()) {
+				Map<String, String> map = new HashMap<>();
+				map.put("CNAME", rs.getString(1));
+				
+				colorList.add(map);
+			}// end of while--------------------------------------
+			
+		} finally {
+			close();
+		}
+		
+		return colorList;
+	}// end of public List<Map<String, String>> viewColorOption(String pseq)-------------------------------------
 
 	
 	

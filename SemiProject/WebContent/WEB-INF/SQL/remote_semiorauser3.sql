@@ -337,6 +337,9 @@ values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',2,sysdate);
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'leess',2,sysdate);
 
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',3,sysdate);
+
 
 -- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
 select pimage, pname, price, fk_sseq, viewday
@@ -347,13 +350,13 @@ order by viewday desc;
 
 
 -- V.fk_userid, V.fk_pseq, V.viewday, P.pseq, P.pname, P.pimage, P.price
-select P.pname, P.pimage, P.price
+select P.pname, P.pimage, P.price, P.pseq
 from tbl_recentViewProduct V JOIN tbl_product P
 ON V.fk_pseq = P.pseq
 where V.fk_userid = 'eomjh'
 order by viewday desc;
 -- 동일함(아래는 P.V.등 테이블명을 안써준거임).
-select pname, pimage, price
+select pname, pimage, price, pseq
 from tbl_recentViewProduct V JOIN tbl_product P
 ON V.fk_pseq = P.pseq
 where fk_userid = 'eomjh'
@@ -382,7 +385,10 @@ ON O.fk_cseq = C.cseq;
 -- 이거 최근본상품,제품,옵션,색상을 묶은건데 사용할 곳 없음.
 
 
+
 ----------------------------------------------------------------------------
+show user;
+
 select * from tbl_categoryU;
 select * from tbl_categoryL;
 select * from tbl_product;
