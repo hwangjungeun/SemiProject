@@ -218,11 +218,14 @@ span#delayred {
 				   	<br><br>
 				   	
 				   </td>
+<<<<<<< HEAD
                 </tr>
 
 				   
 				   
 		        </tr>
+=======
+>>>>>>> refs/heads/kimminkyung
 		 </table>
 </div>
 <br>

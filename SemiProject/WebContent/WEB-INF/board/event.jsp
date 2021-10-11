@@ -27,6 +27,7 @@
 #contents {
     position: relative;
     margin: 0 auto;
+<<<<<<< HEAD
     min-height: 750px;
 }
 
@@ -155,4 +156,3 @@ a.btnBasic {
 </div>
 
 <jsp:include page="../footer.jsp" />
-
