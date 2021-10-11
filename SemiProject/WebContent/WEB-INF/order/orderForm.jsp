@@ -317,8 +317,8 @@
 
 	<div class = "container px-0">
 		
-		<div class="border border-muted mx-auto" style="display:table; width:150px; height:25px; text-align: center;">
-			<h4 class="h4" style="display:table-cell; vertical-align: middle">ORDER FORM</h4> <!-- 세로방향으로 가운데정렬 -->
+		<div class="border border-muted mx-auto" style="display:table; width:150px; height:30px; text-align: center;">
+			<h3 class="h3" style="display:table-cell; vertical-align: middle">ORDER FORM</h3> <!-- 세로방향으로 가운데정렬 -->
 		</div>
 		<br>
 	
