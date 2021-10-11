@@ -8,7 +8,7 @@ public class RecentViewProdVO_OHJ {
 	private String viewday;   // 최근본일자
 	
 	private ProductVO_OHJ pvo; 	// 부모테이블인 ProductVO를 select용.(tbl_product와 tbl_recentViewProduct의 JOIN) 
-							// 제품에 대한 모든 정보가 들어옴
+							    // 제품에 대한 모든 정보가 들어옴
 	
 	public String getRecentseq() {
 		return recentseq;
