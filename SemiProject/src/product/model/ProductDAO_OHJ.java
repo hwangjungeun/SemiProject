@@ -117,6 +117,63 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 	}// end of public List<Map<String, String>> viewColorOption(String pseq)-------------------------------------
 
 	
+	// 위시리스트 목록을 조회(select)하는 메소드
+	@Override
+	public List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap) throws SQLException {
+		
+		List<WishListVO_OHJ> wishList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select cimage, pname, cname, price, point " + 
+						 " from tbl_wishlist W JOIN tbl_poption O " + 
+						 " ON W.fk_opseq = O.opseq " + 
+						 " JOIN tbl_pcolor C " + 
+						 " ON O.fk_cseq = C.cseq " + 
+						 " JOIN tbl_product P " + 
+						 " ON W.fk_pseq = P.pseq " + 
+						 " where fk_userid = ? " + 
+						 " order by wishseq desc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				WishListVO_OHJ wlvo = new WishListVO_OHJ();
+				
+				POptionVO_OHJ povo = new POptionVO_OHJ();
+				povo.setCimage(rs.getString(1));
+				
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
+				pvo.setPname(rs.getString(2));
+				
+				PColorVO_OHJ pcvo = new PColorVO_OHJ();
+				pcvo.setCname(rs.getString(3));
+				
+				pvo.setPrice(rs.getInt(4));
+				pvo.setPoint(rs.getInt(5));
+				
+				povo.setPcvo(pcvo);
+				
+				wlvo.setPovo(povo);
+				wlvo.setPvo(pvo);
+				
+				wishList.add(wlvo);
+				
+			}// end of while------------------------------------------------
+			
+		} finally {
+			close();
+		}
+		
+		return wishList;
+	}// end of public List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap)-----------------------
+
+	
 	
 	
 	

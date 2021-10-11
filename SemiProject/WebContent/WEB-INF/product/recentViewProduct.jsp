@@ -75,12 +75,14 @@
 		
 		
 		
-		<!-- 최근본상품 리스트 테이블 시작 -->
+		<!-- productList가 존재하는지 존재안하는지에 따라 달라짐. 시작 -->
 		<c:if test="${empty requestScope.productList}"> <!-- 없든지 텅빈거다. -->
 			<h4 style="border-top: solid 1px #d9d9d9; border-bottom: solid 1px #d9d9d9; padding-top: 50px; padding-bottom: 50px;" align="center">최근 본 상품 내역이 없습니다.</h4>
 		</c:if>
 		
 		<c:if test="${not empty requestScope.productList}">
+		
+			<!-- 최근본상품 리스트 테이블 시작 -->
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
@@ -124,24 +126,23 @@
 				</table>
 			</div>
 			<!-- 최근본상품 리스트 테이블 끝 -->
+			
+			<!-- 페이지바 시작 -->
+			<nav>
+			  <ul class="pagination justify-content-center" style="margin-top: 30px;">
+			  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
+			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
+			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
+			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">2</span></a></li>
+			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">3</span></a></li>
+			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;</span></a></li> 
+			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
+			  </ul>
+			</nav>
+			<!-- 페이지바 끝 -->
+			
 		</c:if>
-		
-		
-		
-		
-		<!-- 페이지바 시작 -->
-		<nav>
-		  <ul class="pagination justify-content-center" style="margin-top: 30px;">
-		  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
-		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
-		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
-		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">2</span></a></li>
-		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">3</span></a></li>
-		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;</span></a></li> 
-		    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
-		  </ul>
-		</nav>
-		<!-- 페이지바 끝 -->
+		<!-- productList가 존재하는지 존재안하는지에 따라 달라짐. 끝 -->
 		
 		
 	</div>

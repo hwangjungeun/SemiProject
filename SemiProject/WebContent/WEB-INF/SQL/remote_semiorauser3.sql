@@ -190,10 +190,12 @@ create table tbl_wishlist
 (wishseq       NUMBER                    -- 위시리스트번호
 ,fk_userid     VARCHAR2(40) not null     -- 회원아이디 
 ,fk_pseq       NUMBER(8)    not null     -- 제품번호
+,fk_opseq      NUMBER       not null     -- 옵션번호
 
 ,constraint PK_tbl_wishlist primary key(wishseq)
 ,constraint FK_tbl_wishlist foreign key(fk_userid) references tbl_member(userid)
 ,constraint FK_tbl_wishlist2 foreign key(fk_pseq) references tbl_product(pseq)
+,constraint FK_tbl_wishlist3 foreign key(fk_opseq) references tbl_poption(opseq)
 );
 --Table TBL_WISHLIST이(가) 생성되었습니다.
 
@@ -326,7 +328,7 @@ commit;
 desc tbl_product;
 desc tbl_poption;
 
----------------------------------------------------------------------------------
+--***********************************************************************************************--
 -- 최근 본 상품 insert
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',1,sysdate);
@@ -339,7 +341,6 @@ values(seq_tbl_rvProduct_recentseq.nextval,'leess',2,sysdate);
 
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',3,sysdate);
-
 
 -- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
 select pimage, pname, price, fk_sseq, viewday
@@ -384,10 +385,42 @@ JOIN tbl_pcolor C
 ON O.fk_cseq = C.cseq;
 -- 이거 최근본상품,제품,옵션,색상을 묶은건데 사용할 곳 없음.
 
+--***********************************************************************************************--
+-- 위시리스트 insert
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',3,4);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',1,1);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'leess',2,2);
+commit;
 
+-- drop table tbl_wishlist purge;
+-- drop sequence seq_tbl_wishlist_wishseq;
+
+-- 위시리스트 dao
+-- 이미지,상품명,옵션의 색상명,판매가,적립금,(배송구분,배송비,합계)
+select O.cimage, P.pname, C.cname, P.price, P.point
+from tbl_wishlist W JOIN tbl_poption O
+ON W.fk_opseq = O.opseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+JOIN tbl_product P
+ON W.fk_pseq = P.pseq
+where fk_userid = 'eomjh'
+order by wishseq desc;
+-- 동일함(아래는 P.V.등 테이블명을 안써준거임).
+select cimage, pname, cname, price, point
+from tbl_wishlist W JOIN tbl_poption O
+ON W.fk_opseq = O.opseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+JOIN tbl_product P
+ON W.fk_pseq = P.pseq
+where fk_userid = 'eomjh'
+order by wishseq desc;
 
 ----------------------------------------------------------------------------
 show user;
+
+select * from tab;
 
 select * from tbl_categoryU;
 select * from tbl_categoryL;
@@ -404,3 +437,4 @@ select * from tbl_member; -- leess, eomjh
 
 desc tbl_member;
 desc tbl_recentViewProduct;
+desc tbl_wishlist;
