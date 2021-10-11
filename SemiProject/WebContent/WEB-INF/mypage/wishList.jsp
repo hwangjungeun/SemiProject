@@ -101,7 +101,7 @@
 						<c:forEach var="wlvo" items="${requestScope.wishList}" >
 							
 							<tr>
-								<td class="verticalM" align="center"> <!-- 모두선택/해제 => 이 부분의 name,id,value 등은 값 바꿔줘야해~~~ -->
+								<td class="verticalM" align="center"> <!-- 모두선택/해제 -->
 									<input type="checkbox" name="product_wish" onclick="fun_wishCheck()" />
 								</td>
 								<td class="verticalM" align="center"><img alt="${wlvo.povo.cimage}" src="../images/${wlvo.povo.cimage}" width="90" height="100"></td>
