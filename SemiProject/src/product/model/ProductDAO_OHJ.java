@@ -47,7 +47,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select pname, pimage, price, pseq " + 
+			String sql = " select pname, pimage, price, pseq, recentseq " + 
 						 " from tbl_recentViewProduct V JOIN tbl_product P " + 
 						 " ON V.fk_pseq = P.pseq " + 
 						 " where fk_userid = ? " + 
@@ -68,6 +68,8 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 				pvo.setPrice(rs.getInt(3));
 				pvo.setPseq(rs.getString(4));
 				rvpvo.setPvo(pvo);
+				
+				rvpvo.setRecentseq(rs.getString(5));
 				
 				productList.add(rvpvo);
 				

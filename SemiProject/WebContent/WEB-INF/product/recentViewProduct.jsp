@@ -62,7 +62,44 @@
 			
 		});// end of $("select#colorOptSelect").click(function(){})------------------------------------------------
 		
+		
 	});// end of $(document).ready(function(){})----------------------------------------------------------------------------
+	
+	
+	// Function Declaration
+	
+	// 주문폼 작성시 필요한, 주문예정내역을 보내주는 함수
+	function goOrderForm(recentseq){
+		
+	//	console.log("확인용 recentseq => " + recentseq);
+		
+	//	console.log("확인용 => " + $('select#'+recentseq).html());
+		
+		
+		// jquery로 값 가져오기(★select태그의 id값을 이용해 선택된 값 읽기)
+		var opseq = $('select#'+recentseq+' option:selected').val();
+		console.log("확인용 select태그에 선택된 값 => " + $('select#'+recentseq+' option:selected').val());
+		// pink, blue가 나온다.
+		
+		
+		// opseq가 지금 pink니까 cname이 아닌 opseq로 받아오도록 해보쟝
+		// opseq만 넘겨도 제품정보 있음.
+		
+	<%-- 
+		// login.jsp 참조함.
+		frm.action = "<%= request.getContextPath()%>/member/coinUpdateLoginUser.up";
+		var url = "<%= request.getContextPath()%>/member/coinPurchaseTypeChoice.up?userid="+userid;
+		frm.method = "POST";
+		frm.submit();
+		
+		// memberList.jsp 참조함.
+		location.href = "<%= ctxPath%>/member/memberOneDetail.up?userid="+userid+"&goBackURL=${requestScope.goBackURL}";
+		// 자바스크립트에서 페이지 이동 													  &goBackURL=/member/memberList.up?currentShowPageNo=5&sizePerPage=5&searchType=name&searchWord=%EC%9C%A0
+		// 					 													  &goBackURL=/member/memberList.up?currentShowPageNo=5 sizePerPage=5 searchType=name searchWord=%EC%9C%A0
+	--%>
+		
+	}// end of function goOrderForm(recentseq)----------------------------------
+	
 	
 </script>
 	
@@ -104,7 +141,7 @@
 									<ul>
 										<li>
 											컬러 : <input type="hidden" value="${rvpvo.pvo.pseq}"/> <br>
-											<select name="colorOptSelect" style="width: 100%"> <!-- select태그의 너비를 양옆으로 쫙 넓힘 --> <!-- select태그가 여러개 나오므로 id말고 name을 줌 -->
+											<select name="colorOptSelect" id="${rvpvo.recentseq}" style="width: 100%"> <!-- select태그의 너비를 양옆으로 쫙 넓힘 --> <!-- select태그가 여러개 나오므로 id말고 name을 줌 -->
 												<option>-[필수]옵션을 선택해 주세요-</option>
 												<!-- <option>아이보리</option>
 												<option>피치[품절]</option> -->
@@ -116,7 +153,7 @@
 								<td class="verticalM" align="center"><strong>${rvpvo.pvo.price}원</strong></td>
 								<td class="verticalM" align="center"> <!-- align을 통해 내부를 가운데정렬 -->
 									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">장바구니</button>
-									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">주문하기</button>
+									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goOrderForm('${rvpvo.recentseq}');">주문하기</button>
 									<button type="button" class="btn btn-outline-secondary" style="display: block;">삭제하기</button>
 								</td>
 							</tr>

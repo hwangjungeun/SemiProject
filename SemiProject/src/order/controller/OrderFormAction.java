@@ -27,6 +27,24 @@ public class OrderFormAction extends AbstractController {
 			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신의 주문을 하는 경우
 */				
+				
+				// 상품상세 -> 주문하기
+				// opseq를 배열에 담아서 문자열 결합한거를 넘기면, 주문하기에서 split함.
+				
+				// 위시리스트 -> 주문하기(1개씩, 여러개 주문)
+				// oseq를 배열에 담아서 문자열 결합한거를 넘기면, 주문하기에서 split함.
+				
+				// 최근본상품 -> 주문하기(1개씩 주문)
+				// 클릭한 옵션색상opseq
+				
+				// 장바구니 -> 주문하기
+				// opseq를 배열에 담아서 문자열 결합한거를 넘기면, 주문하기에서 split함.
+				
+				
+				
+				
+				
+
 				// ######################주문하기로 넘어올때, 제품번호/옵션번호/주문수량을 넘겨줘야함######################
 				String pseq = request.getParameter("pseq"); // 제품번호
 				String opseq = request.getParameter("opseq"); // 옵션번호

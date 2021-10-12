@@ -351,13 +351,13 @@ order by viewday desc;
 
 
 -- V.fk_userid, V.fk_pseq, V.viewday, P.pseq, P.pname, P.pimage, P.price
-select P.pname, P.pimage, P.price, P.pseq
+select P.pname, P.pimage, P.price, P.pseq, V.recentseq
 from tbl_recentViewProduct V JOIN tbl_product P
 ON V.fk_pseq = P.pseq
 where V.fk_userid = 'eomjh'
 order by viewday desc;
 -- 동일함(아래는 P.V.등 테이블명을 안써준거임).
-select pname, pimage, price, pseq
+select pname, pimage, price, pseq, recentseq
 from tbl_recentViewProduct V JOIN tbl_product P
 ON V.fk_pseq = P.pseq
 where fk_userid = 'eomjh'
@@ -456,3 +456,4 @@ select * from tbl_member; -- leess, eomjh
 desc tbl_member;
 desc tbl_recentViewProduct;
 desc tbl_wishlist;
+------------------------------------------------------------------------------
