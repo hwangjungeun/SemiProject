@@ -40,14 +40,20 @@ public class OrderFormAction extends AbstractController {
 				// 장바구니 -> 주문하기
 				// opseq를 배열에 담아서 문자열 결합한거를 넘기면, 주문하기에서 split함.
 				
-				
-				
-				
-				
-
-				// ######################주문하기로 넘어올때, 제품번호/옵션번호/주문수량을 넘겨줘야함######################
-				String pseq = request.getParameter("pseq"); // 제품번호
+		
+				// 주문하기로 넘어올때, 옵션번호/주문수량을 넘겨줌
 				String opseq = request.getParameter("opseq"); // 옵션번호
+			//	System.out.println("확인용 opseq => " + opseq); 
+				
+				// 예를 들어 제품이 여러개라 "4,1"이렇게 넘긴다면 split해줘야함.
+				String[] opseqArr = opseq.split(",");
+				
+				
+				// 배열의 길이만큼 for문을 돌려서 dao로부터 list를 가져오게 해야지~~~
+				// #######################################
+				
+				
+				
 				String oqty = request.getParameter("oqty"); // 주문수량
 				
 				if(oqty == null) {
@@ -56,8 +62,7 @@ public class OrderFormAction extends AbstractController {
 				
 				InterProductDAO_OHJ pdao = new ProductDAO_OHJ();
 				
-				Map<String,String> paraMap = new HashMap<>(); // paraMap에 where절 조건 담을꺼야(제품번호,옵션번호)
-				paraMap.put("pseq", pseq);
+				Map<String,String> paraMap = new HashMap<>(); // paraMap에 where절 조건 담을꺼야(옵션번호)
 				paraMap.put("opseq", opseq);
 				
 				List<POptionVO_OHJ> orderList = pdao.selectOrderList(paraMap);
