@@ -92,7 +92,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select C.cname " + 
+			String sql = " select C.cname, O.opseq " + 
 						 " from tbl_product P JOIN tbl_poption O " + 
 						 " ON P.pseq = O.fk_pseq " + 
 						 " JOIN tbl_pcolor C " + 
@@ -107,6 +107,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			while(rs.next()) {
 				Map<String, String> map = new HashMap<>();
 				map.put("CNAME", rs.getString(1));
+				map.put("OPSEQ", rs.getString(2));
 				
 				colorList.add(map);
 			}// end of while--------------------------------------
@@ -176,7 +177,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 	}// end of public List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap)-----------------------
 
 	
-	// 제품번호,옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
+	// 옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
 	@Override
 	public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException {
 		
@@ -190,11 +191,10 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 						 " ON P.pseq = O.fk_pseq " + 
 						 " JOIN tbl_pcolor C " + 
 						 " ON O.fk_cseq = C.cseq " + 
-						 " where pseq = ? and opseq = ? ";
+						 " where opseq = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("pseq"));
-			pstmt.setString(2, paraMap.get("opseq"));
+			pstmt.setString(1, paraMap.get("opseq"));
 			
 			rs = pstmt.executeQuery();
 			
@@ -225,6 +225,36 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		return orderList;
 	}// end of public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap)-----------------------
+
+	
+	// 최근본상품에서 해당제품의 목록을 삭제(delete)하는 메소드
+	@Override
+	public boolean deleteRecentViewProd(String recentseq) throws SQLException {
+		
+		boolean deleted = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_recentViewProduct " + 
+						 " where recentseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, recentseq);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				// 목록삭제 성공되어짐.
+				deleted = true;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return deleted;
+	}// end of public boolean deleteRecentViewProd(String recentseq)-------------------
 
 	
 	
