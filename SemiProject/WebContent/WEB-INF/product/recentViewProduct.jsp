@@ -221,6 +221,7 @@
 			<!-- 최근본상품 리스트 테이블 끝 -->
 			
 			<!-- 페이지바 시작 -->
+			<!-- 
 			<nav>
 			  <ul class="pagination justify-content-center" style="margin-top: 30px;">
 			  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
@@ -232,7 +233,17 @@
 			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
 			  </ul>
 			</nav>
+			 -->
 			<!-- 페이지바 끝 -->
+			
+			
+			<nav class="my-5"> <!-- 페이지바는 페이지네비게이션(pagination) 이용 -->
+				<div style="display: flex; width: 80%;"> <!-- flex를 통해 딱 가운데로 오게할 수 있음 -->
+					<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
+				</div>
+			</nav>
+			
+			
 			
 		</c:if>
 		<!-- productList가 존재하는지 존재안하는지에 따라 달라짐. 끝 -->

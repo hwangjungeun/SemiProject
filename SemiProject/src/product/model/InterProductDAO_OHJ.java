@@ -17,6 +17,9 @@ public interface InterProductDAO_OHJ {
 	// 최근본상품에서 해당제품의 목록을 삭제(delete)하는 메소드
 	boolean deleteRecentViewProd(String recentseq) throws SQLException;
 	
+	// 페이지바를 만들기 위해서 해당userid의 최근본상품 목록에 대한 총페이지수 알아오기(select) 
+	int getTotalPage(String userid) throws SQLException;
+	
 	
 	
 	
@@ -30,6 +33,8 @@ public interface InterProductDAO_OHJ {
 	// == 주문== //
 	// 옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
 	List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException;
+
+	
 
 	
 

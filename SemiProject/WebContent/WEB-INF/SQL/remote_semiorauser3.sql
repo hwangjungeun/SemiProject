@@ -376,6 +376,23 @@ order by viewday desc;
 -- 최근본상품 목록을 보여줄때, 색상옵션은 생각할 필요가 없다. -> 우선 이걸로 최근본상품 목록을 보여주고,
 -- 옵션 select태그를 사용자가 누르면, change이벤트가 발생하면 ajax로 처리.
 
+-- 위의 이거에 페이지바를 추가하려면 아래와 같이 해야한다.#####################################
+select pname, pimage, price, pseq, recentseq
+from
+(
+    select rownum AS RNO, pname, pimage, price, pseq, recentseq
+    from tbl_recentViewProduct V JOIN tbl_product P
+    ON V.fk_pseq = P.pseq
+    where fk_userid = 'eomjh'
+    order by viewday desc
+) T
+where T.RNO between 3 and 4;
+
+-- 해당 userid에 맞는 최근본상품목록 총 페이지수
+select ceil(count(*)/2)
+from tbl_recentViewProduct
+where fk_userid = 'eomjh';
+
 
 select P.pname, C.cname, O.opseq
 from tbl_product P JOIN tbl_poption O

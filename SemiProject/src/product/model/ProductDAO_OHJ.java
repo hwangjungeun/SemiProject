@@ -46,15 +46,32 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		try {
 			conn = ds.getConnection();
-			
+		/*	
 			String sql = " select pname, pimage, price, pseq, recentseq " + 
 						 " from tbl_recentViewProduct V JOIN tbl_product P " + 
 						 " ON V.fk_pseq = P.pseq " + 
 						 " where fk_userid = ? " + 
 						 " order by viewday desc ";
+		*/	
+			String sql = " select pname, pimage, price, pseq, recentseq " + 
+						 " from " + 
+						 " ( " + 
+						 "     select rownum AS RNO, pname, pimage, price, pseq, recentseq " + 
+						 "     from tbl_recentViewProduct V JOIN tbl_product P " + 
+						 "     ON V.fk_pseq = P.pseq " + 
+						 "     where fk_userid = ? " + 
+						 "     order by viewday desc " + 
+						 " ) T " + 
+						 " where T.RNO between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = 2; // 한 페이지당 화면상에 보여줄 제품의 개수는 2 으로 한다.
+			
 			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 공식
 			
 			rs = pstmt.executeQuery();
 			
@@ -255,6 +272,37 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		return deleted;
 	}// end of public boolean deleteRecentViewProd(String recentseq)-------------------
+
+	
+	// 페이지바를 만들기 위해서 해당userid의 최근본상품 목록에 대한 총페이지수 알아오기(select) 
+	@Override
+	public int getTotalPage(String userid) throws SQLException {
+		
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil(count(*)/2) " + // 2이 sizePerPage 이다.
+						 " from tbl_recentViewProduct " + 
+						 " where fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next(); // 무조건 나오므로 if할 필요 없다.
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+	}// end of public int getTotalPage(String userid)-----------------------------------
 
 	
 	
