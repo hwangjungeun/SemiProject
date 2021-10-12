@@ -41,14 +41,15 @@ public class ViewColorOptionAction extends AbstractController {
 			jsobj.put("CNAME", map.get("CNAME"));
 			// {"CNAME":"blue"}
 			// {"CNAME":"pink"}
+			jsobj.put("OPSEQ", map.get("OPSEQ"));
 			
 			jsonArr.put(jsobj);
-			// [{"CNAME":"blue"},{"CNAME":"pink"}]
+			// [{"OPSEQ":"3","CNAME":"blue"},{"OPSEQ":"4","CNAME":"pink"}]
 		}// end of for-------------------------------------
 		
 		String json = jsonArr.toString();
 	//	System.out.println(">>> 확인용 json ==> " + json);
-		// >>> 확인용 json ==> [{"CNAME":"blue"},{"CNAME":"pink"}]
+		// >>> 확인용 json ==> [{"OPSEQ":"3","CNAME":"blue"},{"OPSEQ":"4","CNAME":"pink"}]
 		
 		request.setAttribute("json", json);
 		
