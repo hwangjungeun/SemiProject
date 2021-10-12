@@ -46,7 +46,7 @@
 					 	
 					 	$.each(json,function(index,item){
 					 		
-					 		html += "<option>"+item.CNAME+"</option>";
+					 		html += "<option value="+item.OPSEQ+">"+item.CNAME+"</option>";
 					 		
 					 	});// json을 반복문 돌림.
 					 	
@@ -68,37 +68,92 @@
 	
 	// Function Declaration
 	
+	// 해당 제품을 장바구니페이지로 보내주는 함수(그러면 거기서 테이블에 insert도 할꺼임.)
+	function goCart(recentseq){
+		
+		opseq = selectedOpseq(recentseq);
+		
+		if(opseq == 0){
+			alert("필수 옵션을 선택해주세요.");
+		}
+		else{
+			// 자바스크립트에서 페이지 이동 (최근본상품->장바구니)
+			location.href = "<%= request.getContextPath()%>/order/basket.go?userid=eomjh&opseq="+opseq;
+			//																userid=${(sessionScope.loginuser).userid}로 나중에 변경해야함##################################
+		}
+		
+	}// end of function goCart(recentseq){}------------------------------------
+	
+	
 	// 주문폼 작성시 필요한, 주문예정내역을 보내주는 함수
 	function goOrderForm(recentseq){
 		
 	//	console.log("확인용 recentseq => " + recentseq);
 		
-	//	console.log("확인용 => " + $('select#'+recentseq).html());
+		opseq = selectedOpseq(recentseq);
+	//	console.log("받아온 opseq => " + opseq);
 		
-		
-		// jquery로 값 가져오기(★select태그의 id값을 이용해 선택된 값 읽기)
-		var opseq = $('select#'+recentseq+' option:selected').val();
-		console.log("확인용 select태그에 선택된 값 => " + $('select#'+recentseq+' option:selected').val());
-		// pink, blue가 나온다.
-		
-		
-		// opseq가 지금 pink니까 cname이 아닌 opseq로 받아오도록 해보쟝
-		// opseq만 넘겨도 제품정보 있음.
-		
-	<%-- 
-		// login.jsp 참조함.
-		frm.action = "<%= request.getContextPath()%>/member/coinUpdateLoginUser.up";
-		var url = "<%= request.getContextPath()%>/member/coinPurchaseTypeChoice.up?userid="+userid;
-		frm.method = "POST";
-		frm.submit();
-		
-		// memberList.jsp 참조함.
-		location.href = "<%= ctxPath%>/member/memberOneDetail.up?userid="+userid+"&goBackURL=${requestScope.goBackURL}";
-		// 자바스크립트에서 페이지 이동 													  &goBackURL=/member/memberList.up?currentShowPageNo=5&sizePerPage=5&searchType=name&searchWord=%EC%9C%A0
-		// 					 													  &goBackURL=/member/memberList.up?currentShowPageNo=5 sizePerPage=5 searchType=name searchWord=%EC%9C%A0
-	--%>
+		if(opseq == 0){
+			alert("필수 옵션을 선택해주세요.");
+		}
+		else{
+			// 자바스크립트에서 페이지 이동 (최근본상품->주문하기)
+			location.href = "<%= request.getContextPath()%>/order/orderForm.go?userid=eomjh&opseq="+opseq;
+			//																   userid=${(sessionScope.loginuser).userid}로 나중에 변경해야함##################################
+		}
 		
 	}// end of function goOrderForm(recentseq)----------------------------------
+	
+	
+	// select태그에 선택된 value값을 알아오는 함수
+	function selectedOpseq(recentseq){
+		
+	//	console.log("확인용 => " + $('select#'+recentseq).html());
+		
+		// jquery로 값 가져오기(★select태그의 id값을 이용해 선택된 값 읽기)
+		var opseq = $('select#'+recentseq+' option:selected').val(); // opseq가 0이면 선택을 안한거다.
+	//	console.log("확인용 select태그에 선택된 값 => " + opseq);
+		// blue에 해당하는 3, pink에 해당하는 4가 나온다. -> opseq
+		
+		return opseq;
+	}// end of function selectedOpseq(recentseq)-----------------------------------
+	
+	
+	// 해당 상품을 최근에본목록에서 삭제하는 함수
+	function deleteRecentViewProd(recentseq){
+		
+		// 정말로 삭제하시겠습니까?
+		var bool = confirm("정말로 삭제하시겠습니까?");
+		console.log("확인용 bool => " + bool);
+		
+		if(bool){
+		
+			$.ajax({
+				url:"<%= request.getContextPath()%>/product/deleteRecentViewProd.go",
+				type:"poST", // 안쓰면 기본 get방식임.
+				data:{"recentseq":recentseq},
+				dataType:"json",
+	    		success:function(json){
+	    			
+	    			if(json.deleted){
+	    				alert("성공적으로 삭제되었습니다.");
+	    			}
+	    			else{
+	    				alert("삭제가 실패되었습니다ㅠ.ㅠ");
+	    			}
+	    			
+	    		},
+	    		error: function(request, status, error){
+	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+			});
+		
+		}
+		
+		// 삭제하고 난 이후에는 웹브라우저창을 새로고침해야함.
+		location.href="javascript:history.go(0)";
+		 
+	}// end of function deleteRecentViewProd(rentseq)---------------------------------------------------
 	
 	
 </script>
@@ -142,7 +197,7 @@
 										<li>
 											컬러 : <input type="hidden" value="${rvpvo.pvo.pseq}"/> <br>
 											<select name="colorOptSelect" id="${rvpvo.recentseq}" style="width: 100%"> <!-- select태그의 너비를 양옆으로 쫙 넓힘 --> <!-- select태그가 여러개 나오므로 id말고 name을 줌 -->
-												<option>-[필수]옵션을 선택해 주세요-</option>
+												<option value="0">-[필수]옵션을 선택해 주세요-</option>
 												<!-- <option>아이보리</option>
 												<option>피치[품절]</option> -->
 											</select>
@@ -152,9 +207,10 @@
 								</td>
 								<td class="verticalM" align="center"><strong>${rvpvo.pvo.price}원</strong></td>
 								<td class="verticalM" align="center"> <!-- align을 통해 내부를 가운데정렬 -->
-									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">장바구니</button>
-									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goOrderForm('${rvpvo.recentseq}');">주문하기</button>
-									<button type="button" class="btn btn-outline-secondary" style="display: block;">삭제하기</button>
+									<c:set var="recentseq" value="${rvpvo.recentseq}" />
+									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goCart(${recentseq});">장바구니</button>
+									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goOrderForm(${recentseq});">주문하기</button>
+									<button type="button" class="btn btn-outline-secondary" style="display: block;" onclick="deleteRecentViewProd(${recentseq});">삭제하기</button>
 								</td>
 							</tr>
 							

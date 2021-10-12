@@ -322,7 +322,15 @@ values(seq_tbl_poption_opseq.nextval,3,4,'303_blue.jpg',3);
 insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
 values(seq_tbl_poption_opseq.nextval,3,6,'303_pink.jpg',2);
 --------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,5,'moreover blouse','304_0.jpg',39000,'MD추천♥ 드레이프한 디자인의 블라우스에요>< 넥라인에 자연스러운 주름이 잡혀 여성스러운 느낌을 주면서 차분하고 안정된 컬러로 모던하게 연출하기 좋답니다:) 실키한 소재감으로 터치감이 너무 좋았구요, 은은하게 포인트를 주어 연출하기 좋은 블라우스로 추천드려요!',39000*0.01,sysdate);
 
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,12,1,'304_black.jpg',2);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,12,3,'304_gray.jpg',2);
+--------------------------------------------------------------------------------------
 commit;
 
 desc tbl_product;
@@ -341,6 +349,9 @@ values(seq_tbl_rvProduct_recentseq.nextval,'leess',2,sysdate);
 
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',3,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',12,sysdate);
 
 -- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
 select pimage, pname, price, fk_sseq, viewday
@@ -366,14 +377,13 @@ order by viewday desc;
 -- 옵션 select태그를 사용자가 누르면, change이벤트가 발생하면 ajax로 처리.
 
 
-select P.pname, C.cname
+select P.pname, C.cname, O.opseq
 from tbl_product P JOIN tbl_poption O
 ON P.pseq = O.fk_pseq
 JOIN tbl_pcolor C
 ON O.fk_cseq = C.cseq
 where P.pseq = '3';
 -- 해당하는 제품에 옵션으로, 무슨 색상들이 있는지 보여줌.
-
 
 
 select *
@@ -418,22 +428,26 @@ where fk_userid = 'eomjh'
 order by wishseq desc;
 
 --***********************************************************************************************--
--- 제품번호/옵션번호/주문수량 을 통해 주문FORM테이블 select하기
+-- 옵션번호/주문수량 을 통해 주문FORM테이블 select하기
 -- 이미지,제품명,옵션의 색상명,판매가,수량,(적립금,배송구분,배송비,합계)
 select O.cimage, P.pname, C.cname, P.price, P.point
 from tbl_product P JOIN tbl_poption O
 ON P.pseq = O.fk_pseq
 JOIN tbl_pcolor C
 ON O.fk_cseq = C.cseq
-where pseq = 3 and opseq = 4;
+where opseq = 4;
 -- 동일함(아래는 P.V.등 테이블명을 안써준거임).
 select cimage, pname, cname, price, point
 from tbl_product P JOIN tbl_poption O
 ON P.pseq = O.fk_pseq
 JOIN tbl_pcolor C
 ON O.fk_cseq = C.cseq
-where pseq = 3 and opseq = 4;
+where opseq = 4;
 
+--***********************************************************************************************--
+-- 최근본상품목록에서 해당하는seq 지우기
+delete from tbl_recentViewProduct
+where recentseq = ? ;
 
 ----------------------------------------------------------------------------
 show user;
