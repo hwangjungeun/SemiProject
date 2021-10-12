@@ -37,8 +37,8 @@
 
 #공동작업
 *.sql
-/Semi_Project/src/common/controller/AbstractController.java
-/Semi_Project/src/common/controller/FrontController.java
-/Semi_Project/WebContent/WEB-INF/Command.properties
-/Semi_Project/WebContent/WEB-INF/header.jsp
-/Semi_Project/WebContent/WEB-INF/footer.jsp
+/SemiProject/src/common/controller/AbstractController.java
+/SemiProject/src/common/controller/FrontController.java
+/SemiProject/WebContent/WEB-INF/Command.properties
+/SemiProject/WebContent/WEB-INF/header.jsp
+/SemiProject/WebContent/WEB-INF/footer.jsp
