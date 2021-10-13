@@ -15,8 +15,8 @@ public class RecentViewProductAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 최근본상품을 보기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
-/*		if( super.checkLogin(request) ) {
+/*		// 최근본상품을 보기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
+		if( super.checkLogin(request) ) {
 			// 로그인을 했으면
 			
 			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
@@ -27,7 +27,6 @@ public class RecentViewProductAction extends AbstractController {
 			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신이 최근본상품을 보는 경우
 */				
-				
 				String currentShowPageNo = request.getParameter("currentShowPageNo");
 				// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
 		        // 최근본상품 목록을 처음볼때에는 currentShowPageNo 은 null 이 된다.
@@ -37,7 +36,7 @@ public class RecentViewProductAction extends AbstractController {
 					currentShowPageNo = "1";
 				}
 				
-				// 한 페이지당 화면상에 보여줄 제품의 개수는 2 으로 한다. sizePerPage 는 ProductDAO 에서 상수로 설정해 두었음.(넘겨줄 필요 없음.)
+				// 한 페이지당 화면상에 보여줄 제품의 개수는 3 으로 한다. sizePerPage 는 ProductDAO 에서 상수로 설정해 두었음.(넘겨줄 필요 없음.)
 				
 				// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자가 아닌 문자를 입력한 경우 또는 
 		        //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
@@ -66,11 +65,11 @@ public class RecentViewProductAction extends AbstractController {
 				
 				String pageBar = ""; // 뷰단에 들어갈 <li>태그
 				
-				int blockSize = 1; // 10 => 1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				int blockSize = 2; // 10 => 2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 				
 				int loop = 1;
-				// loop는 "1부터 증가"하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개@@@@@@@@@@@@@@@@=> 1개@@@@@@@@@@@@@@@@@@@@)까지만 증가하는 용도이다. 
+				// loop는 "1부터 증가"하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개@@@@@@@@@@@@@@@@=> 2개@@@@@@@@@@@@@@@@@@@@)까지만 증가하는 용도이다. 
 				
 				// !!! 아래는 pageNo 를 구하는 공식이다. !! //
 				int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
@@ -83,18 +82,18 @@ public class RecentViewProductAction extends AbstractController {
 				
 				// **** [맨처음][이전] 만들기 **** //
 				if(pageNo != 1) {
-					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo=1&userid=eomjh'>[맨처음]</a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+(pageNo-1)+"&userid=eomjh'>[이전]</a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo=1&userid=eomjh'><span class='text-dark' aria-hidden='true'>&lt;&lt;</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+(pageNo-1)+"&userid=eomjh'><span class='text-dark' aria-hidden='true'>&lt;</span></a></li></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				}
 				
 				
 				while( !(loop > blockSize || pageNo > totalPage) ) { // loop가 11이 되어지면 탈출. // 전체페이지수보다 많으면 탈출.
 					
 					if( pageNo == Integer.parseInt(currentShowPageNo) ) {
-						pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>"; // 페이지바에서, 현재 내가 클릭한 페이지수 표시(부트스트랩의 active)
+						pageBar += "<li class='page-item active'><a class='page-link' href='#' style='background-color: #ffe6e6; border-color: #ffe6e6;' ><span class='text-dark' style='background-color: #ffe6e6; border-color: #ffe6e6;' >"+pageNo+"</span></a></li>"; // 페이지바에서, 현재 내가 클릭한 페이지수 표시(부트스트랩의 active)
 					}
 					else {
-						pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+pageNo+"&userid=eomjh'>"+pageNo+"</a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+						pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+pageNo+"&userid=eomjh'><span class='text-dark'>"+pageNo+"</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 					}
 					
 					loop++; // 1 2 3 4 5 6 7 8 9 10 (총 10번 반복)
@@ -111,8 +110,8 @@ public class RecentViewProductAction extends AbstractController {
 				// **** [다음][마지막] 만들기 **** //
 				// while문을 빠져나올때, pageNo ==> 11
 				if( pageNo <= totalPage ) { // while문의 탈출조건인 pageNo > totalPage가 아닌 경우
-					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+pageNo+"&userid=eomjh'>[다음]</a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+totalPage+"&userid=eomjh'>[마지막]</a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+pageNo+"&userid=eomjh'><span class='text-dark' aria-hidden='true'>&gt;</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					pageBar += "<li class='page-item'><a class='page-link' href='recentViewProduct.go?currentShowPageNo="+totalPage+"&userid=eomjh'><span class='text-dark' aria-hidden='true'>&gt&gt;</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				}
 				
 				
@@ -122,7 +121,7 @@ public class RecentViewProductAction extends AbstractController {
 				
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/product/recentViewProduct.jsp");
-/*				
+/*		
 			}
 			else {
 				// 로그인한 사용자가 다른 사용자의 최근본상품을 보려고 시도하는 경우 
@@ -148,7 +147,7 @@ public class RecentViewProductAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-*/		
+*/	
 		
 	}// end of public void execute(HttpServletRequest request, HttpServletResponse response)----------------------------------
 

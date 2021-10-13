@@ -331,7 +331,36 @@ values(seq_tbl_poption_opseq.nextval,12,1,'304_black.jpg',2);
 insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
 values(seq_tbl_poption_opseq.nextval,12,3,'304_gray.jpg',2);
 --------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,6,'chemi autumn pants','305_0.jpg',29000,'가을버전의 버너데님 보여드려요 ! 코튼 소재로 제작된 팬츠로 탄탄한 소재로 데일리하게 입기 좋은 팬츠에요! 적당히 여유있는 일자핏의 팬츠로 블랙과 아이보리의 베이직한 컬러로 보여드릴게요 ♡',29000*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,13,1,'305_black.jpg',2);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,13,2,'305_white.jpg',4);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,4,'sente knit','306_0.jpg',34000,'단가라로 포인트 주기좋은 베이직한 니트예요! 밑단과 소맷단의 탄탄한 시보리라인으로 슬림한 허리라인 연출이 가능한 아이템입니다 ! 손등을 덮는 소매길이로 여리여리한 연출이 가능한 니트입니다 ! 총 세가지 컬러 보여드릴게요',34000*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,14,4,'306_blue.jpg',7);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,14,2,'306_white.jpg',1);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,4,'pomme knit','307_0.jpg',22100,'크롭기장의 꽈배기 니트 보여드려요 ! 부드러운 감촉이 매력적이 제품으로로 까슬거림없이 착용가능한 니트제품입니다 ! 적당한 두께감으로 단독으로 착용하거나 한겨울 이너로도 착용하기 좋은 두께감으로 자주 손이 갈 아이템입니다 .',22100*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,15,5,'307_green.jpg',2);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,15,2,'307_white.jpg',3);
+--------------------------------------------------------------------------------------
 commit;
+
+select * from tbl_product;
 
 desc tbl_product;
 desc tbl_poption;
@@ -352,6 +381,15 @@ values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',3,sysdate);
 
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',12,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',13,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',14,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',15,sysdate);
 
 -- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
 select pimage, pname, price, fk_sseq, viewday

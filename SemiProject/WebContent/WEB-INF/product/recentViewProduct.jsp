@@ -77,9 +77,18 @@
 			alert("필수 옵션을 선택해주세요.");
 		}
 		else{
-			// 자바스크립트에서 페이지 이동 (최근본상품->장바구니)
-			location.href = "<%= request.getContextPath()%>/order/basket.go?userid=eomjh&opseq="+opseq;
-			//																userid=${(sessionScope.loginuser).userid}로 나중에 변경해야함##################################
+			
+			// POST방식으로 전송하기위해 폼태그 사용
+			var frm = document.RecentViewProdFrm;
+			frm.opseq.value = opseq; // 필수옵션을 폼태그의 value값에 넣어줌.
+			
+			frm.action = "<%= request.getContextPath()%>/order/basket.go";
+			frm.method = "POST";
+			frm.submit();
+			
+			// 장바구니에 POST방식으로 전송하면, 거기서 장바구니 테이블에 해당 제품을 insert할꺼다.
+			// insert가 되면 최근본상품테이블에 있는 해당 제품도 delete해줄꺼다.
+			
 		}
 		
 	}// end of function goCart(recentseq){}------------------------------------
@@ -174,6 +183,7 @@
 		
 		<c:if test="${not empty requestScope.productList}">
 		
+			
 			<!-- 최근본상품 리스트 테이블 시작 -->
 			<div class="table-responsive">
 				<table class="table table-hover">
@@ -218,31 +228,22 @@
 					</tbody>
 				</table>
 			</div>
+			
+			
+			<!-- 장바구니에 POST방식으로 넘기기 위한 폼태그 -->
+			<form name="RecentViewProdFrm">
+				<input type="hidden" name="opseq" value="" />
+			</form>
+
 			<!-- 최근본상품 리스트 테이블 끝 -->
 			
+			
+			
 			<!-- 페이지바 시작 -->
-			<!-- 
-			<nav>
-			  <ul class="pagination justify-content-center" style="margin-top: 30px;">
-			  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">2</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">3</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;</span></a></li> 
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
-			  </ul>
+			<nav> <!-- 페이지바는 페이지네비게이션(pagination) 이용 -->
+				<ul class="pagination justify-content-center" style="margin-top: 30px;">${requestScope.pageBar}</ul>
 			</nav>
-			 -->
 			<!-- 페이지바 끝 -->
-			
-			
-			<nav class="my-5"> <!-- 페이지바는 페이지네비게이션(pagination) 이용 -->
-				<div style="display: flex; width: 80%;"> <!-- flex를 통해 딱 가운데로 오게할 수 있음 -->
-					<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
-				</div>
-			</nav>
-			
 			
 			
 		</c:if>

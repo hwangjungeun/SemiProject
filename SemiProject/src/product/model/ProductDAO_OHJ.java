@@ -67,7 +67,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			pstmt = conn.prepareStatement(sql);
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = 2; // 한 페이지당 화면상에 보여줄 제품의 개수는 2 으로 한다.
+			int sizePerPage = 3; // 한 페이지당 화면상에 보여줄 제품의 개수는 3 으로 한다.
 			
 			pstmt.setString(1, paraMap.get("userid"));
 			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
@@ -283,7 +283,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select ceil(count(*)/2) " + // 2이 sizePerPage 이다.
+			String sql = " select ceil(count(*)/3) " + // 3이 sizePerPage 이다.
 						 " from tbl_recentViewProduct " + 
 						 " where fk_userid = ? ";
 			
