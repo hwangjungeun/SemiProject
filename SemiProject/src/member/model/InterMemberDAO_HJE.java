@@ -13,5 +13,4 @@ public interface InterMemberDAO_HJE {
 	// 회원가입을 해주는 메소드 (insert into tbl_member)
 	int registerMember(MemberVO_HJE member) throws SQLException;
 	
-	
 }
