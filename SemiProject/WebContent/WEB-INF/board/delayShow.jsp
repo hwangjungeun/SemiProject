@@ -122,7 +122,7 @@ span#delayred {
 }
 .button {
 	width: 100px;
-	height: 35px;
+	height: 32px;
 	border: 1px solid #8c8c8c;
     float: right;
     text-align: center;

@@ -13,23 +13,27 @@ import board.model.BoardDAO;
 import board.model.BoardVO;
 import board.model.InterBoardDAO;
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
 
 public class QnaListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
-			String method = request.getMethod();
-			
 			InterBoardDAO bdao = new BoardDAO();
+			
+			String board_id = request.getParameter("board_id");
+			String board_subject = request.getParameter("board_subject");
+			String board_content = request.getParameter("board_content");
+			if(board_id != null && board_subject != null && board_content != null) {
+				bdao.register(board_id,board_subject,board_content);
+			
+			}
+			
 			
 			List<BoardVO> boardList =  bdao.selectPagingboard();
 			
-			// System.out.println("확인용 boardList " + boardList);
+			
+			/////////////////////////////////////////////////////
 			
 			request.setAttribute("boardList", boardList);
 			

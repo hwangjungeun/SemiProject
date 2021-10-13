@@ -62,7 +62,7 @@ div.typeWrite{
 }
 
 table.tbl {
-    width: 1250px;
+    width: 1150px;
     margin: auto;
     border-top: 0.8px solid #dfdfdf;
     border-bottom: 1.5px solid #dfdfdf;
@@ -101,6 +101,9 @@ p.searchresult {
 	color: #737373;
 	font-size: 9pt;
 }
+form {
+	margin-left: 60px;
+}
 input {
     height: 22px;
     line-height: 22px;
@@ -111,7 +114,6 @@ input {
     font-size: 12px;
 }
 select {
-    display: inline-block;
     min-width: 100px;
     height: 22px;
     line-height: 22px;
@@ -154,7 +156,7 @@ a.btn {
 
 			<colgroup>
 			<col style="width:100px;">
-			<col style="width:900;">
+			<col style="width:800;">
 			<col style="width:100px;">
 			<col style="width:100px;" class="">
 			</colgroup>
@@ -171,7 +173,7 @@ a.btn {
 				<tr id="bt">
 				<td>공지</td>
                     <td class="subject">
-                        <strong> <a href="<%=ctxPath%>/board/delayShow.go" style="color:#555555;">10/1 금 기준 입고 예정일 안내</a> <img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image"><span class="txtEm"></span></strong>
+                        <strong> <a href="<%=ctxPath%>/board/delayShow.go" style="color:#555555;">10/15 금 기준 입고 예정일 안내</a> <img src="http://img.echosting.cafe24.com/design/skin/admin/ko_KR/ico_hit.gif" alt="HIT" class="ec-common-rwd-image"><span class="txtEm"></span></strong>
                     </td>
                     <td>oh! daily</td>
                     <td class="">2021-10-15</td>

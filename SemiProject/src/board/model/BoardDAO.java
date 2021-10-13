@@ -93,7 +93,7 @@ public class BoardDAO implements InterBoardDAO {
  	      try {
  	         conn = ds.getConnection();
  	         
- 	         String sql = " select board_num, board_id, board_subject, board_count, board_date "
+ 	         String sql = " select board_num, board_id, board_subject, board_content, board_count, board_date "
  	        		 	+ " from tbl_qna "; 
  	         
  	            
@@ -101,15 +101,15 @@ public class BoardDAO implements InterBoardDAO {
  
  	            rs = pstmt.executeQuery();
  	            
- 	            if(rs.next()) {
+ 	            while(rs.next()) {
  	               
-
  	               BoardVO bvo = new BoardVO();
  	               bvo.setBoard_num(rs.getInt(1));
  	               bvo.setBoard_id(rs.getString(2));
  	               bvo.setBoard_subject(rs.getString(3));
- 	               bvo.setBoard_count(rs.getInt(4));
- 	               bvo.setBoard_date(rs.getDate(5));
+ 	               bvo.setBoard_content(rs.getString(4));
+ 	               bvo.setBoard_count(rs.getInt(5));
+ 	               bvo.setBoard_date(rs.getDate(6));
  	               
  	               boardList.add(bvo);
  	               
@@ -125,35 +125,31 @@ public class BoardDAO implements InterBoardDAO {
  	}// public List<BoardVO> selectPagingboard()----------------------
 
  	
-    
-	// 글 작성시키는 메소드 (qna_board 테이블에 insert)
+ // 글 작성시키는 메소드
  	@Override
- 	public int registerQna(BoardVO board) throws SQLException {
- 		
- 		int n = 0;
- 		
- 		try {
- 			conn = ds.getConnection();
- 			
- 			String sql = " insert into tbl_qna(board_id, board_subject, board_content) "     
- 	                   + " values(?, ?, ?) "; 
- 			
- 			pstmt = conn.prepareStatement(sql);
- 			
- 			pstmt.setString(1, board.getBoard_id());
- 			pstmt.setString(2, board.getBoard_subject());
- 			pstmt.setString(3, board.getBoard_content());
- 			
- 	        n = pstmt.executeUpdate();
- 	        
- 		} catch (SQLException e) {
- 			e.printStackTrace();
- 		} finally {
- 			close();
- 		}
- 		
- 		return n;
- 	}// end of public int registerQna(BoardVO board)---------------------------
+ 	public void register(String board_id, String board_subject, String board_content) throws SQLException {
+
+  		try {
+  			conn = ds.getConnection();
+  			
+  			String sql = " insert into tbl_qna(board_num, board_id, board_subject, board_content, board_count, board_date) "
+  					   + " values(board_num.nextval, ?, ?, ?, default, default) ";
+  			
+  			pstmt = conn.prepareStatement(sql);
+  			
+  			pstmt.setString(1, board_id);
+  			pstmt.setString(2, board_subject);
+  			pstmt.setString(3, board_content);
+  			
+  	        pstmt.executeUpdate();
+  	        
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		} finally {
+  			close();
+  		}
+  		
+ 	}
 
  	
  	
@@ -246,6 +242,8 @@ public class BoardDAO implements InterBoardDAO {
 		return bvo;
 	}// end of public BoardVO boardOneDetail(String board_num)-------------------------------------------------------
 
+	
+	
 
 	    
 }

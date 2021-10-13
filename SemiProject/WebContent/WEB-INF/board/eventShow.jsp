@@ -114,7 +114,7 @@ tr.view {
 }
 .button {
 	width: 100px;
-	height: 35px;
+	height: 32px;
 	border: 1px solid #808080;
     float: right;
     text-align: center;

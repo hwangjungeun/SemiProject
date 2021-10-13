@@ -8,6 +8,7 @@ public class BoardVO {
 	private String board_id;		// 글 작성자
 	private	String board_subject;	// 글 제목
 	private String board_content;	// 글 내용
+	private String board_pwd;		// 글 비밀번호
 //	private String board_file;		// 첨부파일 이름
 	private int board_count;		// 글 조회수
 	private Date board_date;		// 글 작성일
@@ -16,11 +17,12 @@ public class BoardVO {
 	
 	public BoardVO() {}
 	   
-	   public BoardVO(String board_id, String board_subject, String board_content) {
+	   public BoardVO(String board_id, String board_subject, String board_content, String board_pwd) {
 	     
 		   this.board_id = board_id;
 		   this.board_subject = board_subject;
 		   this.board_content = board_content; 
+		   this.board_pwd = board_pwd;
 	//	   this.board_file = board_file;
 
 	   }
@@ -56,7 +58,16 @@ public class BoardVO {
 	public void setBoard_content(String board_content) {
 		this.board_content = board_content;
 	}
-/*	
+	
+	public String getBoard_pwd() {
+		return board_pwd;
+	}
+
+	public void setBoard_pwd(String board_pwd) {
+		this.board_pwd = board_pwd;
+	}
+
+	/*	
 	public String getBoard_file() {
 		return board_file;
 	}

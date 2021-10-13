@@ -53,25 +53,33 @@ p.desc {
 #contents {
    /*  position: relative; */
     margin: auto;
-    min-height: 1300px;
+    min-height: 600px;
 }
 
-table {
-	width: 1200px;
+table#boardTbl {
+	width: 1100px;
 	margin: auto;
+	border-top: 1.5px solid #dfdfdf;
+    border-bottom: 1.5px solid #dfdfdf;
+    line-height: 3.5;
+    border-left: hidden;
+    border-right: hidden;
+    margin-top: 20px;
 }
 
 th {
 	text-align: center;
+	border-bottom: 0.5px solid #dfdfdf;
 }
 
 td {
 	text-align: center;
+	border-bottom: 0.5px solid #dfdfdf;
 }
 
 select#searchType {
     display: inline-block;
-    margin-left: 60px;
+    margin-left: 75px;
     min-width: 100px;
     height: 22px;
     line-height: 22px;
@@ -114,7 +122,7 @@ span.button {
     float: right;
     text-align: center;
     padding: 5px;
-    margin-right: 60px;
+    margin-right: 75px;
 }
 
 </style>
@@ -129,18 +137,38 @@ span.button {
    $(document).ready(function(){
 	   
 	 
+	   $("td#board_num").click(function(){
+		   var board_num = $(this).next().next().next().next().next().text();	
+		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
+	   });
+	   $("td#board_subject").click(function(){
+		   var board_num = $(this).next().next().next().next().text();	
+		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
+	   });
+	   $("td#board_id").click(function(){
+		   var board_num = $(this).next().next().next().text();	
+		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
+	   });
+	   $("td#board_count").click(function(){
+		   var board_num = $(this).next().next().text();	
+		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
+	   });
+	   $("td#board_date").click(function(){
+		   var board_num = $(this).next().text();	
+		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
+	   });
       
    });// end of $(document).ready(function(){})----------------------------------
 
-   // Function Declaration
-   function goList(){
-	   var frm = document.boardFrm;
-	   frm.action = "qnaList.go";
-	   frm.method = "GET";
-	   frm.submit();
-   }
+   
+   
+   
+   
+   
+   
    
 </script>
+
 
 <div id="container">
     <div id="contents">
@@ -152,7 +180,7 @@ span.button {
     	
 	<br>
    
-	    <table id="boardTbl" class="table table-bordered" style="width: 90%; margin-top: 20px;">
+	    <table id="boardTbl" class="tbl">
 	    	<colgroup>
 			    <col style="width:100px;">
 				<col style="width:750px;">
@@ -173,17 +201,18 @@ span.button {
 		    <tbody>
 		         <c:forEach var="bvo" items="${requestScope.boardList}">
 		            <tr>
-		               <td>${bvo.board_num}</td>
-		               <td>${bvo.board_subject}</td>
-		               <td>${bvo.board_id}</td>
-		               <td>${bvo.board_count}</td>
-		               <td>${bvo.board_date}</td>
+		               <td id="board_num">${bvo.board_num}</td>
+		               <td id="board_subject">${bvo.board_subject}</td>
+		               <td id="board_id">${bvo.board_id}</td>
+		               <td id="board_count">${bvo.board_count}</td>
+		               <td id="board_date">${bvo.board_date}</td>
+   					   <td style="display:none">${bvo.board_num}</td>
 		            </tr>
 		         </c:forEach>
 		     </tbody>
      	</table>
      
-     	<br>
+     	<br><br>
      
 	     <form name="memberFrm">
 	     	<p> 
@@ -211,7 +240,7 @@ span.button {
 	      
 	    <nav class="my-5">
 	      	 <div style="display: flex; width::80%;">
-	      	 	<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
+	      	 	<%-- <ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul> --%>
 	      	 </div>	 			
 	    </nav>
       

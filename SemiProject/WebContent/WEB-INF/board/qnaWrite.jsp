@@ -75,16 +75,27 @@ input {
 textarea {
 	border: 1px solid #d5d5d5;
 }
-
-span.button {
-	width: 100px;
-	height: 35px;
-	border: 1px solid #b3b3b3;
+/*
+input {
+	border: solid 1px white;
+	border-bottom: solid 1px #d5d5d5;
+	
+}
+*/
+button {
+	width: 90px;
+	height: 31px;
+	border: 1px solid #8c8c8c;
+	background-color: #ffffff;
     float: right;
     text-align: center;
-    padding: 6px;
-    margin-right: 125px;
-	font-size: 9pt;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 120px;
+}
+button#btn {
+	background-color: #444444;
+	color: #ffffff;
 }
 
 
@@ -97,124 +108,117 @@ span.button {
 
 	
 	$(document).ready(function() {
-		$("span.error").hide();
-		$("input#board_id").focus();
 		
-		$("input#board_id").blur(function(){
+		
+			$("span.error").hide();
+			$("input#board_id").focus();
 			
-			var board_id = $(this).val().trim();
-			if(board_id == "") {
-				// 입력하지 않거나 공백만 입력한 경우
-				$("table#tblQnaWrite").prop("disabled",true);
-				$(this).prop("disabled",false);
+			$("input#board_id").blur(function(){
 				
-			//	$(this).next().show();
-			//  또는
-				$(this).parent().find(".error").show();	
-				$(this).focus();
-			}
-			else {
-				// 공백이 아닌 글자를 입력했을 경우
-				$("table#tblQnaWrite :input").prop("disabled",false);
-			//	$(this).next().hide();
+				var board_id = $(this).val().trim();
+				if(board_id == "") {
+					// 입력하지 않거나 공백만 입력한 경우
+					$("table#tbl").prop("disabled",true);
+					$(this).prop("disabled",false);
+					
+				//	$(this).next().show();
+				//  또는
+					$(this).parent().find(".error").show();	
+					$(this).focus();
+				}
+				else {
+					// 공백이 아닌 글자를 입력했을 경우
+					$("table#tbl :input").prop("disabled",false);
+				//	$(this).next().hide();
+					//  또는
+						$(this).parent().find(".error").hide();	
+				
+				}
+				
+			});// 아이디가 board_id 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+			
+			
+			$("input#board_subject").blur(function(){
+				
+				var board_subject = $(this).val().trim();
+				if(board_subject == "") {
+					// 입력하지 않거나 공백만 입력한 경우
+					$("table#tbl :input").prop("disabled",true);
+					$(this).prop("disabled",false);
+					
+				//	$(this).next().next().next().show();
+				//  또는
+					$(this).parent().find(".error").show();	
+					$(this).focus();
+				}
+				else {
+					// 공백이 아닌 글자를 입력했을 경우
+					$("table#tbl :input").prop("disabled",false);
+				//	$(this).next().next().next().hide();
 				//  또는
 					$(this).parent().find(".error").hide();	
-			
-			}
-			
-		});// 아이디가 board_id 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
-		
-		
-		$("input#board_subject").blur(function(){
-			
-			var board_subject = $(this).val().trim();
-			if(board_subject == "") {
-				// 입력하지 않거나 공백만 입력한 경우
-				$("table#tblQnaWrite :input").prop("disabled",true);
-				$(this).prop("disabled",false);
 				
-			//	$(this).next().next().next().show();
-			//  또는
-				$(this).parent().find(".error").show();	
-				$(this).focus();
-			}
-			else {
-				// 공백이 아닌 글자를 입력했을 경우
-				$("table#tblQnaWrite :input").prop("disabled",false);
-			//	$(this).next().next().next().hide();
-			//  또는
-				$(this).parent().find(".error").hide();	
-			
-			}
-			
-		});// 아이디가 board_subject 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
-		
-		$("input#board_content").blur(function(){
-			
-			var board_content = $(this).val().trim();
-			if(board_content == "") {
-				// 입력하지 않거나 공백만 입력한 경우
-				$("table#tblQnaWrite :input").prop("disabled",true);
-				$(this).prop("disabled",false);
+				}
 				
-			//	$(this).next().next().next().show();
-			//  또는
-				$(this).parent().find(".error").show();	
-				$(this).focus();
-			}
-			else {
-				// 공백이 아닌 글자를 입력했을 경우
-				$("table#tblQnaWrite :input").prop("disabled",false);
-			//	$(this).next().next().next().hide();
-			//  또는
-				$(this).parent().find(".error").hide();	
+			});// 아이디가 board_subject 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 			
-			}
+			$("input#board_content").blur(function(){
+				
+				var board_content = $(this).val().trim();
+				if(board_content == "") {
+					// 입력하지 않거나 공백만 입력한 경우
+					$("table#tbl :input").prop("disabled",true);
+					$(this).prop("disabled",false);
+					
+				//	$(this).next().next().next().show();
+				//  또는
+					$(this).parent().find(".error").show();	
+					$(this).focus();
+				}
+				else {
+					// 공백이 아닌 글자를 입력했을 경우
+					$("table#tbl :input").prop("disabled",false);
+				//	$(this).next().next().next().hide();
+				//  또는
+					$(this).parent().find(".error").hide();	
+				
+				}
+				
+			});// 아이디가 board_content 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 			
-		});// 아이디가 board_content 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
-		
-		
-	});// end of $(document).ready(function(){})-------------------------------
-
-
-
-	// Function Declaration
-
-	// 작성하기
-	function goWrite() {
-
-		// *** 필수입력사항에 모두 입력이 되었는지 검사한다. *** //
-		var boolFlag = false;
-		
-		$("input.requiredInfo").each(function(){
-			var data = $(this).val().trim();
-			if(data == "") {
-				alert("* 표시된 필수입력사항은 모두 입력하셔야 합니다.");
-				boolFlag = true;
-				return false; // break; 라는 뜻이다.
-			}
-		});
-		
-		if(boolFlag) {
-			return; // 종료
-		}
-		
-		var checkboxCheckedLength = $("input:checkbox[id=agree]:checked").length;
-		
-		if(checkboxCheckedLength == 0) {
-			alert("이용약관에 동의하셔야 합니다.");
-			return; // 종료
-		}
-		
-
-		var frm = document.registerFrm;
-		frm.action = "qnaWrite.go";
-		frm.method = "post";
-		frm.submit();
-		
-		
-	}// end of function goRegister()-----------------------------
-
+			
+			$("button#btn").click(function(){
+				
+				
+				var boolFlag = false;
+				
+				$("input.requiredInfo").each(function(){
+					var data = $(this).val().trim();
+					if(data == "") {
+						alert("* 표시된 필수입력사항은 모두 입력하셔야 합니다.");
+						boolFlag = true;
+						return false; // break; 라는 뜻이다.
+					}
+				});
+				
+				if(boolFlag) {
+					return; // 종료
+				}
+				
+				var checkboxCheckedLength = $("input:checkbox[id=agree]:checked").length;
+				
+				if(checkboxCheckedLength == 0) {
+					alert("이용약관에 동의하셔야 합니다.");
+					return; // 종료
+				}
+				
+				var frm = document.registerFrm;
+				frm.action = "<%=ctxPath%>/board/qnaList.go";
+				frm.method = "get";
+				frm.submit();
+			});
+			
+		});// end of $(document).ready(function(){})-------------------------------
 
 
 </script>
@@ -237,6 +241,7 @@ span.button {
 			  	</tr>
 			</thead>
 		    <tbody>
+		    
 			   <tr>
 			      <td style="font-weight: bold;">아이디&nbsp;<span class="star">*</span></td>
 			      <td style="text-align: left;">
@@ -255,7 +260,7 @@ span.button {
 			   <tr>
 			      <td style="font-weight: bold;">내용&nbsp;<span class="star">*</span></td>
 			      <td style="text-align: left;">
-			         <input type="text" name="board_subject" id="board_subject" class="requiredInfo" style="width:650px; height:250px;"/>
+			         <input type="text" name="board_content" id="board_content" class="requiredInfo" style="width:650px; height:250px;"/>
 			         <span class="error">내용은 필수입력 사항입니다.</span>
 			      </td>
 			   </tr>
@@ -272,14 +277,14 @@ span.button {
 			  	</tr>
 		     </tbody>
 		 </table>
-		 
+		 </form>
 		<br><br>
 		
-		<span class="button">	
-		      <a href="<%=ctxPath%>/board/qnaRegister.go">글작성</a> <!-- qnaRegister.go 로 수정하기 -->
-		</span>
+		<button style="margin-right: 120px;" type="button" onclick="javascript:history.back();">취소</button>
+		<button id="btn" style="margin-right: 5px;">등록</button>
+		
 
-		</form>
+		
 	</div>
 </div>
 

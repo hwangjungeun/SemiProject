@@ -33,11 +33,17 @@ drop sequence board_num;
 select *
 from tbl_qna;
 
+delete tbl_qna
+where board_num > 0; 
+
+ 
 select board_num, board_id, board_subject, board_content, board_count, board_date
 from tbl_qna;
 
-insert into tbl_qna(board_num, board_subject, board_id, board_count, board_date) values(board_num.nextval,'상품 문의', 'j*****', default, default);
+
 insert into tbl_qna(board_num, board_subject, board_id, board_count, board_date) values(board_num.nextval,'상품 문의', 'k*****', default, default);
+
+
 
 commit;
 
