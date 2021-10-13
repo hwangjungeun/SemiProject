@@ -2,7 +2,7 @@ package member.model;
 
 import java.util.Calendar;
 
-public class MemberVO {
+public class MemberVO_HJE {
 	private String userid;             // 회원아이디
 	private String pwd; // 비밀번호 (SHA-256 암호화 대상)
 	private String name; // 회원명
@@ -32,9 +32,9 @@ public class MemberVO {
    
    /////////////////////////////////////////////////////////////////////
    
-   public MemberVO() {}
+   public MemberVO_HJE() {}
    
-   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+   public MemberVO_HJE(String userid, String pwd, String name, String email, String mobile, String postcode,
          String address, String detailaddress, String extraaddress) {
       this.userid = userid;
       this.pwd = pwd;
@@ -47,7 +47,7 @@ public class MemberVO {
       this.extraaddress = extraaddress;
    }
    
-   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+   public MemberVO_HJE(String userid, String pwd, String name, String email, String mobile, String postcode,
          String address, String detailaddress, String extraaddress, String birthday, String height, String weight, String topsize, String bottomsize) {
       this.userid = userid;
       this.pwd = pwd;

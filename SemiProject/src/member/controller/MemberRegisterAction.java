@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
+import member.model.InterMemberDAO_HJE;
+import member.model.MemberDAO_HJE;
+import member.model.MemberVO_HJE;
 
 public class MemberRegisterAction extends AbstractController {
 
@@ -45,7 +45,7 @@ public class MemberRegisterAction extends AbstractController {
 			String mobile = hp1 + hp2 + hp3;
 			String birthday = birthyyyy+"-"+birthmm+"-"+birthdd;
 			
-			MemberVO member = new MemberVO(userid, pwd, name, email, mobile, postcode, address, detailAddress, extraAddress, birthday, height, weight, topsize, bottomsize);
+			MemberVO_HJE member = new MemberVO_HJE(userid, pwd, name, email, mobile, postcode, address, detailAddress, extraAddress, birthday, height, weight, topsize, bottomsize);
 
 			/*
 			try {
@@ -76,7 +76,7 @@ public class MemberRegisterAction extends AbstractController {
 			// ### 회원가입이 성공되면 자동으로 로그인 되도록 하겠다
 						
 			try {
-				InterMemberDAO mdao = new MemberDAO();
+				InterMemberDAO_HJE mdao = new MemberDAO_HJE();
 				int n = mdao.registerMember(member);
 				
 				if(n==1) {
