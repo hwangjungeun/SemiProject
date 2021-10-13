@@ -14,8 +14,7 @@ public class QnaShowAction extends AbstractController {
 
 
 		   String method = request.getMethod();
-			
-			
+		
 			if("GET".equalsIgnoreCase(method)) {
 				
 				String board_num = request.getParameter("board_num");
@@ -25,6 +24,7 @@ public class QnaShowAction extends AbstractController {
 				
 				InterBoardDAO bdao = new BoardDAO();
 				BoardVO bvo = bdao.boardOneDetail(board_num);
+				bdao.boardCnt(board_num);
 				
 				request.setAttribute("bvo", bvo);
 				request.setAttribute("board_num", board_num);

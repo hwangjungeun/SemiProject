@@ -243,6 +243,80 @@ public class BoardDAO implements InterBoardDAO {
 	}// end of public BoardVO boardOneDetail(String board_num)-------------------------------------------------------
 
 	
+	// 글 클릭했을때 조회수 받아오는 메소드
+	@Override
+	public void boardCnt(String board_num) throws SQLException {
+
+		int boardCnt = 0;
+		
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select board_count "+
+							 " from tbl_qna "+
+							 " where board_num = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, board_num);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					boardCnt = rs.getInt(1);
+				}
+				////////////////////////////////////////////////////// select문 여러개 나오면 헷갈리니까 주석치기
+				sql = " update tbl_qna set board_count = ? "
+					+ " where board_num = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, (boardCnt+1)+"");
+				pstmt.setString(2, board_num);
+				
+			
+				pstmt.executeUpdate();
+				
+				
+			} catch(SQLException e) {   
+		         e.printStackTrace();
+		    } finally {
+				close();
+			}
+		}
+
+	
+	// 글 정보 수정하기
+	@Override
+	public int updateBoard(BoardVO board) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna set board_id = ? "
+	                   + "                  , board_subject = ? "
+	                   + "                  , board_content = ? "
+	                   + " where board_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, board.getBoard_id());
+			pstmt.setString(2, board.getBoard_subject());
+			pstmt.setString(3, board.getBoard_content());
+			pstmt.setInt(4, board.getBoard_num());
+
+			n = pstmt.executeUpdate();		
+			
+		 } catch(SQLException e) {   
+               e.printStackTrace();   
+         } finally {
+            close();
+         }
+		
+		return n;
+	}
 	
 
 	    

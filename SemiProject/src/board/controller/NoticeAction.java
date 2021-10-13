@@ -7,10 +7,11 @@ import common.controller.AbstractController;
 
 public class NoticeAction extends AbstractController {
 
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+   @Override
+   public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+   //   super.setRedirect(false);
+	   	super.setViewPage("/WEB-INF/board/notice.jsp"); // /SemiProject/index.go 페이지로 이동한다.
+   }
 
 }

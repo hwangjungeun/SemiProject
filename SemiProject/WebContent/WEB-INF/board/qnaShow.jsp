@@ -170,6 +170,9 @@ button {
 <br><br>
 <div>
 	<button style="margin-right: 145px;" type="button" onclick="javascript:history.back();">글목록</button>
+	<span class="button">	
+            <a href="<%=ctxPath%>/board/qnaEdit.go">수정</a>
+        </span>
 </div>
 
 </div>

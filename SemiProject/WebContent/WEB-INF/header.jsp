@@ -242,7 +242,7 @@
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
 						   <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
-				           <a class="dropdown-item" href="#">Notice</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/notice.go">Notice</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>

@@ -19,6 +19,13 @@ public interface InterBoardDAO {
 	// board_num 값을 입력받아서 하나의 게시글에 대한 상세정보를 알아오기(select) 
 	BoardVO boardOneDetail(String board_num) throws SQLException;
 
+	// 글 클릭했을때 조회수 받아오는 메소드
+	void boardCnt(String board_num) throws SQLException;
+
+	// 글 정보 수정하기
+	int updateBoard(BoardVO board) throws SQLException;
+
+
 	
 
 	
