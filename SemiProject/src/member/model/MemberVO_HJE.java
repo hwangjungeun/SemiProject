@@ -240,7 +240,4 @@ public class MemberVO_HJE {
 		return age;
 	}
 	
-	
-	   
-	   
 }
