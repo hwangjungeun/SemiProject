@@ -112,8 +112,7 @@
 								"<td colspan='5' style=' height: 100px; vertical-align: middle'>"+
 									"<h6 style='color: #d6d6d6; text-align: center; '> 적립금내역이 없습니다.</h6>"+
 								"</td>"+
-							  "</tr>"+
-			        	"</tbody>";
+							  "</tr>";
 
 					$("tbody#displayUnusePointList").html(html);
 					
@@ -132,7 +131,6 @@
 		        				  "</tr>";
 		        	  });
 		        	  
-		        	  html +="</tbody>";
 		        	  
 		        	  
 		        	  $("tbody#displayUnusePointList").html(html);
@@ -185,8 +183,6 @@
 		        				  "</tr>";
 		        	  });
 		        	   
-		        	  html += "</tbody>"; 
-		        	  
 		        	  
 		        	  $("tbody#displayUsedPointList").html(html);
 				}
@@ -309,6 +305,7 @@
 				</thead>
 				<tbody id="displayUnusePointList">
 					
+				</tbody>
 			</table>
 			</div>
 		</div>
@@ -325,15 +322,7 @@
 					</tr>
 				</thead>
 				<tbody id="displayUsedPointList">
-					<tr>
-						<td colspan='5'>
-							<nav class='my-5'>
-								<div style='display: flex; width: 100%;'>
-									<ul class='pagination' style='margin: auto;'>${requestScope.pageBarUnuse }</ul>
-								</div>
-							</nav>
-						</td>
-					</tr>
+				
 				</tbody>	
 			</table>
 		</div>
