@@ -1,5 +1,6 @@
 package mypage.model;
 
+
 public class PointVO_HJE {
 	private String fk_odrcode;
 	private String fk_userid;
@@ -9,6 +10,7 @@ public class PointVO_HJE {
 	private int p_status;
 	private int p_idle;
 	private int point;
+	
 	
 	public String getFk_odrcode() {
 		return fk_odrcode;
@@ -57,8 +59,6 @@ public class PointVO_HJE {
 	}
 	public void setFk_odrdate(String fk_odrdate) {
 		this.fk_odrdate = fk_odrdate;
-	}
-	
-	
+	}	
 	
 }
