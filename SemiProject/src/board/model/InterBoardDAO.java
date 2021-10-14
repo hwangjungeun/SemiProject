@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface InterBoardDAO {
 
-	 // 글 목록 보여주기
+	// QNA 게시판 글 목록 보여주기
 	List<BoardVO> selectPagingboard() throws SQLException;
 
 	// 검색이 있는 또는 검색이 없는 전체 게시물에 대한 총페이지 알아오기
@@ -24,6 +24,8 @@ public interface InterBoardDAO {
 
 	// 글 정보 수정하기
 	int updateBoard(BoardVO board) throws SQLException;
+
+
 
 
 	

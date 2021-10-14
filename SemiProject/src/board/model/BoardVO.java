@@ -11,6 +11,7 @@ public class BoardVO {
 //	private String board_file;		// 첨부파일 이름
 	private int board_count;		// 글 조회수
 	private Date board_date;		// 글 작성일
+
 	
 	////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -24,6 +25,8 @@ public class BoardVO {
 	//	   this.board_file = board_file;
 
 	   }
+	   
+	   
 	
 	public int getBoard_num() {
 		return board_num;

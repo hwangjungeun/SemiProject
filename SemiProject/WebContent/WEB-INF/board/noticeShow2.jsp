@@ -22,6 +22,7 @@
 
 <style type="text/css">
 
+
 .titleArea {
     margin: 0 0 30px;
     text-align: center;
@@ -45,7 +46,7 @@ p.desc {
 }
 
 #container {
-    width: 1250px;
+    width: 1200px;
     margin: auto;
 }
 
@@ -56,41 +57,23 @@ p.desc {
 }
 
 div.typeWrite{
-	width: 1250px;
+	width: 1200px;
 	vertical-align: middle;
 	margin: auto;
 }
 
-img {
-	display: block;
-	width: 700px;
-	height: auto;
-	margin-left: 20px;
-	margin-top: 20px;
-}
-
-
-.ec-base-table table {
-
-    width: 90%;
-    position: relative;
-    border-top: 1px solid #dfdfdf;
-    border-bottom: 1px solid #dfdfdf;
-    border-top: 0;
-    color: #fff;
-    line-height: 3;
+table.tbl {
+    width: 1100px;
+    margin: auto;
+    border-top: 1.5px solid #dfdfdf;
+    border-bottom: 1.5px solid #dfdfdf;
+    line-height: 3.5;
+    border-left: hidden;
+    border-right: hidden;
   }
 
-table {
-    width: 1250px;
-    border: 0;
-    border-spacing: 0;
-    border-collapse: collapse;
-    text-indent: initial;
-}
-
 tr#top {
-	border-top: 2px solid #dfdfdf;
+	border-top: 1px solid #dfdfdf;
 }
 tr#bt {
 	border-top: hidden;
@@ -98,12 +81,24 @@ tr#bt {
 }
 
 th {
-	font-size: 10pt;
+	font-size: 9pt;
     padding: 12px 0px 12px 18px;
 }
 td {
-	font-size: 10pt;
+	font-size: 9pt;
     padding: 8px 0px 7px;
+}
+span.date {
+	font-weight: bold;
+}
+span.txtNum {
+	color: #737373;
+}
+td#content {
+    font-size: 12px;
+    line-height: 22px;
+    min-height: 100px;
+    text-align: center;
 }
 td#btt {
 	border-bottom: 1px solid #dfdfdf;
@@ -111,13 +106,15 @@ td#btt {
 
 .button {
 	width: 100px;
-	border: 1px solid #808080;
+	height: 32px;
+	border: 1px solid #8c8c8c;
     float: right;
     text-align: center;
-    font-size: 10pt;
+    font-size: 9pt;
+    padding: 5px;
+    margin-right: 50px;
 }
-.button a {display:block; height: 35px; padding:7px}
-	
+
 
 </style>
 
@@ -134,10 +131,10 @@ td#btt {
             <h2><font color="#333333">NOTICE</font> </h2>
             <p class="desc">공지사항입니다.</p>
     </div>
-
+	<br>
 
 	<div class="typeWrite ">
-            <table class="ec-base-table table">
+            <table class="tbl">
 
 			<colgroup>
 			<col style="width:130px;">
@@ -146,17 +143,16 @@ td#btt {
 
 				<tr id="top">
 				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;제목</th>
-				   <td>&nbsp;&nbsp;가을맞이 리뷰 이벤트!</td>
+				   <td>&nbsp;&nbsp;적립금&쿠폰 시행 안내(21.09.27 시행)</td>
 				</tr>
 				<tr id="bt">
 				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;작성자</th>
-				   <td id="btt">&nbsp;&nbsp; oh! daily </td>
+				   <td id="btt">&nbsp;&nbsp; oh! daily</td>
+                            <td><span class="date">date</span><span class="txtNum">&nbsp;2021-09-27</span></td>
 		        </tr>
 				<tr>
-				   <td colspan="2"><img src="../images/notice1.png" alt=""><img src="../images/notice2.png" alt=""><img src="../images/notice3.png" alt=""></td>			
+				   <td colspan="2"><img src="../images/point.jpg" alt=""></td>		
 				</tr>
-		
-				
 		 </table>
 </div>
 <br>

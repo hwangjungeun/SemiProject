@@ -88,6 +88,12 @@
 	display : inline-block;
 	}
 	
+	.xans-layout-statelogon toplog {
+    float: left;
+    line-height: 28px;
+    text-align: center;
+    font-size : 10pt;
+}
 	
 </style>
 <script type="text/javascript">
@@ -131,14 +137,17 @@
 					<button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
 			    </form>
 			</div>
-
+		
+	
 			<div class="topArea container-fluid navbar-header mx-auto text-center">
 				<a class="navbar-brand mx-auto mb-3" href="<%= ctxPath %>/index.go">o H ! &nbsp; D a i L Y</a>
 				<i class="fas fa-shopping-basket fa-2x"></i>
 				<span class="badge badge-pill badge-light text-black-50">0</span>
 			</div>
+			</nav>
 			
-			<div class="bottomArea ml-auto my-3">
+			<div class="xans-layout-statelogon toplog ">
+			
 			<c:if test ="${empty sessionScope.loginuser}">
 				<a href="<%= ctxPath %>/login/logintry.go">LOGIN</a>
 				<a href="<%= ctxPath %>/member/memberRegister.go">JOIN US</a>
@@ -146,21 +155,26 @@
 			
 			<!-- 세션에 로그인 유저 아이디가 있을때 , 즉 로그인 성공 했을 때 -->
 			<c:if test = "${not empty sessionScope.loginuser }">
-			
                                    어서오세요[<span style="color: black; font-weight: bold;">${(sessionScope.loginuser).name}</span>]님
                 <br/>다양하고 특별한 혜택을 누리세요!
                  &nbsp; &nbsp;<button type="button" class="btn btn-danger" onclick="goLogOut()">로그아웃</button><br/>
              
-		    	<a href="<%= ctxPath %>/member/memberRegister.go">MyPage</a>
+		    	<%-- <a href="<%= ctxPath %>/member/memberLookup.go">MODIFY</a> --%>
 			</c:if>
+			
 			<!-- 어드민으로 로그인 했을때 만 매니저 란이 활성화 된다.  -->
 			<c:if test = "${(sessionScope.loginuser).userid == 'admin' }">
 				<a href="#">MANAGER</a>
 			</c:if>
-				<a href="#">NOTICE</a>
-				<a href="#">Q&amp;A</a>
+			<c:if test = "${not empty sessionScope.loginuser }">
+			<a href="<%= ctxPath %>/member/memberEdit.go">MODIFY</a>
+			</c:if>
+			<a href="#">CART <span class="count ">(<span class="EC-Layout-Basket-count">0</span>)</span></a>
+			<a href="#">ORDER</a>
+			<a href="<%= ctxPath %>/member/memberLookup.go">MYPAGE</a>
 			</div>
-		</nav>
+			</div>
+	
 			
 		<!-- 아코디언 같은 Navigation Bar 만들기 -->
 		<nav class="navbar navbar-expand-md navbar-light">
@@ -241,12 +255,13 @@
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
-						   <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/notice.go">Notice</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
+
 				         </div>
 					</li>
 				</ul>

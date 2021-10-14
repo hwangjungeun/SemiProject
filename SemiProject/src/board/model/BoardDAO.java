@@ -84,7 +84,7 @@ public class BoardDAO implements InterBoardDAO {
         return result;    
     } // end getSeq
     
- // 글 목록 보여주기
+  // QNA 게시판 글 목록 보여주기
  	@Override
  	public List<BoardVO> selectPagingboard() throws SQLException {
  		
@@ -149,7 +149,7 @@ public class BoardDAO implements InterBoardDAO {
   			close();
   		}
   		
- 	}
+ 	}// end of public void register(String board_id, String board_subject, String board_content)----------------------------
 
  	
  	
@@ -317,7 +317,5 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return n;
 	}
-	
 
-	    
 }

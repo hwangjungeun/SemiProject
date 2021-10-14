@@ -110,15 +110,26 @@ span#delayred {
 	color: red;
 }
 button {
-	width: 95px;
+	width: 90px;
 	height: 30px;
 	border: 1px solid #8c8c8c;
 	background-color: #ffffff;
     float: right;
     text-align: center;
-    font-size: 10pt;
     padding: 5px;
     margin-right: 100px;
+}
+span.button {
+	width: 90px;
+	height: 30px;
+    float: right;
+    text-align: center;
+    margin-right: 5px;
+    background-color: #444444;
+}
+a.btn {
+	color: #ffffff;
+	padding: 6px;
 }
 
 
@@ -171,8 +182,8 @@ button {
 <div>
 	<button style="margin-right: 145px;" type="button" onclick="javascript:history.back();">글목록</button>
 	<span class="button">	
-            <a href="<%=ctxPath%>/board/qnaEdit.go">수정</a>
-        </span>
+            <a class="btn" href="<%=ctxPath%>/board/qnaEdit.go">수정</a>
+    </span>
 </div>
 
 </div>
