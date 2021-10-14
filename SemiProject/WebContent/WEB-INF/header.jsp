@@ -316,7 +316,10 @@
 	}
 	
 	.bottomArea > a{
-	color: red;
+	margin-left:10px;
+	font-size : 10pt;
+	font-weight : bold;
+	color: #ffe6e6;
 	display : inline-block;
 	}
 	
@@ -384,6 +387,10 @@
                  &nbsp; &nbsp;<button type="button" class="btn btn-danger" onclick="goLogOut()">로그아웃</button><br/>
              
 		    	<a href="<%= ctxPath %>/member/memberRegister.go">MyPage</a>
+			</c:if>
+			<!-- 어드민으로 로그인 했을때 만 매니저 란이 활성화 된다.  -->
+			<c:if test = "${(sessionScope.loginuser).userid == 'admin' }">
+				<a href="#">MANAGER</a>
 			</c:if>
 				<a href="#">NOTICE</a>
 				<a href="#">Q&amp;A</a>

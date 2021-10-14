@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
+import member.model.InterMemberDAO_PJW;
+import member.model.MemberDAO_PJW;
+import member.model.MemberVO_PJW;
 
 public class MemberRegisterAction extends AbstractController {
 
