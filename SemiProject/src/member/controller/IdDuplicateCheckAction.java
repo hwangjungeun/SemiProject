@@ -6,15 +6,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
+import member.model.InterMemberDAO_HJE;
+import member.model.MemberDAO_HJE;
 
 public class IdDuplicateCheckAction extends AbstractController {
 
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		
 		String method = request.getMethod();
 		
@@ -23,7 +22,7 @@ public class IdDuplicateCheckAction extends AbstractController {
 			
 //			System.out.println(userid);
 			
-			InterMemberDAO mdao = new MemberDAO();
+			InterMemberDAO_HJE mdao = new MemberDAO_HJE();
 			boolean isExists = mdao.idDuplicateCheck(userid);
 			
 			JSONObject jsonObj = new JSONObject();	// {}

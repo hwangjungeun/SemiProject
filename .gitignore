@@ -19,15 +19,24 @@
 *.tar.gz
 *.rar
 
-
-
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+#라이브러리
+*.js
+*.css
+*.map
+
 #공동작업
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+*.sql
+/SemiProject/src/common/controller/AbstractController.java
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 /SemiProject/src/common/controller/FrontController.java
 /SemiProject/WebContent/WEB-INF/Command.properties
+<<<<<<< HEAD
 /SemiProject/src/common/controller/Test1.java
 =======
 *.sql
@@ -44,3 +53,14 @@ hs_err_pid*
 /SemiProject/src/nocommit_some/NoCommit_6_mistake.java
 /SemiProject/src/nocommit_some/NoCommit_7_untrack.java
 >>>>>>> refs/heads/parkjinwoo
+=======
+/SemiProject/WebContent/WEB-INF/header.jsp
+/SemiProject/WebContent/WEB-INF/footer.jsp
+
+##### commit 제외파일 #####
+/SemiProject/src/nocommit_all/
+/SemiProject/src/nocommit_some/NoCommit_3.java
+/SemiProject/src/nocommit_some/NoCommit_5_right.java
+/SemiProject/src/nocommit_some/NoCommit_6_mistake.java
+/SemiProject/src/nocommit_some/NoCommit_7_untrack.java
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git

@@ -19,7 +19,7 @@ public class EmailDuplicateCheckAction extends AbstractController {
 			
 			String email = request.getParameter("email");
 			
-			InterMemberDAO mdao = new MemberDAO();
+			InterMemberDAO_HJE mdao = new MemberDAO_HJE();
 			
 			boolean isExists = mdao.emailDuplicateCheck(email);
 			
