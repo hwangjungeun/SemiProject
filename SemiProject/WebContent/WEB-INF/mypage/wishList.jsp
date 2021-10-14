@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../header.jsp" />
-
+    
 <style>
 
 	table > tbody > tr > td.verticalM { /* 테이블 안에 있는 td태그들을 세로방향으로 가운데정렬  */
@@ -15,7 +15,22 @@
 
 <script type="text/javascript">
 	
+	$(document).ready(function(){
+		
+		/*
+		$("button#goModal").click(function(){ // 장바구니,주문하기 버튼이 클릭된 경우
+			pseq = $(this).val();
+			console.log("pseq => " + pseq);
+			$("span#realInsert").text(pseq);
+			// ##################################################이런느낌으로, 주문하기/장바구니 버튼 클릭시 주문번호와 관련된 정보들을, 모달창에 넣어주도록 하자.
+		});// 아................모달창 필요가 없다................ 이미 옵션 기본으로 넣었었다................
+		*/
+		
+	});// end of $(document).ready(function(){})-----------------------------------------------------
+
+
 	// Function Declaration
+	
 	// == 체크박스 전체선택 / 전체해제 == //
 	function fun_allCheck(bool){
 		
@@ -58,6 +73,89 @@
 		}
 		
 	}// end of function fun_wishCheck(){-------------------------------
+		
+	 	
+	// 주문폼 작성시 필요한, 주문예정내역을 보내주는 함수
+	function goOrderForm(opseq){
+	 
+		// 원래 모달창 또는 팝업창으로 옵션선택하려했는데 나는 이미 옵션을 선택했었다.......똥멍청이............
+		<%-- 
+		// 옵션(색상)과 수량을 선택하는 팝업창 띄우기
+		var url = "<%= request.getContextPath()%>/mypage/product/chooseProdOption.go?pseq="+pseq;
+		
+		// 너비 800, 높이 400 인 팝업창을 화면 가운데 위치시키기
+		var pop_width = 800;
+		var pop_height = 400; 
+		var pop_left = Math.ceil( (window.screen.width - pop_width)/2 ); 스크린의 화면은 소수점이 나오는 경우가 있으므로, 정수로 만듦
+		var pop_top = Math.ceil( (window.screen.height - pop_height)/2 ); 정수로 만듦
+		
+		window.open(url, "chooseProdOption",
+					"left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height+", location=no");
+		 --%>
+		
+	//	console.log("확인용 opseq => " + opseq);
+		 
+		// 자바스크립트에서 페이지 이동 (최근본상품->주문하기)
+		location.href = "<%= request.getContextPath()%>/order/orderForm.go?userid=eomjh&opseq="+opseq;
+		//																   userid=${(sessionScope.loginuser).userid}로 나중에 변경해야함##################################
+		
+	}// end of function goOrderForm(wishseq)-------------------------
+	 
+	
+	// 해당 제품을 장바구니페이지로 보내주는 함수(그러면 거기서 테이블에 insert도 할꺼임.)
+	function goCart(opseq){
+		
+		// POST방식으로 전송하기위해 폼태그 사용
+		var frm = document.WishListFrm;
+		frm.opseq.value = opseq; // 필수옵션을 폼태그의 value값에 넣어줌.
+		
+		frm.action = "<%= request.getContextPath()%>/order/basket.go";
+		frm.method = "POST";
+		frm.submit();
+		
+		// 장바구니에 POST방식으로 전송하면, 거기서 장바구니 테이블에 해당 제품을 insert할꺼다.
+		// insert가 되면 최근본상품테이블에 있는 해당 제품도 delete해줄꺼다.
+		
+	}// end of function goCart(opseq){}------------------------------------
+	
+	
+	// 해당 상품을 위시리스트에서 삭제하는 함수
+	function deleteWishList(wishseq){
+		
+		// 정말로 삭제하시겠습니까?
+		var bool = confirm("정말로 삭제하시겠습니까?");
+	//	console.log("확인용 bool => " + bool);
+		
+		if(bool){
+		
+			$.ajax({
+				url:"<%= request.getContextPath()%>/mypage/deleteWishList.go",
+				type:"poST", // 안쓰면 기본 get방식임.
+				data:{"wishseq":wishseq},
+				dataType:"json",
+	    		success:function(json){
+	    			
+	    			if(json.deleted){
+	    				alert("성공적으로 삭제되었습니다.");
+	    			}
+	    			else{
+	    				alert("죄송하지만, 삭제가 실패되었습니다.");
+	    			}
+	    			
+	    		},
+	    		error: function(request, status, error){
+	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+			});
+		
+		}
+		
+		// 삭제하고 난 이후에는 웹브라우저창을 새로고침해야하는데, history.go(0)이 아닌 wishList.go로 가서 페이지바를 새로 가져온다.
+	//	location.href = "javascript:history.go(0)";
+		location.href = "<%= request.getContextPath()%>/mypage/wishList.go";
+		 
+	}// end of function deleteWishList(wishseq)---------------------------------------------------
+	
 	
 	
 </script>
@@ -123,9 +221,12 @@
 								</td>
 								<td class="verticalM" align="center"><strong>${wlvo.pvo.price+2500}원</strong></td> <!-- ★더하기 계산하는법 -->
 								<td class="verticalM" align="center"> <!-- align을 통해 내부를 가운데정렬 -->
-									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">장바구니</button>
-									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;">주문하기</button>
-									<button type="button" class="btn btn-outline-secondary" style="display: block;">삭제하기</button>
+									<c:set var="opseq" value="${wlvo.povo.opseq}" />
+									<c:set var="wishseq" value="${wlvo.wishseq}" />
+									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goCart(${opseq});">장바구니</button>
+									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goOrderForm(${opseq});">주문하기</button>
+									<%-- <button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" data-toggle="modal" data-target="#chooseProdOption" id="goModal" value="${pseq}">주문하기</button> --%>
+									<button type="button" class="btn btn-outline-secondary" style="display: block;" onclick="deleteWishList(${wishseq});">삭제하기</button>
 								</td>
 							</tr>
 							
@@ -149,23 +250,73 @@
 			
 			
 			
+			<!-- 장바구니에 POST방식으로 넘기기 위한 폼태그 시작 -->
+			<form name="WishListFrm">
+				<input type="hidden" name="opseq" value="" />
+			</form>
+			<!-- 장바구니에 POST방식으로 넘기기 위한 폼태그 끝 -->
+			
+			
+			
 			<!-- 페이지바 시작 -->
-			<nav style="clear: both;">
-			  <ul class="pagination justify-content-center" style="margin-top: 50px;">
-			  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">2</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">3</span></a></li>
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;</span></a></li> 
-			    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
-			  </ul>
+			<nav style="clear: both;"> <!-- 페이지바는 페이지네비게이션(pagination) 이용 -->
+				<ul class="pagination justify-content-center" style="margin-top: 50px;">${requestScope.pageBar}</ul>
 			</nav>
 			<!-- 페이지바 끝 -->
+			
 			
 		</c:if>
 		<!-- wishList가 존재하는지 존재안하는지에 따라 달라짐. 끝-->
 		
+		
+		
 	</div>
 	
+
+
+<%-- 
+
+<!-- 장바구니담기/주문하기 Modal -->
+<!-- Modal 구성 요소는 현재 페이지 상단에 표시되는 대화 상자/팝업 창입니다. -->
+<div class="modal" id="chooseProdOption">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h5 class="modal-title">제품명~~~~~~~~~</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+        Modal body....<span id="realInsert"></span>
+        
+	        <div id="idFind">
+	           <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath()%>/login/idFind.up">
+	           </iframe>
+	        </div> 
+       
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger">바로구매하기</button>
+        <button type="button" class="btn btn-primary">장바구니담기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+--%>
+
+
+
+
+
+
+
+
+	
 <jsp:include page="../footer.jsp" />
+

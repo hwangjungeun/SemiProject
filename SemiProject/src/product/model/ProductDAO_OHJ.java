@@ -57,10 +57,14 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 						 " from " + 
 						 " ( " + 
 						 "     select rownum AS RNO, pname, pimage, price, pseq, recentseq " + 
-						 "     from tbl_recentViewProduct V JOIN tbl_product P " + 
-						 "     ON V.fk_pseq = P.pseq " + 
-						 "     where fk_userid = ? " + 
-						 "     order by viewday desc " + 
+						 "     from " + 
+						 "     ( " + 
+						 "         select pname, pimage, price, pseq, recentseq " + 
+						 "         from tbl_recentViewProduct V JOIN tbl_product P " + 
+						 "         ON V.fk_pseq = P.pseq " + 
+						 "         where fk_userid = ? " + 
+						 "         order by viewday desc " + 
+						 "     ) R " + 
 						 " ) T " + 
 						 " where T.RNO between ? and ? ";
 			
@@ -145,7 +149,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		try {
 			conn = ds.getConnection();
-			
+		/*	
 			String sql = " select cimage, pname, cname, price, point " + 
 						 " from tbl_wishlist W JOIN tbl_poption O " + 
 						 " ON W.fk_opseq = O.opseq " + 
@@ -155,9 +159,35 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 						 " ON W.fk_pseq = P.pseq " + 
 						 " where fk_userid = ? " + 
 						 " order by wishseq desc ";
+		*/	
+			
+			String sql = " select cimage, pname, cname, price, point, opseq, wishseq " + 
+						 " from " + 
+						 " ( " + 
+						 "     select rownum AS RNO, cimage, pname, cname, price, point, opseq, wishseq " + 
+						 "     from " + 
+						 "     ( " + 
+						 "         select cimage, pname, cname, price, point, opseq, wishseq " + 
+						 "         from tbl_wishlist W JOIN tbl_poption O " + 
+						 "         ON W.fk_opseq = O.opseq " + 
+						 "         JOIN tbl_pcolor C " + 
+						 "         ON O.fk_cseq = C.cseq " + 
+						 "         JOIN tbl_product P " + 
+						 "         ON W.fk_pseq = P.pseq " + 
+						 "         where fk_userid = ? " + 
+						 "         order by wishseq desc " + 
+						 "     )R " + 
+						 " ) T " + 
+						 " where T.RNO between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = 2; // 한 페이지당 화면상에 보여줄 제품의 개수는 2 으로 한다.
+			
 			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 공식
 			
 			rs = pstmt.executeQuery();
 			
@@ -176,6 +206,9 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 				
 				pvo.setPrice(rs.getInt(4));
 				pvo.setPoint(rs.getInt(5));
+				
+				povo.setOpseq(rs.getString(6));
+				wlvo.setWishseq(rs.getString(7));
 				
 				povo.setPcvo(pcvo);
 				
@@ -276,7 +309,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 	
 	// 페이지바를 만들기 위해서 해당userid의 최근본상품 목록에 대한 총페이지수 알아오기(select) 
 	@Override
-	public int getTotalPage(String userid) throws SQLException {
+	public int getRecentTotalPage(String userid) throws SQLException {
 		
 		int totalPage = 0;
 		
@@ -302,7 +335,70 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		}
 		
 		return totalPage;
-	}// end of public int getTotalPage(String userid)-----------------------------------
+	}// end of public int getRecentTotalPage(String userid)-----------------------------------
+
+	
+	// 위시리스트에서 해당제품의 목록을 삭제(delete)하는 메소드
+	@Override
+	public boolean deleteWishList(String wishseq) throws SQLException {
+		
+		boolean deleted = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_wishlist " + 
+						 " where wishseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, wishseq);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				// 목록삭제 성공되어짐.
+				deleted = true;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return deleted;
+		
+	}// end of public boolean deleteWishList(String wishseq)-------------------------------
+
+	
+	// 페이지바를 만들기 위해서 해당userid의 위시리스트 목록에 대한 총페이지수 알아오기(select) 
+	@Override
+	public int getWishTotalPage(String userid) throws SQLException {
+		
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil(count(*)/2) " + // 2이 sizePerPage 이다.
+						 " from tbl_wishlist " + 
+						 " where fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next(); // 무조건 나오므로 if할 필요 없다.
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+		
+	}// end of public int getWishTotalPage(String string)-----------------------------
 
 	
 	

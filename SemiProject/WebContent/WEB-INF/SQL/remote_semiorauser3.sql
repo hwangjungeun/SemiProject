@@ -215,7 +215,7 @@ create table tbl_order
 (odrcode        VARCHAR2(20)                     -- 주문코드
 ,fk_userid      varchar2(40)                     -- 회원아이디
 ,odrtotalprice  NUMBER  not null                 -- 주문총액
-,odrtotalpoint  NUMBER  not null                 -- 주문총포인트
+--,odrtotalpoint  NUMBER  not null                 -- 주문총포인트
 ,odrdate        DATE    default sysdate          -- 주문일자
 
 ,constraint PK_tbl_order primary key(odrcode)
@@ -391,6 +391,8 @@ values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',14,sysdate);
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',15,sysdate);
 
+commit;
+
 -- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
 select pimage, pname, price, fk_sseq, viewday
 from tbl_recentViewProduct V JOIN tbl_product P
@@ -414,20 +416,24 @@ order by viewday desc;
 -- 최근본상품 목록을 보여줄때, 색상옵션은 생각할 필요가 없다. -> 우선 이걸로 최근본상품 목록을 보여주고,
 -- 옵션 select태그를 사용자가 누르면, change이벤트가 발생하면 ajax로 처리.
 
--- 위의 이거에 페이지바를 추가하려면 아래와 같이 해야한다.#####################################
+-- 위의 이거에 페이지바를 추가하려면 아래와 같이 해야한다.
 select pname, pimage, price, pseq, recentseq
 from
 (
     select rownum AS RNO, pname, pimage, price, pseq, recentseq
-    from tbl_recentViewProduct V JOIN tbl_product P
-    ON V.fk_pseq = P.pseq
-    where fk_userid = 'eomjh'
-    order by viewday desc
+    from
+    (
+        select pname, pimage, price, pseq, recentseq
+        from tbl_recentViewProduct V JOIN tbl_product P
+        ON V.fk_pseq = P.pseq
+        where fk_userid = 'eomjh'
+        order by viewday desc
+    ) R
 ) T
 where T.RNO between 3 and 4;
 
 -- 해당 userid에 맞는 최근본상품목록 총 페이지수
-select ceil(count(*)/2)
+select ceil(count(*)/3)
 from tbl_recentViewProduct
 where fk_userid = 'eomjh';
 
@@ -455,6 +461,13 @@ ON O.fk_cseq = C.cseq;
 insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',3,4);
 insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',1,1);
 insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'leess',2,2);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',12,16);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',12,17);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',14,20);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',13,19);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',14,21);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'leess',13,19);
+
 commit;
 
 -- drop table tbl_wishlist purge;
@@ -482,6 +495,32 @@ ON W.fk_pseq = P.pseq
 where fk_userid = 'eomjh'
 order by wishseq desc;
 
+-- 위의 이거에 페이지바를 추가하려면 아래와 같이 해야한다.
+select cimage, pname, cname, price, point, opseq, wishseq
+from
+(
+    select rownum AS RNO, cimage, pname, cname, price, point, opseq, wishseq
+    from
+    (
+        select cimage, pname, cname, price, point, opseq, wishseq
+        from tbl_wishlist W JOIN tbl_poption O
+        ON W.fk_opseq = O.opseq
+        JOIN tbl_pcolor C
+        ON O.fk_cseq = C.cseq
+        JOIN tbl_product P
+        ON W.fk_pseq = P.pseq
+        where fk_userid = 'eomjh'
+        order by wishseq desc
+    )R
+) T
+where T.RNO between 3 and 4;
+
+-- 해당 userid에 맞는 위시리스트목록 총 페이지수
+select ceil(count(*)/2)
+from tbl_wishlist
+where fk_userid = 'eomjh';
+
+
 --***********************************************************************************************--
 -- 옵션번호/주문수량 을 통해 주문FORM테이블 select하기
 -- 이미지,제품명,옵션의 색상명,판매가,수량,(적립금,배송구분,배송비,합계)
@@ -504,6 +543,10 @@ where opseq = 4;
 delete from tbl_recentViewProduct
 where recentseq = ? ;
 
+-- 위시리스트목록에서 해당하는seq 지우기
+delete from tbl_wishlist
+where wishseq = ? ;
+
 ----------------------------------------------------------------------------
 show user;
 
@@ -516,7 +559,7 @@ select * from tbl_pcolor;
 select * from tbl_poption;
 select * from tbl_recentViewProduct;
 select * from tbl_cart;
-select * from tbl_wishlist;
+select * from tbl_wishlist order by wishseq desc;
 select * from tbl_order;
 select * from tbl_orderdetail;
 

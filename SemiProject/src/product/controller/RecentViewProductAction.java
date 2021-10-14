@@ -76,7 +76,7 @@ public class RecentViewProductAction extends AbstractController {
 				// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
 				
 				// 페이지바를 만들기 위해서 해당userid의 최근본상품 목록에 대한 총페이지수 알아오기(select) 
-				int totalPage = pdao.getTotalPage("eomjh"); // 특정 userid를 넘김. // cnum => userid => "eomjh"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				int totalPage = pdao.getRecentTotalPage("eomjh"); // 특정 userid를 넘김. // cnum => userid => "eomjh"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			//	System.out.println("~~~ 확인용 totalPage : " + totalPage);
 				
 				

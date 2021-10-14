@@ -133,7 +133,7 @@
 		
 		// 정말로 삭제하시겠습니까?
 		var bool = confirm("정말로 삭제하시겠습니까?");
-		console.log("확인용 bool => " + bool);
+	//	console.log("확인용 bool => " + bool);
 		
 		if(bool){
 		
@@ -148,7 +148,7 @@
 	    				alert("성공적으로 삭제되었습니다.");
 	    			}
 	    			else{
-	    				alert("삭제가 실패되었습니다ㅠ.ㅠ");
+	    				alert("죄송하지만, 삭제가 실패되었습니다.");
 	    			}
 	    			
 	    		},
@@ -159,8 +159,9 @@
 		
 		}
 		
-		// 삭제하고 난 이후에는 웹브라우저창을 새로고침해야함.
-		location.href="javascript:history.go(0)";
+		// 삭제하고 난 이후에는 웹브라우저창을 새로고침해야하는데, history.go(0)이 아닌 recentViewProduct.go로 가서 페이지바를 새로 가져온다.
+	//	location.href = "javascript:history.go(0)";
+		location.href = "<%= request.getContextPath()%>/product/recentViewProduct.go";
 		 
 	}// end of function deleteRecentViewProd(rentseq)---------------------------------------------------
 	
