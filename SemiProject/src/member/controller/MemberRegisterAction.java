@@ -2,19 +2,14 @@ package member.controller;
 
 import java.sql.SQLException;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.controller.AbstractController;
-<<<<<<< HEAD
-import member.model.InterMemberDAO_PJW;
-import member.model.MemberDAO_PJW;
-import member.model.MemberVO_PJW;
-=======
 import member.model.InterMemberDAO_HJE;
 import member.model.MemberDAO_HJE;
 import member.model.MemberVO_HJE;
->>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
+
 
 public class MemberRegisterAction extends AbstractController {
 

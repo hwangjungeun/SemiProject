@@ -8,15 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-<<<<<<< HEAD
 import member.model.InterMemberDAO_PJW;
 import member.model.MemberDAO_PJW;
 import member.model.MemberVO_PJW;
-=======
-import member.model.InterMemberDAO_HJE;
-import member.model.MemberDAO_HJE;
-import member.model.MemberVO_HJE;
->>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 
 public class LoginAction extends AbstractController {
 
@@ -54,17 +48,9 @@ public class LoginAction extends AbstractController {
 		paraMap.put("pwd", pwd);
 		paraMap.put("clientip", clientip);
 		
-<<<<<<< HEAD
 		InterMemberDAO_PJW mdao = new MemberDAO_PJW();
-=======
-		InterMemberDAO_HJE mdao = new MemberDAO_HJE();
->>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 		
-<<<<<<< HEAD
 		MemberVO_PJW loginuser = mdao.selectOneMember(paraMap);
-=======
-		MemberVO_HJE loginuser = mdao.selectOneMember(paraMap);
->>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 		
 		if(loginuser != null) {
 			
