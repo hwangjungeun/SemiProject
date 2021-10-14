@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 import member.model.InterMemberDAO_HJE;
+import member.model.InterMemberDAO_PJW;
 import member.model.MemberDAO_HJE;
 
 public class IdFindAction extends AbstractController {

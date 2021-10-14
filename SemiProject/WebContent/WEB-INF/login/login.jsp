@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
+
 	String ctxPath = request.getContextPath();
 	//		/SemiProject
 %>
@@ -12,6 +13,7 @@
 <jsp:include page="/WEB-INF/header.jsp" />
 <%-- 헤더 끝 --%>
 <style>
+
 	div#loginpage{
 	position: relative;
     margin: 100px auto 150px;
@@ -98,11 +100,26 @@
    a:hover { color:maroon; 
           font-weight: bold; }
           
+          
+          
+   
 </style>
 
 
 <script type = "text/javascript">
+
 	$(document).ready(function(){
+		
+		// === 로컬스토리지(localStorage)에 저장된 key 가 "saveid"인  userid 값을 불러와서 input 태그 userid에 넣어주기 === //
+		var loginUserid = localStorage.getItem('saveid');
+		
+		if(loginUserid != null) {
+			$("input#loginUserid").val(loginUserid);
+			$("input:checkbox[id=saveid]").prop("checked",true);
+		}
+		
+		
+		
 	  $("button#btnSubmit").click(function(){
 		  goLogin(); // 로그인 시도합니다.
 	  })
@@ -111,13 +128,7 @@
 		  if(event.keyCode == 13){ //엔터를 눌렀을 경우 입니다.
 			  goLogin(); // 로그인 시도합니다.
 		  }
-	  })
-	  
-	  if ($("input:checkbox[id=saveid]").prop("checked")) {
-			console.log("체크 확인");
-	  }
-	  
-	  
+	  })  
 	})
   
   function goLogin(){
@@ -140,6 +151,7 @@
 	 
 		if ($("input:checkbox[id=saveid]").prop("checked")) {
 			alert("아이디저장 체크를하셨네요.");
+
 			localStorage.setItem('saveid', $("input#loginUserid").val());
 			//  로컬스토리지에 저장한다.
 		} else {
@@ -153,6 +165,7 @@
 		frm.submit();	
 		
 	} // end of function goLogin(){}-----------------------------------------
+	
 </script>
 
 
@@ -181,9 +194,7 @@
 	            <tr>
 	               <td colspan="2" align="center" style="padding: 10px;">
 	                  <input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
-	               <%--    
-	                  <button type="button" id="btnSubmit" style="width: 67px; height: 27px; background-image: url('<%= request.getContextPath()%>/images/login.png'); vertical-align: middle; border: none;"></button>
-	               --%>
+	         
 	                   <button type="button" id="btnSubmit" ><span style ="color:white;" >로그인</span></button>
 	                   <button type="button" id="btnRegister" onclick="location.href='<%= ctxPath %>/member/memberRegister.go'"><span style ="color:black">회원가입 하기</span></button>
 	               </td>
@@ -193,7 +204,7 @@
 	             <%-- === 아이디 찾기, 비밀번호 찾기 === --%>
 	            <tr id = "find" >
 	               <td colspan="2" align="center">
-	                  <a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> &nbsp; | &nbsp;
+	                  <a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" data-backdrop="static">아이디찾기</a> &nbsp; | &nbsp;
 	                  <a style="cursor: pointer;" data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" data-backdrop="static">비밀번호찾기</a>
 	               </td>
 	            </tr>
@@ -204,7 +215,7 @@
 	</div>
 	
 	 <%-- ****** 아이디 찾기 Modal ****** --%>
-  <div class="modal fade" id="userIdfind">
+  <%-- <div class="modal fade" id="userIdfind">
     <div class="modal-dialog">
       <div class="modal-content">
       
@@ -217,7 +228,56 @@
         <!-- Modal body -->
         <div class="modal-body">
           <div id="idFind">
-             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath()%>/login/idFind.go">
+             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/idSearch.go">
+             </iframe>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div> --%>
+  <div class="modal" tabindex="-1" role="dialog" id="userIdfind">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+      	<div id="idFind">
+        	<iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/idSearch.go">
+             </iframe>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+  <%-- ****** 비밀번호 찾기 Modal ****** --%>
+  <div class="modal fade" id="passwdFind">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal header -->
+        <div class="modal-header">
+          <h4 class="modal-title">비밀번호 찾기</h4>
+          <button type="button" class="close myclose" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div id="pwFind">
+             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/pwdSearch.go">  
              </iframe>
           </div>
         </div>
@@ -230,12 +290,9 @@
       
     </div>
   </div>
-	
-	
+
 	
 	
 	
 <%-- 풋터 시작 --%> 
 <jsp:include page="/WEB-INF/footer.jsp" />
-</body>
-</html>

@@ -1,3 +1,4 @@
+
 package member.model;
 
 import java.util.Calendar;
@@ -240,7 +241,4 @@ public class MemberVO_HJE {
 		return age;
 	}
 	
-	
-	   
-	   
 }

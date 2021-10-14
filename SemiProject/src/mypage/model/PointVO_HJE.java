@@ -1,12 +1,17 @@
 package mypage.model;
 
-public class PointVO {
+
+public class PointVO_HJE {
 	private String fk_odrcode;
 	private String fk_userid;
+	private String fk_odrdate;
 	private String start_day;
 	private String end_day;
 	private int p_status;
 	private int p_idle;
+	private int point;
+	
+	
 	public String getFk_odrcode() {
 		return fk_odrcode;
 	}
@@ -43,5 +48,17 @@ public class PointVO {
 	public void setP_idle(int p_idle) {
 		this.p_idle = p_idle;
 	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	public String getFk_odrdate() {
+		return fk_odrdate;
+	}
+	public void setFk_odrdate(String fk_odrdate) {
+		this.fk_odrdate = fk_odrdate;
+	}	
 	
 }

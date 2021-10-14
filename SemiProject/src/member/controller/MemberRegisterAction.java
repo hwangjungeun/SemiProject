@@ -2,13 +2,14 @@ package member.controller;
 
 import java.sql.SQLException;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.controller.AbstractController;
 import member.model.InterMemberDAO_HJE;
 import member.model.MemberDAO_HJE;
 import member.model.MemberVO_HJE;
+
 
 public class MemberRegisterAction extends AbstractController {
 
