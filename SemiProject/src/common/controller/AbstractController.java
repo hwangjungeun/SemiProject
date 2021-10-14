@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import member.model.MemberVO;
+import member.model.MemberVO_HJE;
 
 public abstract class AbstractController implements InterCommand {
 	
@@ -58,7 +59,7 @@ public abstract class AbstractController implements InterCommand {
 	public boolean checkLogin(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		MemberVO_HJE loginuser = (MemberVO_HJE)session.getAttribute("loginuser");
 		
 		if(loginuser != null) {
 			// 로그인 한 경우
