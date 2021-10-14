@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
+import member.model.InterMemberDAO_PJW;
+import member.model.MemberDAO_PJW;
 
 public class PwdSearchAction extends AbstractController {
 
@@ -26,7 +26,7 @@ public class PwdSearchAction extends AbstractController {
 			String userid = request.getParameter("userid");
 			String email = request.getParameter("email");
 			
-			InterMemberDAO mdao = new MemberDAO();
+			InterMemberDAO_PJW mdao = new MemberDAO_PJW();
 			
 			Map<String,String> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);

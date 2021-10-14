@@ -53,7 +53,7 @@
 			// 아이디 및 이메일에 대한 정규표현식을 사용한 유효성검사는 생략하겠습니다.
 			if( useridVal != "" && emailVal != "" ) {
 				var frm = document.pwdFindFrm;
-				frm.action = "<%= ctxPath%>/login/pwdFind.go";
+				frm.action = "<%= ctxPath%>/login/pwdSearch.go";
 				frm.method = "POST";
 				frm.submit();
 			}

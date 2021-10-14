@@ -2,7 +2,7 @@ package member.model;
 
 import java.util.Calendar;
 
-public class MemberVO {
+public class MemberVO_PJW {
 	private String userid;             // 회원아이디
 	   private String pwd;                // 비밀번호 (SHA-256 암호화 대상)
 	   private String name;               // 회원명
@@ -17,7 +17,6 @@ public class MemberVO {
 	   private int weight;				  // 몸무게
 	   private String topsize;			  // 상의 사이즈
 	   private String bottomsize;		  // 하의 사이즈
-	   private int point;                 // 포인트 
 	   private String registerday;        // 가입일자 
 	   private String lastpwdchangedate;  // 마지막으로 암호를 변경한 날짜  
 	   private int status;                // 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
@@ -32,9 +31,9 @@ public class MemberVO {
 	   
 	   /////////////////////////////////////////////////////////////////////
 	   
-	   public MemberVO() {}
+	   public MemberVO_PJW() {}
 	   
-	   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+	   public MemberVO_PJW(String userid, String pwd, String name, String email, String mobile, String postcode,
 	         String address, String detailaddress, String extraaddress) {
 	      this.userid = userid;
 	      this.pwd = pwd;
@@ -47,7 +46,7 @@ public class MemberVO {
 	      this.extraaddress = extraaddress;
 	   }
 	   
-	   public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
+	   public MemberVO_PJW(String userid, String pwd, String name, String email, String mobile, String postcode,
 	         String address, String detailaddress, String extraaddress,  String birthday) {
 	      this.userid = userid;
 	      this.pwd = pwd;
@@ -173,14 +172,6 @@ public class MemberVO {
 
 		public void setBottomsize(String bottomsize) {
 			this.bottomsize = bottomsize;
-		}
-
-		public int getPoint() {
-			return point;
-		}
-
-		public void setPoint(int point) {
-			this.point = point;
 		}
 
 		public String getRegisterday() {

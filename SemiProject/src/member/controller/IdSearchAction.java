@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
+import member.model.InterMemberDAO_PJW;
+import member.model.MemberDAO_PJW;
 
 public class IdSearchAction extends AbstractController {
 
@@ -16,7 +16,6 @@ public class IdSearchAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 			
-			System.out.println("~~~~~ 호호호");
 			
 			String method = request.getMethod();
 			// "GET" or "POST"
@@ -28,7 +27,7 @@ public class IdSearchAction extends AbstractController {
 				String email = request.getParameter("email");
 				
 				
-				InterMemberDAO mdao = new MemberDAO();
+				InterMemberDAO_PJW mdao = new MemberDAO_PJW();
 				
 				Map<String, String> paraMap = new HashMap<>();
 				paraMap.put("name", name);

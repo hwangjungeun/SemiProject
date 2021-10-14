@@ -100,12 +100,26 @@
    a:hover { color:maroon; 
           font-weight: bold; }
           
+          
+          
+   
 </style>
 
 
 <script type = "text/javascript">
 
 	$(document).ready(function(){
+		
+		// === 로컬스토리지(localStorage)에 저장된 key 가 "saveid"인  userid 값을 불러와서 input 태그 userid에 넣어주기 === //
+		var loginUserid = localStorage.getItem('saveid');
+		
+		if(loginUserid != null) {
+			$("input#loginUserid").val(loginUserid);
+			$("input:checkbox[id=saveid]").prop("checked",true);
+		}
+		
+		
+		
 	  $("button#btnSubmit").click(function(){
 		  goLogin(); // 로그인 시도합니다.
 	  })
@@ -114,13 +128,7 @@
 		  if(event.keyCode == 13){ //엔터를 눌렀을 경우 입니다.
 			  goLogin(); // 로그인 시도합니다.
 		  }
-	  })
-	  
-	  if ($("input:checkbox[id=saveid]").prop("checked")) {
-			console.log("체크 확인");
-	  }
-	  
-	  
+	  })  
 	})
   
   function goLogin(){
@@ -196,7 +204,7 @@
 	             <%-- === 아이디 찾기, 비밀번호 찾기 === --%>
 	            <tr id = "find" >
 	               <td colspan="2" align="center">
-	                  <a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal">아이디찾기</a> &nbsp; | &nbsp;
+	                  <a style="cursor: pointer;" data-toggle="modal" data-target="#userIdfind" data-dismiss="modal" data-backdrop="static">아이디찾기</a> &nbsp; | &nbsp;
 	                  <a style="cursor: pointer;" data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" data-backdrop="static">비밀번호찾기</a>
 	               </td>
 	            </tr>
@@ -207,7 +215,7 @@
 	</div>
 	
 	 <%-- ****** 아이디 찾기 Modal ****** --%>
-  <div class="modal fade" id="userIdfind">
+  <%-- <div class="modal fade" id="userIdfind">
     <div class="modal-dialog">
       <div class="modal-content">
       
@@ -232,7 +240,28 @@
       </div>
       
     </div>
+  </div> --%>
+  <div class="modal" tabindex="-1" role="dialog" id="userIdfind">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+      	<div id="idFind">
+        	<iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/idSearch.go">
+             </iframe>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
+</div>
 	
   <%-- ****** 비밀번호 찾기 Modal ****** --%>
   <div class="modal fade" id="passwdFind">
@@ -261,11 +290,9 @@
       
     </div>
   </div>
->
+
 	
 	
 	
 <%-- 풋터 시작 --%> 
 <jsp:include page="/WEB-INF/footer.jsp" />
-</body>
-</html>

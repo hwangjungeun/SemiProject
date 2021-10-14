@@ -23,5 +23,16 @@
 hs_err_pid*
 
 #공동작업
-FrontController.java
-Command.properties
+*.sql
+/SemiProject/src/common/controller/AbstractController.java
+/SemiProject/src/common/controller/FrontController.java
+/SemiProject/WebContent/WEB-INF/Command.properties
+/SemiProject/WebContent/WEB-INF/header.jsp
+/SemiProject/WebContent/WEB-INF/footer.jsp
+
+##### commit 제외파일 #####
+/SemiProject/src/nocommit_all/
+/SemiProject/src/nocommit_some/NoCommit_3.java
+/SemiProject/src/nocommit_some/NoCommit_5_right.java
+/SemiProject/src/nocommit_some/NoCommit_6_mistake.java
+/SemiProject/src/nocommit_some/NoCommit_7_untrack.java

@@ -39,7 +39,7 @@
 			// 성명 및 이메일에 대한 유효성 검사(정규표현식)는 생략하겠습니다.
 			
 			var frm = document.idFindFrm;
-			frm.action = "<%= ctxPath%>/login/idFind.go";
+			frm.action = "<%= ctxPath%>/login/idSearch.go";
 			frm.method = "POST";
 			frm.submit();
 			

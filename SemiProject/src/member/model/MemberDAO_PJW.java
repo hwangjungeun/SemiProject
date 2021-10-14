@@ -12,7 +12,7 @@ import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
 
-public class MemberDAO implements InterMemberDAO {
+public class MemberDAO_PJW implements InterMemberDAO_PJW {
 
 	private DataSource ds;
 	// DataSource ds 는 아파치톰캣이 제공하는 DBCP(DB Connection Pool) 이다.
@@ -22,7 +22,7 @@ public class MemberDAO implements InterMemberDAO {
 	private AES256 aes;
 	
 	// 기본 생성자
-	public MemberDAO() {
+	public MemberDAO_PJW() {
 		
 		try {
 			Context initContext = new InitialContext();
@@ -70,21 +70,21 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 입력받은 paraMap을 가지고 한명의 회원정보를 리턴시켜주는 메소드(로그인처리)
 	@Override
-	public MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException {
-		MemberVO member = null;
+	public MemberVO_PJW selectOneMember(Map<String, String> paraMap) throws SQLException {
+		MemberVO_PJW member = null;
 		
 		
 		try {
 			conn= ds.getConnection();
 			
 			String sql = " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, "+
-					" birthyyyy, birthmm, birthdd, height, weight, topsize, bottomsize, point, registerday, pwdchangegap, "+
+					" birthyyyy, birthmm, birthdd, height, weight, topsize, bottomsize, registerday, pwdchangegap, "+
 					" NVL(lastlogingap, trunc( months_between(sysdate,registerday) )) AS lastlogingap "+
 					" from "+
 					" ( "+
 					" select userid, name , email, mobile, postcode, address, detailaddress, extraaddress, "+
 					" substr(birthday,1,4) as birthyyyy, substr(birthday,6,2) as birthmm, substr(birthday,9) as birthdd "+
-					" , height, weight, topsize, bottomsize, point, registerday, "+
+					" , height, weight, topsize, bottomsize,  registerday, "+
 					" trunc(months_between(sysdate, lastpwdchangedate)) as pwdchangegap "+
 					" from tbl_member "+
 					" where status = 1 and userid = ? and pwd = ? "+
@@ -104,7 +104,7 @@ public class MemberDAO implements InterMemberDAO {
 			rs= pstmt.executeQuery();
 			
 			if(rs.next()) {
-				member = new MemberVO();
+				member = new MemberVO_PJW();
 				member.setUserid(rs.getString(1));
 				member.setName(rs.getString(2));
 				member.setEmail( aes.decrypt(rs.getString(3)) );	//복호화
@@ -118,17 +118,16 @@ public class MemberDAO implements InterMemberDAO {
 	            member.setWeight(rs.getInt(13));
 	            member.setTopsize(rs.getString(14));
 	            member.setBottomsize(rs.getString(15));
-	            member.setPoint(rs.getInt(16));
-	            member.setRegisterday(rs.getString(17));
+	            member.setRegisterday(rs.getString(16));
 	            
-	            if(rs.getInt(18) >= 3) {
+	            if(rs.getInt(17) >= 3) {
 	            	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
 	                // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
 	            	
 	            	member.setRequirePwdChange(true);
 	            	// 로그인시 암호를 변경해라는 alert 를 띄우도록 할때 사용한다.
 	            }
-	            if (rs.getInt(19) >= 12) {
+	            if (rs.getInt(18) >= 12) {
 	            	// 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정
 	            	
 	            	member.setIdle(1);
@@ -272,7 +271,7 @@ public class MemberDAO implements InterMemberDAO {
 	
 	// 회원의 개인 정보 변경하기
 	@Override
-	public int updateMember(MemberVO member) throws SQLException {
+	public int updateMember(MemberVO_PJW member) throws SQLException {
 
 		int n = 0;
 		
