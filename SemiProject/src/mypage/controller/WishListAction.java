@@ -36,7 +36,7 @@ public class WishListAction extends AbstractController {
 					currentShowPageNo = "1";
 				}
 				
-				// 한 페이지당 화면상에 보여줄 제품의 개수는 2 으로 한다. sizePerPage 는 ProductDAO 에서 상수로 설정해 두었음.(넘겨줄 필요 없음.)
+				// 한 페이지당 화면상에 보여줄 제품의 개수는 3 으로 한다. sizePerPage 는 ProductDAO 에서 상수로 설정해 두었음.(넘겨줄 필요 없음.)
 				
 				// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자가 아닌 문자를 입력한 경우 또는 
 		        //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== // 
@@ -65,11 +65,11 @@ public class WishListAction extends AbstractController {
 				
 				String pageBar = ""; // 뷰단에 들어갈 <li>태그
 				
-				int blockSize = 3; // 10 => 3 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				int blockSize = 1; // 10 => 1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 				
 				int loop = 1;
-				// loop는 "1부터 증가"하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개@@@@@@@@@@@@@@@@=> 3개@@@@@@@@@@@@@@@@@@@@)까지만 증가하는 용도이다. 
+				// loop는 "1부터 증가"하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개@@@@@@@@@@@@@@@@=> 1개@@@@@@@@@@@@@@@@@@@@)까지만 증가하는 용도이다. 
 				
 				// !!! 아래는 pageNo 를 구하는 공식이다. !! //
 				int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;

@@ -259,6 +259,34 @@ nocycle
 nocache;
 -- Sequence ODRSEQNUMSEQ이(가) 생성되었습니다.
 
+
+
+
+-- **** 주문진행중 테이블 생성하기 **** --
+create table tbl_orderProgress
+(odrProseq          NUMBER                  -- 주문진행번호
+,fk_opseq           NUMBER       not null   -- 옵션번호
+,fk_userid          varchar2(40) not null   -- 회원아이디
+,wishoqty           NUMBER(4)    not null   -- 구매수량
+
+,constraint PK_tbl_orderProgress primary key(odrProseq)
+,constraint FK_tbl_orderProgress foreign key(fk_opseq) references tbl_poption(opseq)
+,constraint FK_tbl_orderProgress2 foreign key(fk_userid) references tbl_member(userid)
+);
+-- Table TBL_ORDERPROGRESS이(가) 생성되었습니다.
+
+-- **** 주문진행번호 시퀀스 생성하기 **** --
+create sequence seq_tbl_odrProg_odrProseq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_TBL_ODRPROG_ODRPROSEQ이(가) 생성되었습니다.
+
+
+
 -- ********************************************************* --
 -- *************** 여기서부터 개발 시작입니다~~~~ *************** --
 -- ********************************************************* --
@@ -516,7 +544,7 @@ from
 where T.RNO between 3 and 4;
 
 -- 해당 userid에 맞는 위시리스트목록 총 페이지수
-select ceil(count(*)/2)
+select ceil(count(*)/3)
 from tbl_wishlist
 where fk_userid = 'eomjh';
 
@@ -547,6 +575,50 @@ where recentseq = ? ;
 delete from tbl_wishlist
 where wishseq = ? ;
 
+--***********************************************************************************************--
+-- <주문> 장바구니 --
+
+-- 장바구니번호를 이용하여 fk_opseq(옵션번호)와 oqty(주문량)을 조회(select)
+select fk_opseq, oqty from tbl_cart where cartseq = 2;
+
+-- 주문진행중 테이블에 insert하는 메소드
+insert into tbl_orderProgress(odrproseq,fk_opseq,fk_userid,wishoqty)
+values(seq_tbl_odrProg_odrProseq.nextval, ?, ?, ?);
+
+-- 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보orderProgList를 보내준다.
+-- 이미지,제품명,옵션컬러명,가격,수량,적립금
+select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+JOIN tbl_orderProgress G
+ON O.opseq = G.fk_opseq;
+
+--delete from tbl_orderProgress;
+commit;
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'eomjh',14,3,sysdate,20);
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'orange3088',14,2,sysdate,21);
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'orange3088',3,1,sysdate,4);
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'orange3088',3,3,sysdate,19);
+
+
+--***********************************************************************************************--
+-- 회원명,포인트,주소,연락처,이메일 조회하기
+select name, postcode, address, detailaddress, extraaddress, mobile, email
+from tbl_member
+where userid = 'leess';
+
+
+
 ----------------------------------------------------------------------------
 show user;
 
@@ -563,9 +635,16 @@ select * from tbl_wishlist order by wishseq desc;
 select * from tbl_order;
 select * from tbl_orderdetail;
 
+select * from tbl_orderProgress;
+
 select * from tbl_member; -- leess, eomjh
+
+select * from tbl_point;
+desc tbl_point;
 
 desc tbl_member;
 desc tbl_recentViewProduct;
 desc tbl_wishlist;
+desc tbl_orderProgress;
+desc tbl_cart;
 ------------------------------------------------------------------------------

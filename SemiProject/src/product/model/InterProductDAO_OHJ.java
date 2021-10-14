@@ -41,7 +41,21 @@ public interface InterProductDAO_OHJ {
 	
 	// == 주문== //
 	// 옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
-	List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException;
+//	List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException;
+
+	
+	
+	
+	
+	
+	// 장바구니번호를 이용하여 fk_opseq(옵션번호)와 oqty(주문량)을 조회(select)하는 메소드
+	Map<String, String> selectFromCart(String cartseq) throws SQLException;
+
+	// 주문진행중 테이블에 insert하는 메소드
+	int insertOdrProg(Map<String,String> map) throws SQLException;
+
+	// 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보(이미지,제품명,옵션컬러명,가격,수량,적립금)인 orderProgList를 보내준다.
+	List<OrderProgressVO_OHJ> showOdrProg() throws SQLException;
 
 	
 

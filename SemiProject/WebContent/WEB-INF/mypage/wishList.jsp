@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- 돈을 형식에 맞게 찍어주기 위함. -->
 
 <jsp:include page="../header.jsp" />
     
@@ -157,6 +158,66 @@
 	}// end of function deleteWishList(wishseq)---------------------------------------------------
 	
 	
+	// 선택된 체크박스의 opseq들을 장바구니로 보내주는 함수
+	function goCheckboxCart(){
+		
+		// 체크박스가 체크된 것들의 opseq를 문자열 형태로 바꿔줌(예를 들어 "1,15,65,49" 이런식이다.)
+		var str_Opseq = checkboxOpseq();
+	//	alert("이거 넘겨야해 장바구니 페이지로 => " + str_Opseq);
+		
+		goCart(str_Opseq);
+		
+	}// end of function goCheckboxCart()-----------------------------------------------
+	
+	
+	// 체크가 된 체크박스들의 opseq를 String타입으로 묶어서 반환하는 함수
+	function checkboxOpseq(){
+		
+		// 자바스크립트의 배열은 아래와 같이 나타낸다.(배열도 객체이다.)
+		var arrOpseq = new Array();
+		// 배열명.push("~~~");
+		
+		
+		var arrProduct_wish = document.getElementsByName("product_wish");
+		
+		for(var i=0; i<arrProduct_wish.length; i++){ // 체크박스 길이만큼 반복돌림
+			
+			if( arrProduct_wish[i].checked ){
+				// 하위 체크박스(위시리스트 제품 체크박스)에 체크가 된 것이 있다라면
+				
+				var opseq = arrProduct_wish[i].value;
+			//	console.log("체크된 체크박스의 opseq => " + opseq);
+				
+				arrOpseq.push(opseq);
+			}
+			
+		}// end of for---------------------------------------------
+		
+		var str_Opseq = arrOpseq.join(",");
+	//	alert("확인용 문자열 opseq들의 모임 => " + str_Opseq);
+		
+		return str_Opseq;
+		
+	}// end of function checkboxOpseq()-------------------------------------------
+	
+	
+	// 선택된 체크박스의 opseq들을 주문하기로 보내주는 함수
+	function goCheckboxOrderForm(){
+		
+		var str_Opseq = checkboxOpseq();
+		
+		goOrderForm(str_Opseq);
+		
+	}// end of function goCheckboxOrderForm()------------------------------------
+	
+	
+	// 선택된 체크박스의 wishseq들을 위시리스트목록에서 delete하는 함수
+	function deleteCheckboxWishList(){
+		
+	//	선택하신 상품을 삭제하시겠습니까? -> 확인,취소
+	//	관심상품이 삭제되었습니다. -> 확인
+	
+	}// end of function deleteCheckboxWishList()--------------------------------
 	
 </script>
 	
@@ -197,10 +258,13 @@
 					</thead>
 					<tbody>
 						<c:forEach var="wlvo" items="${requestScope.wishList}" >
+						
+							<c:set var="opseq" value="${wlvo.povo.opseq}" />
+							<c:set var="wishseq" value="${wlvo.wishseq}" />
 							
 							<tr>
 								<td class="verticalM" align="center"> <!-- 모두선택/해제 -->
-									<input type="checkbox" name="product_wish" onclick="fun_wishCheck()" />
+									<input type="checkbox" name="product_wish" onclick="fun_wishCheck()" value="${opseq}" />
 								</td>
 								<td class="verticalM" align="center"><img alt="${wlvo.povo.cimage}" src="../images/${wlvo.povo.cimage}" width="90" height="100"></td>
 								<td class="verticalM">
@@ -209,20 +273,18 @@
 										<li>[옵션: ${wlvo.povo.pcvo.cname}]</li>
 									</ul>
 								</td>
-								<td class="verticalM" align="center"><strong>${wlvo.pvo.price}원</strong></td>
+								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${wlvo.pvo.price}" pattern="#,###"/>원</strong></td>
 								<td class="verticalM" align="center">
 									<img alt="301coins.png" src="../images/301coins.png" width="15" height="15">
-									<span>${wlvo.pvo.point}원</span>
+									<span><fmt:formatNumber value="${wlvo.pvo.point}" pattern="#,###"/>원</span>
 								</td>
 								<td class="verticalM" align="center"><span>기본배송</span></td>
 								<td class="verticalM" align="center">
 									<div>조건부무료</div>
 									<button type="button" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="bottom" title="10만원이상 무배! (기본2,500원)">자세히▶</button>
 								</td>
-								<td class="verticalM" align="center"><strong>${wlvo.pvo.price+2500}원</strong></td> <!-- ★더하기 계산하는법 -->
+								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${wlvo.pvo.price+2500}" pattern="#,###"/>원</strong></td> <!-- ★더하기 계산하는법 -->
 								<td class="verticalM" align="center"> <!-- align을 통해 내부를 가운데정렬 -->
-									<c:set var="opseq" value="${wlvo.povo.opseq}" />
-									<c:set var="wishseq" value="${wlvo.wishseq}" />
 									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goCart(${opseq});">장바구니</button>
 									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goOrderForm(${opseq});">주문하기</button>
 									<%-- <button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" data-toggle="modal" data-target="#chooseProdOption" id="goModal" value="${pseq}">주문하기</button> --%>
@@ -238,13 +300,13 @@
 			
 			<div>
 				<div style="float: left;">
-					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;"><i class="fas fa-times"></i>&nbsp;삭제하기</button>
+					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;" onclick="deleteCheckboxWishList();" ><i class="fas fa-times"></i>&nbsp;삭제하기</button>
 					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;">관심상품 비우기</button>
-					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;">장바구니 담기</button>
+					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;" onclick="goCheckboxCart();" >장바구니 담기</button>
 				</div>
 				
 				<div style="float: right;">
-					<button type="button" class="btn btn-dark btn-lg">전체상품주문</button>
+					<button type="button" class="btn btn-dark btn-lg" onclick="goCheckboxOrderForm();">선택상품주문</button>
 				</div>
 			</div>
 			

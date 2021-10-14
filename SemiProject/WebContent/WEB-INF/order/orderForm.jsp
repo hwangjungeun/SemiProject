@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- 돈을 형식에 맞게 찍어주기 위함. -->
 
 <jsp:include page="../header.jsp" />
 
@@ -40,7 +41,7 @@
 	.star { /* 필수 입력 사항 표시 */
 		color: red;
         font-weight: bold;
-        font-size: 10pt;
+        font-size: 15pt;
 	}
 	
 	
@@ -246,17 +247,17 @@
 		////////////////////////////////////////////////////////////////////////////
 		$("input#destinationSame").click(function(){ // 배송지 선택에서 "회원 정보와 동일"을 클릭하면 로그인한 회원의 정보를 넣어줌.
 			
-			$("input#receiverName").val("${sessionScope.loginuser.name}");
+			$("input#receiverName").val("${member.name}");
 			
 			b_flagPostcodeClick = false;
 			
-			$("input#postcode").val("${sessionScope.loginuser.postcode}");
-			$("input#address").val("${sessionScope.loginuser.address}");
-			$("input#detailAddress").val("${sessionScope.loginuser.detailaddress}");
-			$("input#extraAddress").val("${sessionScope.loginuser.extraaddress}");
+			$("input#postcode").val("${member.postcode}");
+			$("input#address").val("${member.address}");
+			$("input#detailAddress").val("${member.detailaddress}");
+			$("input#extraAddress").val("${member.extraaddress}");
 			
-			$("input#hp2").val("${ fn:substring(sessionScope.loginuser.mobile, 3, 7) }");
-			$("input#hp3").val("${ fn:substring(sessionScope.loginuser.mobile, 7, 11) }");
+			$("input#hp2").val("${ fn:substring(member.mobile, 3, 7) }");
+			$("input#hp3").val("${ fn:substring(member.mobile, 7, 11) }");
 			
 		});
 		
@@ -280,50 +281,6 @@
 	
 	
 	// Function Declaration
-	
-	// == 체크박스 전체선택 / 전체해제 == //
-	function fun_allCheck(bool){
-		
-		// console.log("확인용 bool => " + bool);
-		
-		var arrProduct_order = document.getElementsByName("product_order");
-		
-		for(var i=0; i<arrProduct_order.length; i++){
-			arrProduct_order[i].checked = bool; /* 넘어온게 true면 true, false면 false */
-		}// end of for-------------------------------
-			
-	}// end of function fun_allCheck(bool){}----------------------------
-	
-	
-	// == 체크박스 전체선택 / 전체해제 에서 
-	//    하위 체크박스에 체크가 1개라도 체크가 해제되면 체크박스 전체선택/전체해제 체크박스도 체크가 해제되고
-	//    하위 체크박스에 체크가 모두 체크가 되어지면  체크박스 전체선택/전체해제 체크박스도 체크가 되어지도록 하는 것 == // 
-	function fun_orderCheck(){
-		
-		var arrProduct_order = document.getElementsByName("product_order");
-		
-		var bFlag = false;
-		for(var i=0; i<arrProduct_order.length; i++){
-			
-			if( !arrProduct_order[i].checked ){
-				// 하위 체크박스(주문하고자하는 제품 체크박스)에 체크가 1개라도 체크가 해제되면
-				bFlag = true;
-				break; /* 더이상 나머지 체크박스에 해제된게 있는지 확인할 필요는 없음 */
-			}
-			
-		}// end of for---------------------------------
-		
-		if(bFlag){
-			// 하위 체크박스(주문하고자하는 제품 체크박스)에 체크가 1개라도 체크가 해제되면
-			document.getElementById("allCheck").checked = false;
-		}
-		else{
-			// 하위 체크박스(주문하고자하는 제품 체크박스)에 모두가 체크가 된 경우라면
-			document.getElementById("allCheck").checked = true;
-		}
-		
-	}// end of function fun_orderCheck(){-------------------------------
-	
 	
 	// 결제하기 버튼 클릭시, 배송 정보를 넘겨줘야함.
 	function goPurchase(){
@@ -372,13 +329,13 @@
 		<table class="table table-bordered">
 			<tr>
 				<th class="verticalM" rowspan="2" style="width: 15%;"><div align="center">혜택정보</div></th> <!-- th의 디폴트는 폰트굵게 -->
-				<td><strong>홍길동</strong> 님은, [일반회원] 회원이십니다.</td>
+				<td><strong>${requestScope.member.name}</strong> 님은, [일반회원] 회원이십니다.</td>
 			</tr>
 			<tr>
 				<td>
 					<a href="#">가용적립금</a> : 0원
-					&nbsp;&nbsp;&nbsp;
-					<a href="#">쿠폰</a> : 2개
+					<!-- &nbsp;&nbsp;&nbsp;
+					<a href="#">쿠폰</a> : 2개 -->
 				</td>
 			</tr>
 		</table>
@@ -390,27 +347,20 @@
 		
 		
 		
-	
-		
-		
-		<div style="margin-top: 30px; font-weight: bold; font-size: 12px;">국내배송상품 주문내역</div>
+		<div style="margin-top: 40px; margin-bottom: 10px; font-weight: bold; font-size: 16px;">국내배송상품 주문내역</div>
 		
 		<!-- orderList가 존재하는지 존재안하는지에 따라 달라짐. 시작-->
-		<c:if test="${empty requestScope.orderList}"> <!-- 없든지 텅빈거다. -->
+		<c:if test="${empty requestScope.orderProgList}"> <!-- 없든지 텅빈거다. -->
 			<h4 style="border-top: solid 1px #d9d9d9; border-bottom: solid 1px #d9d9d9; padding-top: 50px; padding-bottom: 50px;" align="center">주문하고자하는 내역에 일치하는 상품 또는 색상이 존재하지 않습니다.</h4>
 		</c:if>
 		
-		<c:if test="${not empty requestScope.orderList}">
+		<c:if test="${not empty requestScope.orderProgList}">
 		
 			<!-- 국내배송상품 주문내역 테이블 시작 -->
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
 						<tr style="text-align: center;"> <!-- 글자 가운데정렬 -->
-							<th>
-								<!-- 모두선택/해제 => /JavaScriptStudy/WebContent/05checkbox/01checkBoxTest.html를 참고함. -->
-								<input type="checkbox" id="allCheck" onClick="fun_allCheck(this.checked);" />
-							</th>
 							<th>이미지</th>
 							<th>상품정보</th>
 							<th>판매가</th>
@@ -423,33 +373,34 @@
 					</thead>
 					<tbody>
 						
-						<c:forEach var="povo" items="${requestScope.orderList}" >
+						<c:set var="totalPrice" value="0" />
+						
+						<c:forEach var="opvo" items="${requestScope.orderProgList}" >
 							
 							<tr>
-								<td class="verticalM" align="center"> <!-- 모두선택/해제 -->
-									<input type="checkbox" name="product_order" onclick="fun_orderCheck()" />
-								</td>
-								<td class="verticalM" align="center"><img alt="${povo.cimage}" src="../images/${povo.cimage}" width="90" height="100"></td>
+								<td class="verticalM" align="center"><img alt="${opvo.povo.cimage}" src="../images/${opvo.povo.cimage}" width="90" height="100"></td>
 								<td class="verticalM">
-									<strong>${povo.pvo.pname} (2color)</strong>
+									<strong>${opvo.povo.pvo.pname} (2color)</strong>
 									<ul style="margin-top: 15px;">
-										<li>[옵션: ${povo.pcvo.cname}]</li>
+										<li>[옵션: ${opvo.povo.pcvo.cname}]</li>
 									</ul>
 								</td>
-								<td class="verticalM" align="center"><strong>${povo.pvo.price}원</strong></td>
+								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${opvo.povo.pvo.price}" pattern="#,###"/>원</strong></td>
 								<td class="verticalM" align="center">
-									<span>1</span>
+									<span>${opvo.wishoqty}</span>
 								</td>
 								<td class="verticalM" align="center">
 									<img alt="301coins.png" src="../images/301coins.png" width="15" height="15">
-									<span>${povo.pvo.point}원</span>
+									<span><fmt:formatNumber value="${opvo.povo.pvo.point * opvo.wishoqty}" pattern="#,###"/>원</span>
 								</td>
 								<td class="verticalM" align="center"><span>기본배송</span></td>
 								<td class="verticalM" align="center">
 									<div>[고정]</div>
 								</td>
-								<td class="verticalM" align="center"><strong>${povo.pvo.price}원</strong></td>
+								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${opvo.povo.pvo.price * opvo.wishoqty}" pattern="#,###"/>원</strong></td>
 							</tr>
+							
+							<c:set var="totalPrice" value="${totalPrice+(opvo.povo.pvo.price*opvo.wishoqty)}" />
 							
 						</c:forEach>
 						
@@ -457,7 +408,17 @@
 							<td></td>
 							<td colspan="8">
 								<div style="float: left;">[기본배송]</div>
-								<div style="float: right;">상품구매금액 63,000 + 배송비 2,500 = 합계 : 65,500원</div>
+								<div style="float: right;">
+									<c:choose>
+										<c:when test="${totalPrice >= 100000}">
+											<c:set var="deliveryFee" value="0" />
+										</c:when>
+										<c:otherwise>
+											<c:set var="deliveryFee" value="2500" />
+										</c:otherwise>
+									</c:choose>
+									상품구매금액 <fmt:formatNumber value="${totalPrice}" pattern="#,###"/> + 배송비 <fmt:formatNumber value="${deliveryFee}" pattern="#,###"/> = 합계 : <fmt:formatNumber value="${totalPrice+deliveryFee}" pattern="#,###"/>원
+								</div>
 							</td>
 						</tr>
 						
@@ -471,45 +432,17 @@
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<div style="margin-bottom: 10px;">상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</div>
-		<div style="height: 30px;">
-			<div style="float: left;">
-				<strong>선택상품을&nbsp;&nbsp;</strong>
-				<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;"><i class="fas fa-times"></i>&nbsp;삭제하기</button>
-			</div>
-				
-			<div style="float: right;">
-				<button type="button" class="btn btn-outline-secondary">이전페이지</button>
-			</div>
-		</div>
-		
-		
+		<div style="margin-bottom: 10px; font-size: 15px;">상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</div>
 		
 		
 		
 		
 		<!-- 배송 정보 form 테이블 시작 -->
-		<div style="clear: both; margin-top: 30px;">
-			<span style="font-weight: bold; font-size: 12px;">배송 정보</span>
+		<div style="clear: both; margin-top: 40px; margin-bottom: 10px; ">
+			<span style="font-weight: bold; font-size: 16px;">배송 정보</span>
 			
 			<div style="float: right;">
-				<span class="star">*</span>필수입력사항
+				<span class="star">*</span><span style="font-size: 15px;">필수입력사항</span>
 			</div>
 		</div>
 
@@ -526,20 +459,20 @@
 	      			<tr>
 	      				<th>받으시는 분&nbsp;<span class="star">*</span></th>
 	      				<td>
-	      					<input type="text" name="receiverName" id="receiverName" value="${sessionScope.loginuser.name}" class="requiredInfo" required/> 
+	      					<input type="text" name="receiverName" id="receiverName" value="${member.name}" class="requiredInfo" required/> 
 	      					<span class="error">받으시는 분을 입력하세요</span>
 						</td> 
 					</tr>
 					<tr>
 						<th>주소&nbsp;<span class="star">*</span></th>
 						<td>
-							<input type="text" id="postcode" name="postcode" value="${sessionScope.loginuser.postcode}" size="6" maxlength="5" readonly class="requiredInfo" required/>&nbsp;&nbsp;
+							<input type="text" id="postcode" name="postcode" value="${member.postcode}" size="6" maxlength="5" readonly class="requiredInfo" required/>&nbsp;&nbsp;
 							<%-- 우편번호 찾기 --%>
 							<img id="zipcodeSearch" src="../images/b_zipcode.gif"/><br/>
 							
-							<input type="text" id="address" name="address" value="${sessionScope.loginuser.address}" size="40" readonly class="requiredInfo" placeholder="주소" required style="margin-top: 4px;"/><br/>
-	            			<input type="text" id="detailAddress" name="detailAddress" value="${sessionScope.loginuser.detailaddress}" size="40" class="requiredInfo" placeholder="상세주소" required style="margin-top: 4px;"/><br/>
-							<input type="text" id="extraAddress" name="extraAddress" value="${sessionScope.loginuser.extraaddress}" size="40" readonly class="requiredInfo" placeholder="참고항목" required style="margin-top: 4px;"/> 
+							<input type="text" id="address" name="address" value="${member.address}" size="40" readonly class="requiredInfo" placeholder="주소" required style="margin-top: 4px;"/><br/>
+	            			<input type="text" id="detailAddress" name="detailAddress" value="${member.detailaddress}" size="40" class="requiredInfo" placeholder="상세주소" required style="margin-top: 4px;"/><br/>
+							<input type="text" id="extraAddress" name="extraAddress" value="${member.extraaddress}" size="40" readonly class="requiredInfo" placeholder="참고항목" required style="margin-top: 4px;"/> 
 							
 							<span class="error">주소를 입력하세요</span>
 						</td> 
@@ -548,15 +481,15 @@
 						<th>연락처&nbsp;<span class="star">*</span></th>
 						<td>
 				             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly class="requiredInfo"/>&nbsp;-&nbsp;
-				             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" value="${ fn:substring(sessionScope.loginuser.mobile, 3, 7) }" class="requiredInfo" required/>&nbsp;-&nbsp;
-				             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" value="${ fn:substring(sessionScope.loginuser.mobile, 7, 11) }" class="requiredInfo" required/>
+				             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" value="${ fn:substring(member.mobile, 3, 7) }" class="requiredInfo" required/>&nbsp;-&nbsp;
+				             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" value="${ fn:substring(member.mobile, 7, 11) }" class="requiredInfo" required/>
 				             <span class="error">휴대폰 형식이 아닙니다.</span>
 						</td>
 					</tr>
 					<tr>
 						<th>이메일&nbsp;<span class="star">*</span></th>
 						<td>
-							<input type="text" name="email" id="email" value="${sessionScope.loginuser.email}" class="requiredInfo" required placeholder="abc@def.com"/> 
+							<input type="text" name="email" id="email" value="${member.email}" class="requiredInfo" required placeholder="abc@def.com"/> 
 							<span class="error">이메일 형식에 맞지 않습니다.</span>
 							<br>이메일을 통해 주문처리과정을 보내드립니다.
 							<br>이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.
@@ -578,7 +511,7 @@
 		
 		
 		<!-- 결제 예정 금액 테이블 시작 -->
-		<div style="margin-top: 30px; font-weight: bold; font-size: 12px;">결제 예정 금액</div>
+		<div style="margin-top: 40px; margin-bottom: 10px; font-weight: bold; font-size: 16px;">결제 예정 금액</div>
 		<table class="table table-bordered" style="text-align: center; margin-bottom: 0px;">
 			<thead>
 				<tr>
@@ -589,18 +522,18 @@
 			</thead>
 			<tbody>	
 				<tr style="font-weight: bolder; font-size: 13pt;">
-					<td>65,500원</td>
-					<td>- 6,300원</td>
-					<td>= 59,200원</td>
+					<td><fmt:formatNumber value="${totalPrice+deliveryFee}" pattern="#,###"/>원</td>
+					<td>- 0,000원</td>
+					<td>= 00,000원</td>
 				</tr>
 			</tbody>
 		</table>
 		<table id="tblDiscountInfo">
 			<tbody>
-				<tr>
+				<!-- <tr>
 					<th>쿠폰할인</th>
 					<td><button type="button" class="btn btn-outline-secondary">쿠폰적용</button></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<th>적립금</th>
 					<td>
@@ -608,14 +541,13 @@
 						<ul style="list-style-type: '- '; padding-left: 8px;">
 							<li>적립금은 최소 2,000 이상일 때 결제가 가능합니다.</li>
 							<li>최대 사용금액은 제한이 없습니다.</li>
-							<li>1회 구매시 적립금 최대 사용금액은 0원입니다.</li>
 							<li>적립금으로만 결제할 경우, 결제금액이 0으로 보여지는 것은 정상이며 [결제하기] 버튼을 누르면 주문이 완료됩니다.</li>
 						</ul>
 					</td>
 				</tr>
 				<tr>
 					<th>총 할인금액</th>
-					<td><strong>6,300</strong>원</td>
+					<td><strong>0,000</strong>원</td>
 				</tr>
 			</tbody>
 		</table>
@@ -630,10 +562,10 @@
 		
 		
 		<!-- 무이자 할부 이용안내 시작 -->
-		<div style="border: solid 1px #d9d9d9; margin-top: 30px;">
+		<div style="border: solid 1px #d9d9d9; margin-top: 40px; margin-bottom: 10px; ">
 			<h5 style="font-weight: bold; padding: 4px; border-bottom: solid 1px #d9d9d9;">무이자 할부 이용안내</h5>
 			<div>
-				<ul style="list-style-type: circle; padding-left: 30px;">
+				<ul style="list-style-type: circle; padding-left: 30px; font-size: 13px;">
 					<li>무이자할부가 적용되지 않은 상품과 무이자할부가 가능한 상품을 동시에 구매할 경우 전체 주문 상품 금액에 대해 무이자할부가 적용되지 않습니다.</li>
 					<li>무이자할부를 원하시는 경우 장바구니에서 무이자할부 상품만 선택하여 주문하여 주시기 바랍니다.</li>
 				</ul>
@@ -645,8 +577,8 @@
 		<div style="border: solid 1px #d9d9d9; margin-top: 15px; margin-bottom: 50px;">
 			<h5 style="font-weight: bold; padding: 4px; border-bottom: solid 1px #d9d9d9;">이용안내</h5>
 			<div>
-				<div style="padding-left: 4px;">WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처리되지 않는경우, 아래의 절차에 따라 해결하시기 바랍니다.</div>
-				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px;">
+				<div style="padding-left: 4px; font-size: 13px;">WindowXP 서비스팩2를 설치하신후 결제가 정상적인 단계로 처리되지 않는경우, 아래의 절차에 따라 해결하시기 바랍니다.</div>
+				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px; font-size: 13px;">
 					<li>
 						<a href="javascript:;" onclick="window.open('https://service-api.echosting.cafe24.com/shop/notice_XP_ActiveX.html','','width=795,height=500,scrollbars=yes',resizable=1);">안심클릭 결제모듈이 설치되지 않은 경우 ActiveX 수동설치</a>
 					</li>
@@ -657,8 +589,8 @@
 			</div>
 			
 			<div>
-				<div style="padding-left: 4px; margin-top: 8px;">아래의 쇼핑몰일 경우에는 모든 브라우저 사용이 가능합니다.</div>
-				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px;">
+				<div style="padding-left: 4px; margin-top: 8px; font-size: 13px;">아래의 쇼핑몰일 경우에는 모든 브라우저 사용이 가능합니다.</div>
+				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px; font-size: 13px;">
 					<li>KG이니시스, KCP, LG U+를 사용하는 쇼핑몰일 경우</li>
 					<li>결제가능브라우저 : 크롬,파이어폭스,사파리,오페라 브라우저에서 결제 가능<br>(단, window os 사용자에 한하며 리눅스/mac os 사용자는 사용불가)</li>
 					<li>최초 결제 시도시에는 플러그인을 추가 설치 후 반드시 브라우저 종료 후 재시작해야만 결제가 가능합니다.<br>(무통장, 휴대폰결제 포함)</li>
@@ -666,8 +598,8 @@
 			</div>
 			
 			<div>
-				<div style="padding-left: 4px; margin-top: 8px;">세금계산서 발행 안내</div>
-				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px;">
+				<div style="padding-left: 4px; margin-top: 8px; font-size: 13px;">세금계산서 발행 안내</div>
+				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px; font-size: 13px;">
 					<li>부가가치세법 제 54조에 의거하여 세금계산서는 배송완료일로부터 다음달 10일까지만 요청하실 수 있습니다.</li>
 					<li>세금계산서는 사업자만 신청하실 수 있습니다.</li>
 					<li>배송이 완료된 주문에 한하여 세금계산서 발행신청이 가능합니다.</li>
@@ -677,8 +609,8 @@
 			</div>
 			
 			<div>
-				<div style="padding-left: 4px; margin-top: 8px;">부가가치세법 변경에 따른 신용카드매출전표 및 세금계산서 변경안내</div>
-				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px;">
+				<div style="padding-left: 4px; margin-top: 8px; font-size: 13px;">부가가치세법 변경에 따른 신용카드매출전표 및 세금계산서 변경안내</div>
+				<ul style="list-style-type: square; padding-left: 30px; margin-top: 4px; font-size: 13px;">
 					<li>변경된 부가가치세법에 의거, 2004.7.1 이후 신용카드로 결제하신 주문에 대해서는 세금계산서 발행이 불가하며</li>
 					<li>신용카드매출전표로 부가가치세 신고를 하셔야 합니다.(부가가치세법 시행령 57조)</li>
 					<li>상기 부가가치세법 변경내용에 따라 신용카드 이외의 결제건에 대해서만 세금계산서 발행이 가능함을 양지하여 주시기 바랍니다.</li>

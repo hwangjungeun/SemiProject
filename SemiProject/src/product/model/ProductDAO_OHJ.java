@@ -183,7 +183,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			pstmt = conn.prepareStatement(sql);
 			
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = 2; // 한 페이지당 화면상에 보여줄 제품의 개수는 2 으로 한다.
+			int sizePerPage = 3; // 한 페이지당 화면상에 보여줄 제품의 개수는 3 으로 한다.
 			
 			pstmt.setString(1, paraMap.get("userid"));
 			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식
@@ -226,7 +226,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		return wishList;
 	}// end of public List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap)-----------------------
 
-	
+/*
 	// 옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
 	@Override
 	public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException {
@@ -275,7 +275,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		return orderList;
 	}// end of public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap)-----------------------
-
+*/
 	
 	// 최근본상품에서 해당제품의 목록을 삭제(delete)하는 메소드
 	@Override
@@ -378,7 +378,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select ceil(count(*)/2) " + // 2이 sizePerPage 이다.
+			String sql = " select ceil(count(*)/3) " + // 3이 sizePerPage 이다.
 						 " from tbl_wishlist " + 
 						 " where fk_userid = ? ";
 			
@@ -399,6 +399,114 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		return totalPage;
 		
 	}// end of public int getWishTotalPage(String string)-----------------------------
+
+	
+	// 장바구니번호를 이용하여 fk_opseq(옵션번호)와 oqty(주문량)을 조회(select)하는 메소드
+	@Override
+	public Map<String, String> selectFromCart(String cartseq) throws SQLException {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select fk_opseq, oqty " + 
+						 " from tbl_cart " + 
+						 " where cartseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cartseq);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				map.put("fk_opseq", rs.getString(1));
+				map.put("oqty", rs.getString(2));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return map;
+	}// end of public Map<String, String> selectFromCart(String cartseq)------------------------
+
+	
+	
+	// 주문진행중 테이블에 insert하는 메소드
+	@Override
+	public int insertOdrProg(Map<String,String> map) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_orderProgress(odrproseq,fk_opseq,fk_userid,wishoqty) " + 
+						 " values(seq_tbl_odrProg_odrProseq.nextval, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, map.get("fk_opseq"));
+			pstmt.setString(2, map.get("userid"));
+			pstmt.setString(3, map.get("oqty"));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}// end of public int insertOdrProg(Map<String,String> map)---------------------------
+
+	
+	// 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보(이미지,제품명,옵션컬러명,가격,수량,적립금)인 orderProgList를 보내준다.
+	@Override
+	public List<OrderProgressVO_OHJ> showOdrProg() throws SQLException {
+		
+		List<OrderProgressVO_OHJ> orderProgList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point " + 
+						 " from tbl_product P JOIN tbl_poption O " + 
+						 " ON P.pseq = O.fk_pseq " + 
+						 " JOIN tbl_pcolor C " + 
+						 " ON O.fk_cseq = C.cseq " + 
+						 " JOIN tbl_orderProgress G " + 
+						 " ON O.opseq = G.fk_opseq ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrderProgressVO_OHJ opvo = new OrderProgressVO_OHJ();
+				POptionVO_OHJ povo = new POptionVO_OHJ();
+				PColorVO_OHJ pcvo = new PColorVO_OHJ();
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
+				
+				povo.setCimage(rs.getString(1));
+				pvo.setPname(rs.getString(2));
+				pcvo.setCname(rs.getString(3));
+				pvo.setPrice(rs.getInt(4));
+				opvo.setWishoqty(rs.getInt(5));
+				pvo.setPoint(rs.getInt(6));
+				
+				povo.setPcvo(pcvo);
+				povo.setPvo(pvo);
+				
+				opvo.setPovo(povo);
+				
+				orderProgList.add(opvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return orderProgList;
+	}// end of public List<OrderProgressVO_OHJ> showOdrProg()----------------------------
 
 	
 	
