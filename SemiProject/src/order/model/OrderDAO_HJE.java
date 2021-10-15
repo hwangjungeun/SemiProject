@@ -86,24 +86,24 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
 			}
-				  sql += " ) " + 
-						 " where rno between ? and ? ";
+				  sql += " ) "  ;
+//						+ " where rno between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+//			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			
 			pstmt.setString(1, paraMap.get("userid"));
 			
 			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
-				pstmt.setInt(4, (currentShowPageNo * 5) - 4 );
-				pstmt.setInt(5, (currentShowPageNo * 5));
+//				pstmt.setInt(4, (currentShowPageNo * 5) - 4 );
+//				pstmt.setInt(5, (currentShowPageNo * 5));
 			}
 			else {
-				pstmt.setInt(2, (currentShowPageNo * 5) - 4 );
-				pstmt.setInt(3, (currentShowPageNo * 5));
+//				pstmt.setInt(2, (currentShowPageNo * 5) - 4 );
+//				pstmt.setInt(3, (currentShowPageNo * 5));
 			}
 			
 			

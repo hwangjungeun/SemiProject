@@ -37,8 +37,8 @@ public class OrderListJSONAction extends AbstractController {
 		String date1 = request.getParameter("date1");
 		String date2 = request.getParameter("date2");
 		
-		System.out.println(date1);
-		System.out.println(date2);
+//		System.out.println(date1);
+//		System.out.println(date2);
 
 		if(currentShowPageNo == null) {
 			currentShowPageNo = "1";

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
  
 import common.controller.AbstractController;
 //import member.model.MemberVO_PJW;
@@ -17,14 +17,14 @@ public class OrderListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		
+		/*
 		String method = request.getMethod();
 		
 		if("GET".equalsIgnoreCase(method)) {
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/memberRegister.jsp");
 		}
-		else {  
+		else {  */
 		
 
 //			HttpSession session = request.getSession();
@@ -128,7 +128,7 @@ public class OrderListAction extends AbstractController {
 			
 			
 			
-		}
+//		}
 
 	//	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/orderList_HJE.jsp");

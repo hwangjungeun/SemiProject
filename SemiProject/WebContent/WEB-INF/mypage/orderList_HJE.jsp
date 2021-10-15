@@ -109,13 +109,14 @@
 	    showOrderList();
 	});
 	
-	var userid="${sessionScope.loginuser.userid}"
+// 	var userid="${sessionScope.loginuser.userid}"
+// 	var userid="${requestScope.userid}"
 	// Function Decalaration
 	function goSubmit() {
 		$.ajax({
 			url:"/SemiProject/mypage/orderListJSON.go",
 			//	type:"GET",
-				data:{"userid":userid
+				data:{"userid":"${requestScope.userid}"
 					 ,"currentShowPageNo":"${requestScope.currentShowPageNo}" 
 					 ,"date1":"${requestScope.date1}"  
 					 ,"date2":"${requestScope.date2}"},    
@@ -124,6 +125,7 @@
 					
 					var html = "";
 					
+					console.log(json);
 					 
 					if( json.length == 0) {
 			        	// 처음부터 데이터가 존재하지 않는 경우
@@ -171,7 +173,8 @@
 		
 		var frm = document.orderFrm;
 		
-		frm.action= "<%=ctxPath%>/mypage/orderList.go?userid="+userid+"";
+<%-- 		frm.action= "<%=ctxPath%>/mypage/orderList.go"; --%>
+<%-- 		frm.action= "<%=ctxPath%>/mypage/orderList.go?userid="+userid+""; --%>
 		frm.method= "post";
 		frm.submit();
 		
@@ -189,6 +192,8 @@
 			success:function(json) {
 				
 				var html = "";
+				
+				console.log(json);
 				
 				if( json.length == 0) {
 		        	// 처음부터 데이터가 존재하지 않는 경우
