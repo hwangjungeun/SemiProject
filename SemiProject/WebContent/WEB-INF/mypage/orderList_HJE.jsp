@@ -109,17 +109,17 @@
 	    showOrderList();
 	});
 	
-	
+	var userid="${sessionScope.userid}"
 	// Function Decalaration
 	function goSubmit() {
-		
-		
 		
 		$.ajax({
 			url:"/SemiProject/mypage/orderListJSON.go",
 			//	type:"GET",
-				data:{"userid":"${requestScope.userid}"
-					 ,"currentShowPageNo":"${requestScope.currentShowPageNo}"},   
+				data:{"userid":userid
+					 ,"currentShowPageNo":"${requestScope.currentShowPageNo}" 
+					 ,"date1":"${requestScope.date1}"  
+					 ,"date2":"${requestScope.date2}"},    
 				dataType:"JSON",
 				success:function(json) {
 					
@@ -172,8 +172,8 @@
 		
 		var frm = document.orderFrm;
 		
-		frm.action= "orderList.go";
-		frm.method= "GET";
+		frm.action= "<%=ctxPath%>/mypage/orderList.go?userid="+userid+"";
+		frm.method= "post";
 		frm.submit();
 		
 	}
@@ -183,7 +183,9 @@
 			url:"/SemiProject/mypage/orderListJSON.go",
 		//	type:"GET",
 			data:{"userid":"${requestScope.userid}"
-				 ,"currentShowPageNo":"${requestScope.currentShowPageNo}"},   
+				 ,"currentShowPageNo":"${requestScope.currentShowPageNo}" 
+				 ,"date1":"${requestScope.date1}"  
+				 ,"date2":"${requestScope.date2}"},   
 			dataType:"JSON",
 			success:function(json) {
 				

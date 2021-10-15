@@ -34,3 +34,4 @@ hs_err_pid*
 /SemiProject/WebContent/WEB-INF/Command.properties
 /SemiProject/WebContent/WEB-INF/header.jsp
 /SemiProject/WebContent/WEB-INF/footer.jsp
+/SemiProject/src/product/model/ProductVO_OHJ.java
