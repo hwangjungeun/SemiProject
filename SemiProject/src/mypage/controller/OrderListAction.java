@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.MemberVO_PJW;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
 
@@ -21,8 +22,13 @@ public class OrderListAction extends AbstractController {
 			super.setViewPage("/WEB-INF/member/memberRegister.jsp");
 		}
 		else {  */
+		
+
+			HttpSession session = request.getSession();
 			
-			String userid= request.getParameter("userid");
+			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+			String userid = loginuser.getUserid();
+//			String userid= request.getParameter("userid");
 			InterOrderDAO_HJE odao = new OrderDAO_HJE();
 			
 			// 사용자가 보고싶어하는 페이지 숫자
@@ -94,7 +100,6 @@ public class OrderListAction extends AbstractController {
 			request.setAttribute("pageBar", pageBar);
 			request.setAttribute("userid", userid);
 			
-			HttpSession session = request.getSession();
 			session.setAttribute("currentShowPageNo", currentShowPageNo);
 			
 			/// *** === 페이지바 만들기 끝 === *** ///
