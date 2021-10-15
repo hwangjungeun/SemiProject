@@ -288,15 +288,15 @@ public class PointDAO_HJE implements InterPointDAO_HJE {
 				conn = ds.getConnection();
 				// 주문날짜 적립금 관련주문 내용
 				
-				String sql = " select fk_odrdate, point, fk_odrcode "+
+				String sql = " select odrdate, point, fk_odrcode "+
 							 " from "+
 							 " ( "+
-							 "    select rownum as rno, fk_odrdate, point, fk_odrcode "+
+							 "    select rownum as rno, odrdate, point, fk_odrcode "+
 							 "    from tbl_point "+
 							 "    where fk_userid = ? "+
 							 " ) "+
 							 " where rno between ? and ? "+ 
-							 " order by fk_odrdate ";
+							 " order by odrdate ";
 				
 				pstmt = conn.prepareStatement(sql);
 				
@@ -312,7 +312,7 @@ public class PointDAO_HJE implements InterPointDAO_HJE {
 					
 					PointVO_HJE pvo = new PointVO_HJE();
 					
-					pvo.setFk_odrdate(rs.getString(1));
+					pvo.setOdrdate(rs.getString(1));
 					pvo.setPoint(rs.getInt(2));
 					pvo.setFk_odrcode(rs.getString(3));
 					
@@ -371,15 +371,15 @@ public class PointDAO_HJE implements InterPointDAO_HJE {
 				conn = ds.getConnection();
 				// 주문날짜 적립금 관련주문 내용
 				
-				String sql = " select fk_odrdate, start_day, point, fk_odrcode "+
+				String sql = " select odrdate, start_day, point, fk_odrcode "+
 						 	 " from "+
 						 	 " ( "+
-						 	 "    select rownum as rno, fk_odrdate, start_day,  point, fk_odrcode "+
+						 	 "    select rownum as rno, odrdate, start_day,  point, fk_odrcode "+
 						 	 "    from tbl_point "+
 						 	 "    where fk_userid = ? and p_status = 0 and trunc(sysdate - start_day) < 0 "+
 						 	 " ) "+
 //						 	 " where rno between ? and ? "+ 
-						 	 " order by fk_odrdate ";
+						 	 " order by odrdate ";
 				
 				
 				pstmt = conn.prepareStatement(sql);
@@ -396,7 +396,7 @@ public class PointDAO_HJE implements InterPointDAO_HJE {
 					
 					PointVO_HJE pvo = new PointVO_HJE();
 					
-					pvo.setFk_odrdate(rs.getString(1));
+					pvo.setOdrdate(rs.getString(1));
 					pvo.setStart_day(rs.getString(2));
 					pvo.setPoint(rs.getInt(3));
 					pvo.setFk_odrcode(rs.getString(4));
@@ -456,15 +456,15 @@ public class PointDAO_HJE implements InterPointDAO_HJE {
 				conn = ds.getConnection();
 				// 주문날짜 적립금 관련주문 내용
 				
-				String sql = " select fk_odrdate, start_day, point, fk_odrcode "+
+				String sql = " select odrdate, start_day, point, fk_odrcode "+
 						 	 " from "+
 						 	 " ( "+
-						 	 "    select rownum as rno, fk_odrdate, start_day,  point, fk_odrcode "+
+						 	 "    select rownum as rno, odrdate, start_day,  point, fk_odrcode "+
 						 	 "    from tbl_point "+
 						 	 "    where fk_userid = ? and p_status = 1 and p_idle = 0 "+
 						 	 " ) "+
 //						 	 " where rno between ? and ? "+ 
-						 	 " order by fk_odrdate ";
+						 	 " order by odrdate ";
 				
 				
 				pstmt = conn.prepareStatement(sql);
@@ -481,7 +481,7 @@ public class PointDAO_HJE implements InterPointDAO_HJE {
 					
 					PointVO_HJE pvo = new PointVO_HJE();
 					
-					pvo.setFk_odrdate(rs.getString(1));
+					pvo.setOdrdate(rs.getString(1));
 					pvo.setStart_day(rs.getString(2));
 					pvo.setPoint(rs.getInt(3));
 					pvo.setFk_odrcode(rs.getString(4));
