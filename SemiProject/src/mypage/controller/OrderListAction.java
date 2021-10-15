@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
  
 import common.controller.AbstractController;
-import member.model.MemberVO_PJW;
+//import member.model.MemberVO_PJW;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
 
@@ -17,21 +17,21 @@ public class OrderListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		/*
+		
 		String method = request.getMethod();
 		
 		if("GET".equalsIgnoreCase(method)) {
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/memberRegister.jsp");
 		}
-		else {  */
+		else {  
 		
 
-			HttpSession session = request.getSession();
+//			HttpSession session = request.getSession();
 			
-			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
-			String userid = loginuser.getUserid();
-//			String userid= request.getParameter("userid");
+//			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+//			String userid = loginuser.getUserid();
+			String userid= request.getParameter("userid");
 			InterOrderDAO_HJE odao = new OrderDAO_HJE();
 			
 			String date1 = request.getParameter("datepicker1");
@@ -128,7 +128,7 @@ public class OrderListAction extends AbstractController {
 			
 			
 			
-//		}
+		}
 
 	//	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/orderList_HJE.jsp");

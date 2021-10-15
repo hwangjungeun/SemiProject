@@ -109,10 +109,9 @@
 	    showOrderList();
 	});
 	
-	var userid="${sessionScope.userid}"
+	var userid="${sessionScope.loginuser.userid}"
 	// Function Decalaration
 	function goSubmit() {
-		
 		$.ajax({
 			url:"/SemiProject/mypage/orderListJSON.go",
 			//	type:"GET",
