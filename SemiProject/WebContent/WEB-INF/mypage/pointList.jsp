@@ -123,7 +123,7 @@
 		        	  $.each(json, function(index, item){	// 반복문
 		        		  
 		        		  html += "<tr align='center'>"+
-		        				  "<td><h6>"+item.fk_odrdate.substring(0,10)+"</h6></td>"+
+		        				  "<td><h6>"+item.odrdate.substring(0,10)+"</h6></td>"+
 		        				  "<td><h6>"+item.point +"</h6></td>"+
 		        				  "<td><h6>"+item.fk_odrcode +"</h6></td>"+
 		        				  "<td><h6>"+item.start_day.substring(0,10) +"</h6></td>"+
@@ -176,7 +176,7 @@
 		        	  $.each(json, function(index, item){	// 반복문
 		        		  
 		        		  html += "<tr align='center'>"+
-		        				  "<td><h6>"+item.fk_odrdate.substring(0,10)+"</h6></td>"+
+		        				  "<td><h6>"+item.odrdate.substring(0,10)+"</h6></td>"+
 		        				  "<td><h6>"+item.point +"</h6></td>"+
 		        				  "<td><h6>"+item.fk_odrcode +"</h6></td>"+
 		        				  "<td><h6>이미 사용된 적립금 입니다.</h6></td>"+
@@ -271,7 +271,7 @@
 						<tbody>
 							<c:forEach var="pvo" items="${requestScope.pointList}">
 				        		<tr align="center">
-				        			<td><h6>${pvo.fk_odrdate.substring(0,10) }</h6></td>
+				        			<td><h6>${pvo.odrdate.substring(0,10) }</h6></td>
 				        			<td><h6>${pvo.point }</h6></td>
 				        			<td><h6>${pvo.fk_odrcode }</h6></td>
 				        			<td><h6>주문번호(${pvo.fk_odrcode })의 구매금액에 대한 적립</h6></td>

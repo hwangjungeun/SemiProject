@@ -2,11 +2,10 @@ package order.model;
 
 public class OrderVO_HJE {
 	
-	private String odrcode;
-	private String fk_userid;
-	private int odrtotalprice;
-	private int odrtotalpoint;
-	private String odrdate;
+	private String odrcode;		// 위시리스트번호
+	private String fk_userid;	// 회원아이디
+	private int odrtotalprice;	// 제품번호
+	private String odrdate;		// 옵션번호
 	
 	public String getOdrcode() {
 		return odrcode;
@@ -31,15 +30,6 @@ public class OrderVO_HJE {
 	public void setOdrtotalprice(int odrtotalprice) {
 		this.odrtotalprice = odrtotalprice;
 	}
-
-	public int getOdrtotalpoint() {
-		return odrtotalpoint;
-	}
-
-	public void setOdrtotalpoint(int odrtotalpoint) {
-		this.odrtotalpoint = odrtotalpoint;
-	}
-
 	public String getOdrdate() {
 		return odrdate;
 	}
