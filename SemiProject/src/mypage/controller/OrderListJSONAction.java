@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import common.controller.AbstractController;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
+import member.model.MemberVO_PJW;
 import order.model.OrderdetailVO_HJE;
 
 public class OrderListJSONAction extends AbstractController {
@@ -21,14 +22,22 @@ public class OrderListJSONAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+		String userid = loginuser.getUserid();
 		String userid= request.getParameter("userid");
 		
 		InterOrderDAO_HJE odao = new OrderDAO_HJE();
 		
 		// 사용자가 보고싶어하는 페이지 숫자
-//		String currentShowPageNo = request.getParameter("currentShowPageNo");
+		String currentShowPageNo = request.getParameter("currentShowPageNo");
 		HttpSession session = request.getSession();
-		String currentShowPageNo = (String) session.getAttribute("currentShowPageNo");
+//		String currentShowPageNo = (String) session.getAttribute("currentShowPageNo");
+		
+		String date1 = request.getParameter("date1");
+		String date2 = request.getParameter("date2");
+		
+		System.out.println(date1);
+		System.out.println(date2);
 
 		if(currentShowPageNo == null) {
 			currentShowPageNo = "1";
@@ -46,6 +55,8 @@ public class OrderListJSONAction extends AbstractController {
 		
 		paraMap.put("userid", userid );
 		paraMap.put("currentShowPageNo", currentShowPageNo);
+		paraMap.put("date1", date1);
+		paraMap.put("date2", date2);
 		
 		List<OrderdetailVO_HJE> orderList =  odao.selectPagingOrder(paraMap);
 		

@@ -1,10 +1,14 @@
 package mypage.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.MemberVO_PJW;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
 
@@ -21,9 +25,22 @@ public class OrderListAction extends AbstractController {
 			super.setViewPage("/WEB-INF/member/memberRegister.jsp");
 		}
 		else {  */
+		
+
+			HttpSession session = request.getSession();
 			
-			String userid= request.getParameter("userid");
+			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+			String userid = loginuser.getUserid();
+//			String userid= request.getParameter("userid");
 			InterOrderDAO_HJE odao = new OrderDAO_HJE();
+			
+			String date1 = request.getParameter("datepicker1");
+			String date2 = request.getParameter("datepicker2");
+			String date3 = request.getParameter("datepicker3");
+			String date4 = request.getParameter("datepicker4");
+			
+			request.setAttribute("date1", date1);
+			request.setAttribute("date2", date2);
 			
 			// 사용자가 보고싶어하는 페이지 숫자
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
@@ -53,8 +70,13 @@ public class OrderListAction extends AbstractController {
 
 //			System.out.println(currentShowPageNo);
 			
+			Map<String,String> paraMap = new HashMap<>();
+			paraMap.put("userid", userid );
+			paraMap.put("date1", date1);
+			paraMap.put("date2", date2);
+			
 			// 페이징 처리를 위한 주문에 대한 총 페이지 알아오기
-			int totalPage = odao.getTotalPage(userid);
+			int totalPage = odao.getTotalPage(paraMap);
 
 			// *** [맨처음][이전] 만들기 *** //
 			if(pageNo != 1) {
@@ -94,13 +116,12 @@ public class OrderListAction extends AbstractController {
 			request.setAttribute("pageBar", pageBar);
 			request.setAttribute("userid", userid);
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("currentShowPageNo", currentShowPageNo);
+			request.setAttribute("currentShowPageNo", currentShowPageNo);
 			
 			/// *** === 페이지바 만들기 끝 === *** ///
 			
 			// 총 주문 개수 구하기 시작 //
-			int allorder = odao.getCountAllOrder(userid);
+			int allorder = odao.getCountAllOrder(paraMap);
 			
 			request.setAttribute("allorder", allorder);
 			

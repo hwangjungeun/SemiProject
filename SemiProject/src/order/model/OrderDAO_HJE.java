@@ -73,7 +73,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			String sql = " select fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus " + 
 						 " from " + 
 						 " ( " + 
-						 "    select rownum as rno, fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus " + 
+						 "    select rownum as rno, fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, odrdate " + 
 						 "    from " + 
 						 "    (  " + 
 						 "        select fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus " + 
@@ -81,8 +81,12 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 "        on p.pseq = D.fk_pseq " + 
 						 "    )A JOIN tbl_order O " + 
 						 "    ON A.fk_odrcode = O.odrcode " + 
-						 "    where fk_userid= ? " + 
-						 " ) " + 
+						 "    where fk_userid= ? ";
+			
+			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+			}
+				  sql += " ) " + 
 						 " where rno between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -90,8 +94,18 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			pstmt.setInt(2, (currentShowPageNo * 5) - 4 );
-			pstmt.setInt(3, (currentShowPageNo * 5));
+			
+			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+				pstmt.setString(2, paraMap.get("date1"));
+				pstmt.setString(3, paraMap.get("date2"));
+				pstmt.setInt(4, (currentShowPageNo * 5) - 4 );
+				pstmt.setInt(5, (currentShowPageNo * 5));
+			}
+			else {
+				pstmt.setInt(2, (currentShowPageNo * 5) - 4 );
+				pstmt.setInt(3, (currentShowPageNo * 5));
+			}
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -123,7 +137,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 
 	// 페이징 처리를 위한 주문에 대한 총 페이지 알아오기
 	@Override
-	public int getTotalPage(String userid) throws SQLException {
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
 		int totalPage=0;
 		
 		try {
@@ -133,11 +147,19 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			String sql = " select ceil(count(*)/5) " + 
 						 " from tbl_orderdetail D JOIN tbl_order O " + 
 						 " ON d.fk_odrcode = O.odrcode " + 
-						 " where fk_userid= ? " ;
+						 " where fk_userid= ? ";
+							
+			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, userid);
+			pstmt.setString(1, paraMap.get("userid"));
+			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+				pstmt.setString(2, paraMap.get("date1"));
+				pstmt.setString(3, paraMap.get("date2"));
+			}
 			
 			rs= pstmt.executeQuery();
 			
@@ -155,7 +177,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 
 	// 총 주문 개수 구하기
 	@Override
-	public int getCountAllOrder(String userid) throws SQLException {
+	public int getCountAllOrder(Map<String, String> paraMap) throws SQLException {
 		int allorder=0;
 		
 		try {
@@ -165,11 +187,19 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			String sql = " select count(*) " + 
 						 " from tbl_orderdetail D JOIN tbl_order O " + 
 						 " ON d.fk_odrcode = O.odrcode " + 
-						 " where fk_userid= ? " ;
+						 " where fk_userid= ? ";
+							
+			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, userid);
+			pstmt.setString(1, paraMap.get("userid"));
+			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+				pstmt.setString(2, paraMap.get("date1"));
+				pstmt.setString(3, paraMap.get("date2"));
+			}
 			
 			rs= pstmt.executeQuery();
 			
