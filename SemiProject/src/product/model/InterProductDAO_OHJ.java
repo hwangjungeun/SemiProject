@@ -34,7 +34,8 @@ public interface InterProductDAO_OHJ {
 	// 페이지바를 만들기 위해서 해당userid의 위시리스트 목록에 대한 총페이지수 알아오기(select) 
 	int getWishTotalPage(String userid) throws SQLException;
 	
-	
+	// 위시리스트에서 해당 사용자의 위시리스트를 비우는(delete) 메소드
+	boolean deleteAllWishList(String fk_userid) throws SQLException;
 	
 	
 	
@@ -56,6 +57,8 @@ public interface InterProductDAO_OHJ {
 
 	// 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보(이미지,제품명,옵션컬러명,가격,수량,적립금)인 orderProgList를 보내준다.
 	List<OrderProgressVO_OHJ> showOdrProg() throws SQLException;
+
+	
 
 	
 

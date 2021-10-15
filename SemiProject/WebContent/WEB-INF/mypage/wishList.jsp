@@ -127,6 +127,8 @@
 		var bool = confirm("정말로 삭제하시겠습니까?");
 	//	console.log("확인용 bool => " + bool);
 		
+		console.log("확인용 wishseq => " + wishseq);
+		
 		if(bool){
 		
 			$.ajax({
@@ -164,8 +166,13 @@
 		// 체크박스가 체크된 것들의 opseq를 문자열 형태로 바꿔줌(예를 들어 "1,15,65,49" 이런식이다.)
 		var str_Opseq = checkboxOpseq();
 	//	alert("이거 넘겨야해 장바구니 페이지로 => " + str_Opseq);
-		
-		goCart(str_Opseq);
+	
+		if(str_Opseq == ""){
+			alert("선택된 상품이 없습니다.");
+		}
+		else{
+			goCart(str_Opseq);
+		}
 		
 	}// end of function goCheckboxCart()-----------------------------------------------
 	
@@ -206,7 +213,12 @@
 		
 		var str_Opseq = checkboxOpseq();
 		
-		goOrderForm(str_Opseq);
+		if(str_Opseq == ""){
+			alert("선택된 상품이 없습니다.");
+		}
+		else{
+			goOrderForm(str_Opseq);
+		}
 		
 	}// end of function goCheckboxOrderForm()------------------------------------
 	
@@ -214,10 +226,106 @@
 	// 선택된 체크박스의 wishseq들을 위시리스트목록에서 delete하는 함수
 	function deleteCheckboxWishList(){
 		
-	//	선택하신 상품을 삭제하시겠습니까? -> 확인,취소
-	//	관심상품이 삭제되었습니다. -> 확인
+		// 정말로 삭제하시겠습니까?
+		var bool = confirm("선택하신 상품을 삭제하시겠습니까?");
+	//	console.log("확인용 bool => " + bool);
+		
+		if(bool){ // 삭제진행
+			/////////////////////////////////////////////////////////////////////////
+			// 자바스크립트의 배열은 아래와 같이 나타낸다.(배열도 객체이다.)
+			var arrWishseq = new Array();
+			// 배열명.push("~~~");
+			
+			var arrProduct_wish = document.getElementsByName("product_wish");
+			
+			for(var i=0; i<arrProduct_wish.length; i++){ // 체크박스 길이만큼 반복돌림
+				
+				if( arrProduct_wish[i].checked ){
+					// 하위 체크박스(위시리스트 제품 체크박스)에 체크가 된 것이 있다라면
+					
+					var wishseq = arrProduct_wish[i].id;
+				//	console.log("체크된 체크박스의 wishseq => " + wishseq);
+					
+					arrWishseq.push(wishseq);
+				}
+				
+			}// end of for---------------------------------------------
+			
+			var str_Wishseq = arrWishseq.join(",");
+		//	alert("확인용 문자열 wishseq들의 모임 => " + str_Wishseq);
+			/////////////////////////////////////////////////////////////////////////	
+			
+			if(str_Wishseq == ""){
+				alert("선택된 상품이 없습니다.");
+			}
+			else{
+				$.ajax({
+					url:"<%= request.getContextPath()%>/mypage/deleteWishList.go",
+					type:"poST", // 안쓰면 기본 get방식임.
+					data:{"wishseq":str_Wishseq},
+					dataType:"json",
+		    		success:function(json){
+		    			
+		    			if(json.deleted){
+		    				alert("관심상품이 삭제되었습니다.");
+		    			}
+		    			else{
+		    				alert("죄송하지만, 삭제가 실패되었습니다.");
+		    			}
+		    			
+		    		},
+		    		error: function(request, status, error){
+		            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }
+				});
+			}
+			
+		}
+		
 	
+		// 삭제하고 난 이후에는 웹브라우저창을 새로고침해야하는데, history.go(0)이 아닌 wishList.go로 가서 페이지바를 새로 가져온다.
+	//	location.href = "javascript:history.go(0)";
+		location.href = "<%= request.getContextPath()%>/mypage/wishList.go";
+		
 	}// end of function deleteCheckboxWishList()--------------------------------
+	
+	
+	// 위시리스트의 목록을 다 비우기
+	function deleteAllWishList() {
+		
+		var bool = confirm("관심상품을 비우시겠습니까?");
+	//	console.log("확인용 bool => " + bool);
+		
+		if(bool){
+			
+			$.ajax({
+				url:"<%= request.getContextPath()%>/mypage/deleteAllWishList.go",
+				type:"poST",
+				data:{"fk_userid":"eomjh"}, // 원래는 ${SessionScope.loginuser.userid} 이다.######################################################
+				dataType:"json",
+	    		success:function(json){
+	    			
+	    			if(json.deleted){
+	    				alert("관심상품이 삭제되었습니다.");
+	    			}
+	    			else{
+	    				alert("죄송하지만, 관심상품 삭제가 실패되었습니다.");
+	    			}
+	    			
+	    		},
+	    		error: function(request, status, error){
+	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+			});
+			
+		}
+		
+	// 삭제하고 난 이후에는 웹브라우저창을 새로고침해야하는데, history.go(0)이 아닌 wishList.go로 가서 페이지바를 새로 가져온다.
+	//	location.href = "javascript:history.go(0)";
+		location.href = "<%= request.getContextPath()%>/mypage/wishList.go";	
+			
+	}// end of function deleteAllWishList()----------------------------------------
+	
 	
 </script>
 	
@@ -264,7 +372,7 @@
 							
 							<tr>
 								<td class="verticalM" align="center"> <!-- 모두선택/해제 -->
-									<input type="checkbox" name="product_wish" onclick="fun_wishCheck()" value="${opseq}" />
+									<input type="checkbox" name="product_wish" onclick="fun_wishCheck()" value="${opseq}" id="${wishseq}" />
 								</td>
 								<td class="verticalM" align="center"><img alt="${wlvo.povo.cimage}" src="../images/${wlvo.povo.cimage}" width="90" height="100"></td>
 								<td class="verticalM">
@@ -301,7 +409,7 @@
 			<div>
 				<div style="float: left;">
 					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;" onclick="deleteCheckboxWishList();" ><i class="fas fa-times"></i>&nbsp;삭제하기</button>
-					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;">관심상품 비우기</button>
+					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;" onclick="deleteAllWishList();">관심상품 비우기</button>
 					<button type="button" class="btn btn-outline-secondary" style="margin-right: 5px;" onclick="goCheckboxCart();" >장바구니 담기</button>
 				</div>
 				

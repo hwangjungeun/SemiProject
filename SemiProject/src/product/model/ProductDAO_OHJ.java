@@ -348,7 +348,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			conn = ds.getConnection();
 			
 			String sql = " delete from tbl_wishlist " + 
-						 " where wishseq = ? ";
+						 " where wishseq = ? "; // primary key가 아닌 opseq로 삭제하게되면 leess이 아닌 eomjh의 목록도 삭제하게 되므로 n이 1이 아니다. 따라서 조건절은 wishseq이다.
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, wishseq);
@@ -507,6 +507,36 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		return orderProgList;
 	}// end of public List<OrderProgressVO_OHJ> showOdrProg()----------------------------
+
+	
+	// 위시리스트에서 해당 사용자의 위시리스트를 비우는(delete) 메소드
+	@Override
+	public boolean deleteAllWishList(String fk_userid) throws SQLException {
+		
+		boolean deleted = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_wishlist " + 
+						 " where fk_userid = ? "; 
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n >= 1) {
+				// 목록삭제 성공되어짐.
+				deleted = true;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return deleted;
+	}// end of public boolean deleteAllWishList(String fk_userid)-------------------------------------
 
 	
 	

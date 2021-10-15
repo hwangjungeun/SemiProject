@@ -497,9 +497,10 @@ insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wish
 insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'leess',13,19);
 
 commit;
-
+-- delete from tbl_wishlist;
 -- drop table tbl_wishlist purge;
 -- drop sequence seq_tbl_wishlist_wishseq;
+select * from tbl_wishlist;
 
 -- 위시리스트 dao
 -- 이미지,상품명,옵션의 색상명,판매가,적립금,(배송구분,배송비,합계)
@@ -574,6 +575,10 @@ where recentseq = ? ;
 -- 위시리스트목록에서 해당하는seq 지우기
 delete from tbl_wishlist
 where wishseq = ? ;
+
+-- 해당 유저의 위시리스트 다 지우기
+delete from tbl_wishlist
+where fk_userid = ? ;
 
 --***********************************************************************************************--
 -- <주문> 장바구니 --

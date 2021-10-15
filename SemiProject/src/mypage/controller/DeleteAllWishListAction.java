@@ -6,9 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
-import product.model.*;
+import product.model.InterProductDAO_OHJ;
+import product.model.ProductDAO_OHJ;
 
-public class DeleteWishListAction extends AbstractController {
+public class DeleteAllWishListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -17,24 +18,11 @@ public class DeleteWishListAction extends AbstractController {
 		
 		if("POST".equalsIgnoreCase(method)) {
 			
-			String wishseq = request.getParameter("wishseq"); // wishseq => "4,1,3"이렇게 올 수도 있음.
-			String[] wishseqArr = wishseq.split(",");
+			String fk_userid = request.getParameter("fk_userid");
 			
 			InterProductDAO_OHJ pdao = new ProductDAO_OHJ();
 			
-			boolean deleted = false;
-			
-			for(int i=0; i<wishseqArr.length; i++) {
-				deleted = pdao.deleteWishList(wishseqArr[i]);
-				
-			//	System.out.println("확인용 wishseq의 값 => " + wishseqArr[i]);
-			//	System.out.println("확인용 deleted 결과 => " + deleted);
-				
-				if(!deleted) {// 삭제실패가 있음
-					break; // 반복문종료. 이 경우에는 deleted가 false이다.
-				}
-				// deleted가 true는 삭제성공인 경우다.
-			}
+			boolean deleted = pdao.deleteAllWishList(fk_userid);
 			
 			JSONObject jsonObj = new JSONObject(); // {}
 			jsonObj.put("deleted", deleted);	   // {"deleted":true} 또는 {"deleted":false}
