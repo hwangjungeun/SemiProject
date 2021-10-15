@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
  
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import common.controller.AbstractController;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
-import member.model.MemberVO_PJW;
+//import member.model.MemberVO_PJW;
 import order.model.OrderdetailVO_HJE;
 
 public class OrderListJSONAction extends AbstractController {
@@ -24,8 +24,10 @@ public class OrderListJSONAction extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		
-		MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
-		String userid = loginuser.getUserid();
+//		HttpSession session = request.getSession();
+		
+//		MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+//		String userid = loginuser.getUserid();
 //		String userid= request.getParameter("userid");
 		
 		InterOrderDAO_HJE odao = new OrderDAO_HJE();

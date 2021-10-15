@@ -5,10 +5,10 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpSession;
  
 import common.controller.AbstractController;
-import member.model.MemberVO_PJW;
+//import member.model.MemberVO_PJW;
 import mypage.model.*;
 
 public class PointListAction extends AbstractController {
@@ -32,11 +32,11 @@ public class PointListAction extends AbstractController {
 		}
 		else {	*/
 			
-			HttpSession session = request.getSession();
+//			HttpSession session = request.getSession();
 			
-			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
-			String userid = loginuser.getUserid();
-//			String userid = request.getParameter("userid");
+//			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+//			String userid = loginuser.getUserid();
+			String userid = request.getParameter("userid");
 			InterPointDAO_HJE pdao = new PointDAO_HJE();
 			
 			// 총 적립금
