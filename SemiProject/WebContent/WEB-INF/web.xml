@@ -9,9 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-<<<<<<< HEAD
-=======
-  
+
   <!-- ========= MyDBCP Setting Start  ===========  -->
   <resource-ref>
  	<description>Oracle Datasource example</description>
@@ -21,5 +19,4 @@
   </resource-ref>
   <!-- ========= MyDBCP Setting End  ===========  -->
   
->>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
 </web-app>
