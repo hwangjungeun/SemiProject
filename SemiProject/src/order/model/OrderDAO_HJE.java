@@ -83,27 +83,27 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 "    ON A.fk_odrcode = O.odrcode " + 
 						 "    where fk_userid= ? ";
 			
-			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
 			}
-				  sql += " ) "  ;
-//						+ " where rno between ? and ? ";
+				  sql += " ) "  
+						+ " where rno between ? and ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-//			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			
 			pstmt.setString(1, paraMap.get("userid"));
 			
-			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
-//				pstmt.setInt(4, (currentShowPageNo * 5) - 4 );
-//				pstmt.setInt(5, (currentShowPageNo * 5));
+				pstmt.setInt(4, (currentShowPageNo * 5) - 4 );
+				pstmt.setInt(5, (currentShowPageNo * 5));
 			}
 			else {
-//				pstmt.setInt(2, (currentShowPageNo * 5) - 4 );
-//				pstmt.setInt(3, (currentShowPageNo * 5));
+				pstmt.setInt(2, (currentShowPageNo * 5) - 4 );
+				pstmt.setInt(3, (currentShowPageNo * 5));
 			}
 			
 			
@@ -149,14 +149,14 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " ON d.fk_odrcode = O.odrcode " + 
 						 " where fk_userid= ? ";
 							
-			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
 			}
@@ -189,14 +189,14 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " ON d.fk_odrcode = O.odrcode " + 
 						 " where fk_userid= ? ";
 							
-			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			if( ("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
 			}
@@ -213,6 +213,109 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 		}
 		
 		return allorder;
-	} 
+	}
+
+	
+	// 취소한 주문리스트 출력하기
+	@Override
+	public List<OrderdetailVO_HJE> showCancelOrder(Map<String, String> paraMap) throws SQLException {
+		
+		List<OrderdetailVO_HJE> cancelorderList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select fk_odrcode, pimage, pname ,oqty , odrprice , cancelstatus  " + 
+						 " from " + 
+						 " ( " + 
+						 "    select fk_odrcode, pimage, pname ,oqty , odrprice , cancelstatus " + 
+						 "    from tbl_product P join tbl_orderdetail D " + 
+						 "    on p.pseq = D.fk_pseq " + 
+						 " )A JOIN tbl_order O  " + 
+						 " ON A.fk_odrcode = O.odrcode " + 
+						 " where fk_userid= ? and cancelstatus != 0 ";
+			
+			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
+				pstmt.setString(2, paraMap.get("date3"));
+				pstmt.setString(3, paraMap.get("date4"));
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				OrderdetailVO_HJE odvo = new OrderdetailVO_HJE();
+				odvo.setFk_odrcode(rs.getString(1));
+				
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
+				pvo.setPimage(rs.getString(2));
+				pvo.setPname(rs.getString(3));
+				
+				odvo.setPvo(pvo);
+				
+				odvo.setOqty(rs.getInt(4));
+				odvo.setOdrprice(rs.getInt(5));
+				odvo.setCancelstatus(rs.getInt(6));
+				
+				cancelorderList.add(odvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return cancelorderList;
+	} // end of public List<OrderdetailVO_HJE> showCancelOrder(Map<String, String> paraMap)
+
+	
+	// 총 취소 주문 개수 구하기
+	@Override
+	public int getCountCancelOrder(Map<String, String> paraMap) throws SQLException {
+
+		int cancelorder=0;
+		
+		try {
+			
+			conn= ds.getConnection();
+			
+			String sql = " select count(*) " + 
+						 " from tbl_orderdetail D JOIN tbl_order O " + 
+						 " ON D.fk_odrcode = O.odrcode " + 
+						 " where fk_userid= ?  and cancelstatus != 0 ";
+			
+			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
+				sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
+				pstmt.setString(2, paraMap.get("date3"));
+				pstmt.setString(3, paraMap.get("date4"));
+			}
+			
+			rs= pstmt.executeQuery();
+			
+			rs.next();
+			
+			cancelorder = rs.getInt(1);
+			
+		}finally {
+			close();
+		}
+		
+		return cancelorder;
+		
+	} // end of public int getCountCancelOrder(Map<String, String> paraMap)
 
 }

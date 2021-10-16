@@ -1,6 +1,7 @@
 package mypage.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import common.controller.AbstractController;
 //import member.model.MemberVO_PJW;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
+import order.model.OrderdetailVO_HJE;
 
 public class OrderListAction extends AbstractController {
 
@@ -34,13 +36,15 @@ public class OrderListAction extends AbstractController {
 			String userid= request.getParameter("userid");
 			InterOrderDAO_HJE odao = new OrderDAO_HJE();
 			
-			String date1 = request.getParameter("datepicker1");
-			String date2 = request.getParameter("datepicker2");
-			String date3 = request.getParameter("datepicker3");
-			String date4 = request.getParameter("datepicker4");
+			String date1 = request.getParameter("date1");
+			String date2 = request.getParameter("date2");
+			String date3 = request.getParameter("date3");
+			String date4 = request.getParameter("date4");
 			
 			request.setAttribute("date1", date1);
 			request.setAttribute("date2", date2);
+			request.setAttribute("date3", date3);
+			request.setAttribute("date4", date4);
 			
 			// 사용자가 보고싶어하는 페이지 숫자
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
@@ -80,8 +84,10 @@ public class OrderListAction extends AbstractController {
 
 			// *** [맨처음][이전] 만들기 *** //
 			if(pageNo != 1) {
-				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo=1'>&laquo;&laquo;</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>&laquo;</a></li>";
+//				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo=1'>&laquo;&laquo;</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo=1&date1="+date1+"&date2="+date2+"&date3="+date3+"&date4="+date4+"'>&laquo;&laquo;</a></li>";
+//				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"'>&laquo;</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+(pageNo-1)+"&date1="+date1+"&date2="+date2+"&date3="+date3+"&date4="+date4+"'>&laquo;</a></li>";
 			}
 			
 			
@@ -94,7 +100,8 @@ public class OrderListAction extends AbstractController {
 					pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
 				}
 				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+//					pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+pageNo+"&date1="+date1+"&date2="+date2+"&date3="+date3+"&date4="+date4+"'>"+pageNo+"</a></li>";
 				}
 				
 				loop++;	// 1 2 3
@@ -108,8 +115,10 @@ public class OrderListAction extends AbstractController {
 			
 			// *** [다음][마지막] 만들기 *** //
 			if( pageNo <= totalPage ) {
-				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+pageNo+"'>&raquo;</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+totalPage+"'>&raquo;&raquo;</a></li>";
+//				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+pageNo+"'>&raquo;</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+pageNo+"&date1="+date1+"&date2="+date2+"&date3="+date3+"&date4="+date4+"'>&raquo;</a></li>";
+//				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+totalPage+"'>&raquo;&raquo;</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='orderList.go?userid="+userid+"&currentShowPageNo="+totalPage+"&date1="+date1+"&date2="+date2+"&date3="+date3+"&date4="+date4+"'>&raquo;&raquo;</a></li>";
 			}
 			
 			
@@ -122,15 +131,15 @@ public class OrderListAction extends AbstractController {
 			
 			// 총 주문 개수 구하기 시작 //
 			int allorder = odao.getCountAllOrder(paraMap);
-			
 			request.setAttribute("allorder", allorder);
 			
-			
-			
+			// 총 취소주문 개수 구하기 시작 //
+			int cancelorder = odao.getCountCancelOrder(paraMap);
+			request.setAttribute("cancelorder", cancelorder);
 			
 //		}
 
-	//	super.setRedirect(false);
+		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/mypage/orderList_HJE.jsp");
 		
 	}

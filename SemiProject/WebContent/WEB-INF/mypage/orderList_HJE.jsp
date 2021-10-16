@@ -107,76 +107,19 @@
 	    
 	    
 	    showOrderList();
+	    showCancelOrderList();
+	    
 	});
 	
-// 	var userid="${sessionScope.loginuser.userid}"
-// 	var userid="${requestScope.userid}"
 	// Function Decalaration
 	function goSubmit() {
-		$.ajax({
-			url:"/SemiProject/mypage/orderListJSON.go",
-			//	type:"GET",
-				data:{"userid":"${requestScope.userid}"
-					 ,"currentShowPageNo":"${requestScope.currentShowPageNo}" 
-					 ,"date1":"${requestScope.date1}"  
-					 ,"date2":"${requestScope.date2}"},    
-				dataType:"JSON",
-				success:function(json) {
-					
-					var html = "";
-					
-					console.log(json);
-					 
-					if( json.length == 0) {
-			        	// 처음부터 데이터가 존재하지 않는 경우
-				    	// !!! 주의 !!!
-				    	// if(json == null) 이 아님!!!
-				    	// if(json.length == 0) 으로 해야함!!
-						html += "<tr>"+
-									"<td colspan='7' style=' height: 100px; vertical-align: middle'>"+
-										"<h6 style='color: #d6d6d6; text-align: center; '> 적립금내역이 없습니다.</h6>"+
-									"</td>"+
-							    "</tr>";
-		
-						$("tbody#showOrderList").html(html);
-		          }
-		          
-		          else {
-		        	  // 데이터가 존재하는 경우
-		        	  
-		        	  $.each(json, function(index, item){	// 반복문
-		        		  
-		        		  html += "<tr>"+
-									  	"<td class='verticalM' align='center'>"+item.fk_odrcode+"</td>"+
-										"<td class='verticalM' align='center'><img alt='"+item.pimage+"' src='../images/"+item.pimage+"' width='90' height='100'></td>"+
-										"<td class='verticalM'>"+
-											"<strong>"+item.pname+"</strong>"+
-										"</td>"+
-										"<td class='verticalM' align='center'>"+item.oqty+"</td>"+
-										"<td class='verticalM' align='center'><strong>"+(item.odrprice).toLocaleString('en')+" 원</strong></td>"+
-										"<td class='verticalM text-info' align='center'>"+item.deliverstatus+"</td>"+
-										"<td class='verticalM text-danger' align='center'>"+item.cancelstatus+"</td>"+
-									 "</tr>";
-			      	  });
-			      	  
-			      	  $("tbody#showOrderList").append(html);
-		          }
-					
-					
-				},
-				error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-		});
-		
-
 		
 		var frm = document.orderFrm;
 		
-<%-- 		frm.action= "<%=ctxPath%>/mypage/orderList.go"; --%>
-<%-- 		frm.action= "<%=ctxPath%>/mypage/orderList.go?userid="+userid+""; --%>
-		frm.method= "post";
+		frm.action= "<%=ctxPath%>/mypage/orderList.go";
+		frm.method= "get";
 		frm.submit();
+		
 		
 	}
 	
@@ -185,15 +128,13 @@
 			url:"/SemiProject/mypage/orderListJSON.go",
 		//	type:"GET",
 			data:{"userid":"${requestScope.userid}"
-				 ,"currentShowPageNo":"${requestScope.currentShowPageNo}" 
-				 ,"date1":"${requestScope.date1}"  
+				 ,"currentShowPageNo":"${requestScope.currentShowPageNo}"   
+				 ,"date1":"${requestScope.date1}"   
 				 ,"date2":"${requestScope.date2}"},   
 			dataType:"JSON",
 			success:function(json) {
 				
 				var html = "";
-				
-				console.log(json);
 				
 				if( json.length == 0) {
 		        	// 처음부터 데이터가 존재하지 않는 경우
@@ -238,6 +179,61 @@
 	}
 	
 	
+	function showCancelOrderList() {
+		$.ajax({
+			url:"/SemiProject/mypage/cancelOrderListJSON.go",
+		//	type:"GET",
+			data:{"userid":"${requestScope.userid}"
+				 ,"currentShowPageNo":"${requestScope.currentShowPageNo}"   
+				 ,"date3":"${requestScope.date3}"   
+				 ,"date4":"${requestScope.date4}"},   
+			dataType:"JSON",
+			success:function(json) {
+				
+				var html = "";
+				
+				if( json.length == 0) {
+		        	// 처음부터 데이터가 존재하지 않는 경우
+			    	// !!! 주의 !!!
+			    	// if(json == null) 이 아님!!!
+			    	// if(json.length == 0) 으로 해야함!!
+					html += "<tr>"+
+								"<td colspan='7' style=' height: 100px; vertical-align: middle'>"+
+									"<h6 style='color: #d6d6d6; text-align: center; '> 적립금내역이 없습니다.</h6>"+
+								"</td>"+
+						    "</tr>";
+	
+					$("tbody#showCancelOrderList").html(html);
+	          }
+	          
+	          else {
+	        	  // 데이터가 존재하는 경우
+	        	  
+	        	  $.each(json, function(index, item){	// 반복문
+	        		  
+	        		  html += "<tr>"+
+							  	"<td class='verticalM' align='center'>"+item.fk_odrcode+"</td>"+
+								"<td class='verticalM' align='center'><img alt='"+item.pimage+"' src='../images/"+item.pimage+"' width='90' height='100'></td>"+
+								"<td class='verticalM'>"+
+									"<strong>"+item.pname+"</strong>"+
+								"</td>"+
+								"<td class='verticalM' align='center'>"+item.oqty+"</td>"+
+								"<td class='verticalM' align='center'><strong>"+(item.odrprice).toLocaleString('en')+" 원</strong></td>"+
+								"<td class='verticalM text-danger' align='center'>"+item.cancelstatus+"</td>"+
+							 "</tr>";
+	        	  });
+	        	  
+	        	  $("tbody#showCancelOrderList").append(html);
+	          }
+			
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	}
+	
+	
 	
 </script>
 
@@ -257,7 +253,7 @@
 				<a class="nav-link active" data-toggle="tab" href="#listView1">주문내역조회(${requestScope.allorder })</a>
 			</li>
 			<li class="nav-item">
-		    	<a class="nav-link" data-toggle="tab" href="#listView2">취소/반품/교환 내역(0)</a>
+		    	<a class="nav-link" data-toggle="tab" href="#listView2">취소/반품/교환 내역(${requestScope.cancelorder })</a>
 			</li>
 		</ul>
 		
@@ -276,10 +272,11 @@
 						<button type="button" class="btn btn-light border" id="btn6m">6개월</button>
 					</div>
 					
-			  		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid }">
-					<input type="text" id="datepicker1" class="datepicker"  name="datepicker1">
+<%-- 			  		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid }"> --%>
+			  		<input type="hidden" name="userid" value="leess">
+					<input type="text" id="datepicker1" class="datepicker"  name="date1">
 		       		~
-			  		<input type="text" id="datepicker2" class="datepicker"  name="datepicker2">
+			  		<input type="text" id="datepicker2" class="datepicker"  name="date2">
 			  		<button type="button" class="btn btn-dark" id="btnsubmit" onClick="goSubmit();">조회</button>
 		  		</div>
 		  		<!-- 기간 조회하는 부분 끝 -->
@@ -358,9 +355,9 @@
 						<button type="button" class="btn btn-light border" id="btn6m">6개월</button>
 					</div>
 					
-					<input type="text" id="datepicker3" class="datepicker" name="datepicker3">
+					<input type="text" id="datepicker3" class="datepicker" name="date3">
 		       		~
-			  		<input type="text" id="datepicker4" class="datepicker" name="datepicker4">
+			  		<input type="text" id="datepicker4" class="datepicker" name="date4">
 			  		
 			  		<button type="button" class="btn btn-dark">조회</button>
 		  		</div>
@@ -386,7 +383,8 @@
 								<th class="verticalM">취소/교환/반품</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id = "showCancelOrderList">
+							<!-- 
 							<tr>
 								<td class="verticalM" align="center">s20211003-17</td>
 								<td class="verticalM" align="center"><img alt="300.jpg" src="../images/300.jpg" width="90" height="100"></td>
@@ -410,6 +408,7 @@
 								<td class="verticalM" align="center"><strong>17,900원</strong></td>
 								<td class="verticalM text-danger" align="center">취소,교환,반품</td>
 							</tr>
+							 -->
 						</tbody>
 					</table>
 				</div>
