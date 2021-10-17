@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import member.model.InterMemberDAO_OHJ;
 import member.model.MemberDAO_OHJ;
-import member.model.MemberVO;
 import member.model.MemberVO_OHJ;
 import product.model.*;
 
