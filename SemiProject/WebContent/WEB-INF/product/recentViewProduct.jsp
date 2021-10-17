@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- 돈을 형식에 맞게 찍어주기 위함. -->
 
 <jsp:include page="../header.jsp" />
 
@@ -216,7 +217,7 @@
 										</li>
 									</ul>
 								</td>
-								<td class="verticalM" align="center"><strong>${rvpvo.pvo.price}원</strong></td>
+								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${rvpvo.pvo.price}" pattern="#,###"/>원</strong></td>
 								<td class="verticalM" align="center"> <!-- align을 통해 내부를 가운데정렬 -->
 									<c:set var="recentseq" value="${rvpvo.recentseq}" />
 									<button type="button" class="btn btn-outline-secondary" style="display: block; margin-bottom: 3px;" onclick="goCart(${recentseq});">장바구니</button>
