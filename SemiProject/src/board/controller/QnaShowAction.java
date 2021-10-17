@@ -5,16 +5,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class DelayShowAction extends AbstractController {
+public class QnaShowAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	
 		String method = request.getMethod();
 		
-		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/board/delayShow.jsp");	
-
+        //	super.setRedirect(false);
+		super.setViewPage("/WEB-INF/board/qnaShow.jsp");	
+		
+		return;
+		
 	}
 
 }

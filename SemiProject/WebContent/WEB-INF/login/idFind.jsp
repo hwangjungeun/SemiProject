@@ -3,7 +3,7 @@
 
     <%
     String ctxPath = request.getContextPath();
-    //    /MyMVC
+    //    /SemiProject
 %>    
 
 <!-- Required meta tags -->
@@ -39,7 +39,7 @@
 			// 성명 및 이메일에 대한 유효성 검사(정규표현식)는 생략하겠습니다.
 			
 			var frm = document.idFindFrm;
-			frm.action = "<%= ctxPath%>/login/idFind.go";
+			frm.action = "<%= ctxPath%>/login/idSearch.go";
 			frm.method = "POST";
 			frm.submit();
 			
@@ -54,11 +54,11 @@
    <ul style="list-style-type: none">
          <li style="margin: 25px 0">
             <label for="userid" style="display: inline-block; width: 90px">성명</label>
-            <input type="text" name="name" id="name" size="25" placeholder="홍길동" autocomplete="off" required />
+            <input type="text" name="name" id="name" size="25" placeholder="성명을입력하세요" autocomplete="off" required />
          </li>
          <li style="margin: 25px 0">
             <label for="userid" style="display: inline-block; width: 90px">이메일</label>
-            <input type="text" name="email" id="email" size="25" placeholder="abc@def.com" autocomplete="off" required />
+            <input type="text" name="email" id="email" size="25" placeholder="abcd1234@gmail.com" autocomplete="off" required />
          </li>
    </ul>
    

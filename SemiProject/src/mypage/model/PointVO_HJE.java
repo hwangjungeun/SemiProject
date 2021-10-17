@@ -1,12 +1,17 @@
 package mypage.model;
 
-public class PointVO {
-	private String fk_odrcode;
-	private String fk_userid;
+
+public class PointVO_HJE {
+	private String fk_odrcode;	// 주문코드
+	private String fk_userid;	// 회원아이디
+	private String odrdate;	// 주문일
 	private String start_day;
 	private String end_day;
 	private int p_status;
 	private int p_idle;
+	private int point;
+	
+	
 	public String getFk_odrcode() {
 		return fk_odrcode;
 	}
@@ -43,5 +48,17 @@ public class PointVO {
 	public void setP_idle(int p_idle) {
 		this.p_idle = p_idle;
 	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+	public String getOdrdate() {
+		return odrdate;
+	}
+	public void setOdrdate(String odrdate) {
+		this.odrdate = odrdate;
+	}	
 	
 }
