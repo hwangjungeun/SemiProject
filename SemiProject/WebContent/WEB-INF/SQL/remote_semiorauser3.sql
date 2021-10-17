@@ -190,10 +190,12 @@ create table tbl_wishlist
 (wishseq       NUMBER                    -- 위시리스트번호
 ,fk_userid     VARCHAR2(40) not null     -- 회원아이디 
 ,fk_pseq       NUMBER(8)    not null     -- 제품번호
+,fk_opseq      NUMBER       not null     -- 옵션번호
 
 ,constraint PK_tbl_wishlist primary key(wishseq)
 ,constraint FK_tbl_wishlist foreign key(fk_userid) references tbl_member(userid)
 ,constraint FK_tbl_wishlist2 foreign key(fk_pseq) references tbl_product(pseq)
+,constraint FK_tbl_wishlist3 foreign key(fk_opseq) references tbl_poption(opseq)
 );
 --Table TBL_WISHLIST이(가) 생성되었습니다.
 
@@ -213,7 +215,7 @@ create table tbl_order
 (odrcode        VARCHAR2(20)                     -- 주문코드
 ,fk_userid      varchar2(40)                     -- 회원아이디
 ,odrtotalprice  NUMBER  not null                 -- 주문총액
-,odrtotalpoint  NUMBER  not null                 -- 주문총포인트
+--,odrtotalpoint  NUMBER  not null                 -- 주문총포인트
 ,odrdate        DATE    default sysdate          -- 주문일자
 
 ,constraint PK_tbl_order primary key(odrcode)
@@ -256,6 +258,34 @@ nominvalue
 nocycle
 nocache;
 -- Sequence ODRSEQNUMSEQ이(가) 생성되었습니다.
+
+
+
+
+-- **** 주문진행중 테이블 생성하기 **** --
+create table tbl_orderProgress
+(odrProseq          NUMBER                  -- 주문진행번호
+,fk_opseq           NUMBER       not null   -- 옵션번호
+,fk_userid          varchar2(40) not null   -- 회원아이디
+,wishoqty           NUMBER(4)    not null   -- 구매수량
+
+,constraint PK_tbl_orderProgress primary key(odrProseq)
+,constraint FK_tbl_orderProgress foreign key(fk_opseq) references tbl_poption(opseq)
+,constraint FK_tbl_orderProgress2 foreign key(fk_userid) references tbl_member(userid)
+);
+-- Table TBL_ORDERPROGRESS이(가) 생성되었습니다.
+
+-- **** 주문진행번호 시퀀스 생성하기 **** --
+create sequence seq_tbl_odrProg_odrProseq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+-- Sequence SEQ_TBL_ODRPROG_ODRPROSEQ이(가) 생성되었습니다.
+
+
 
 -- ********************************************************* --
 -- *************** 여기서부터 개발 시작입니다~~~~ *************** --
@@ -320,13 +350,50 @@ values(seq_tbl_poption_opseq.nextval,3,4,'303_blue.jpg',3);
 insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
 values(seq_tbl_poption_opseq.nextval,3,6,'303_pink.jpg',2);
 --------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,5,'moreover blouse','304_0.jpg',39000,'MD추천♥ 드레이프한 디자인의 블라우스에요>< 넥라인에 자연스러운 주름이 잡혀 여성스러운 느낌을 주면서 차분하고 안정된 컬러로 모던하게 연출하기 좋답니다:) 실키한 소재감으로 터치감이 너무 좋았구요, 은은하게 포인트를 주어 연출하기 좋은 블라우스로 추천드려요!',39000*0.01,sysdate);
 
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,12,1,'304_black.jpg',2);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,12,3,'304_gray.jpg',2);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,6,'chemi autumn pants','305_0.jpg',29000,'가을버전의 버너데님 보여드려요 ! 코튼 소재로 제작된 팬츠로 탄탄한 소재로 데일리하게 입기 좋은 팬츠에요! 적당히 여유있는 일자핏의 팬츠로 블랙과 아이보리의 베이직한 컬러로 보여드릴게요 ♡',29000*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,13,1,'305_black.jpg',2);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,13,2,'305_white.jpg',4);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,4,'sente knit','306_0.jpg',34000,'단가라로 포인트 주기좋은 베이직한 니트예요! 밑단과 소맷단의 탄탄한 시보리라인으로 슬림한 허리라인 연출이 가능한 아이템입니다 ! 손등을 덮는 소매길이로 여리여리한 연출이 가능한 니트입니다 ! 총 세가지 컬러 보여드릴게요',34000*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,14,4,'306_blue.jpg',7);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,14,2,'306_white.jpg',1);
+--------------------------------------------------------------------------------------
+insert into tbl_product(pseq,fk_clseq,pname,pimage,price,pcontent,point,pinputdate)
+values(seq_tbl_product_pseq.nextval,4,'pomme knit','307_0.jpg',22100,'크롭기장의 꽈배기 니트 보여드려요 ! 부드러운 감촉이 매력적이 제품으로로 까슬거림없이 착용가능한 니트제품입니다 ! 적당한 두께감으로 단독으로 착용하거나 한겨울 이너로도 착용하기 좋은 두께감으로 자주 손이 갈 아이템입니다 .',22100*0.01,sysdate);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,15,5,'307_green.jpg',2);
+
+insert into tbl_poption(opseq,fk_pseq,fk_cseq,cimage,cnt)
+values(seq_tbl_poption_opseq.nextval,15,2,'307_white.jpg',3);
+--------------------------------------------------------------------------------------
 commit;
+
+select * from tbl_product;
 
 desc tbl_product;
 desc tbl_poption;
 
----------------------------------------------------------------------------------
+--***********************************************************************************************--
 -- 최근 본 상품 insert
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',1,sysdate);
@@ -337,6 +404,22 @@ values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',2,sysdate);
 insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
 values(seq_tbl_rvProduct_recentseq.nextval,'leess',2,sysdate);
 
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',3,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',12,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',13,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',14,sysdate);
+
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,'eomjh',15,sysdate);
+
+commit;
 
 -- 최근 본 상품 dao(테이블 재생성 전-예전꺼)
 select pimage, pname, price, fk_sseq, viewday
@@ -347,13 +430,13 @@ order by viewday desc;
 
 
 -- V.fk_userid, V.fk_pseq, V.viewday, P.pseq, P.pname, P.pimage, P.price
-select P.pname, P.pimage, P.price
+select P.pname, P.pimage, P.price, P.pseq, V.recentseq
 from tbl_recentViewProduct V JOIN tbl_product P
 ON V.fk_pseq = P.pseq
 where V.fk_userid = 'eomjh'
 order by viewday desc;
 -- 동일함(아래는 P.V.등 테이블명을 안써준거임).
-select pname, pimage, price
+select pname, pimage, price, pseq, recentseq
 from tbl_recentViewProduct V JOIN tbl_product P
 ON V.fk_pseq = P.pseq
 where fk_userid = 'eomjh'
@@ -361,15 +444,35 @@ order by viewday desc;
 -- 최근본상품 목록을 보여줄때, 색상옵션은 생각할 필요가 없다. -> 우선 이걸로 최근본상품 목록을 보여주고,
 -- 옵션 select태그를 사용자가 누르면, change이벤트가 발생하면 ajax로 처리.
 
+-- 위의 이거에 페이지바를 추가하려면 아래와 같이 해야한다.
+select pname, pimage, price, pseq, recentseq
+from
+(
+    select rownum AS RNO, pname, pimage, price, pseq, recentseq
+    from
+    (
+        select pname, pimage, price, pseq, recentseq
+        from tbl_recentViewProduct V JOIN tbl_product P
+        ON V.fk_pseq = P.pseq
+        where fk_userid = 'eomjh'
+        order by viewday desc
+    ) R
+) T
+where T.RNO between 3 and 4;
 
-select P.pname, C.cname
+-- 해당 userid에 맞는 최근본상품목록 총 페이지수
+select ceil(count(*)/3)
+from tbl_recentViewProduct
+where fk_userid = 'eomjh';
+
+
+select P.pname, C.cname, O.opseq
 from tbl_product P JOIN tbl_poption O
 ON P.pseq = O.fk_pseq
 JOIN tbl_pcolor C
 ON O.fk_cseq = C.cseq
 where P.pseq = '3';
 -- 해당하는 제품에 옵션으로, 무슨 색상들이 있는지 보여줌.
-
 
 
 select *
@@ -381,8 +484,151 @@ JOIN tbl_pcolor C
 ON O.fk_cseq = C.cseq;
 -- 이거 최근본상품,제품,옵션,색상을 묶은건데 사용할 곳 없음.
 
+--***********************************************************************************************--
+-- 위시리스트 insert
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',3,4);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',1,1);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'leess',2,2);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',12,16);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',12,17);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',14,20);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',13,19);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'eomjh',14,21);
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq) values(seq_tbl_wishlist_wishseq.nextval,'leess',13,19);
+
+commit;
+-- delete from tbl_wishlist;
+-- drop table tbl_wishlist purge;
+-- drop sequence seq_tbl_wishlist_wishseq;
+select * from tbl_wishlist;
+
+-- 위시리스트 dao
+-- 이미지,상품명,옵션의 색상명,판매가,적립금,(배송구분,배송비,합계)
+select O.cimage, P.pname, C.cname, P.price, P.point
+from tbl_wishlist W JOIN tbl_poption O
+ON W.fk_opseq = O.opseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+JOIN tbl_product P
+ON W.fk_pseq = P.pseq
+where fk_userid = 'eomjh'
+order by wishseq desc;
+-- 동일함(아래는 P.V.등 테이블명을 안써준거임).
+select cimage, pname, cname, price, point
+from tbl_wishlist W JOIN tbl_poption O
+ON W.fk_opseq = O.opseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+JOIN tbl_product P
+ON W.fk_pseq = P.pseq
+where fk_userid = 'eomjh'
+order by wishseq desc;
+
+-- 위의 이거에 페이지바를 추가하려면 아래와 같이 해야한다.
+select cimage, pname, cname, price, point, opseq, wishseq
+from
+(
+    select rownum AS RNO, cimage, pname, cname, price, point, opseq, wishseq
+    from
+    (
+        select cimage, pname, cname, price, point, opseq, wishseq
+        from tbl_wishlist W JOIN tbl_poption O
+        ON W.fk_opseq = O.opseq
+        JOIN tbl_pcolor C
+        ON O.fk_cseq = C.cseq
+        JOIN tbl_product P
+        ON W.fk_pseq = P.pseq
+        where fk_userid = 'eomjh'
+        order by wishseq desc
+    )R
+) T
+where T.RNO between 3 and 4;
+
+-- 해당 userid에 맞는 위시리스트목록 총 페이지수
+select ceil(count(*)/3)
+from tbl_wishlist
+where fk_userid = 'eomjh';
+
+
+--***********************************************************************************************--
+-- 옵션번호/주문수량 을 통해 주문FORM테이블 select하기
+-- 이미지,제품명,옵션의 색상명,판매가,수량,(적립금,배송구분,배송비,합계)
+select O.cimage, P.pname, C.cname, P.price, P.point
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+where opseq = 4;
+-- 동일함(아래는 P.V.등 테이블명을 안써준거임).
+select cimage, pname, cname, price, point
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+where opseq = 4;
+
+--***********************************************************************************************--
+-- 최근본상품목록에서 해당하는seq 지우기
+delete from tbl_recentViewProduct
+where recentseq = ? ;
+
+-- 위시리스트목록에서 해당하는seq 지우기
+delete from tbl_wishlist
+where wishseq = ? ;
+
+-- 해당 유저의 위시리스트 다 지우기
+delete from tbl_wishlist
+where fk_userid = ? ;
+
+--***********************************************************************************************--
+-- <주문> 장바구니 --
+
+-- 장바구니번호를 이용하여 fk_opseq(옵션번호)와 oqty(주문량)을 조회(select)
+select fk_opseq, oqty from tbl_cart where cartseq = 2;
+
+-- 주문진행중 테이블에 insert하는 메소드
+insert into tbl_orderProgress(odrproseq,fk_opseq,fk_userid,wishoqty)
+values(seq_tbl_odrProg_odrProseq.nextval, ?, ?, ?);
+
+-- 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보orderProgList를 보내준다.
+-- 이미지,제품명,옵션컬러명,가격,수량,적립금
+select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+JOIN tbl_pcolor C
+ON O.fk_cseq = C.cseq
+JOIN tbl_orderProgress G
+ON O.opseq = G.fk_opseq;
+
+--delete from tbl_orderProgress;
+commit;
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'eomjh',14,3,sysdate,20);
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'orange3088',14,2,sysdate,21);
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'orange3088',3,1,sysdate,4);
+
+insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
+values(seq_tbl_cart_cartseq.nextval,'orange3088',3,3,sysdate,19);
+
+
+--***********************************************************************************************--
+-- 회원명,포인트,주소,연락처,이메일 조회하기
+select name, postcode, address, detailaddress, extraaddress, mobile, email
+from tbl_member
+where userid = 'leess';
+
+
 
 ----------------------------------------------------------------------------
+show user;
+
+select * from tab;
+
 select * from tbl_categoryU;
 select * from tbl_categoryL;
 select * from tbl_product;
@@ -390,11 +636,20 @@ select * from tbl_pcolor;
 select * from tbl_poption;
 select * from tbl_recentViewProduct;
 select * from tbl_cart;
-select * from tbl_wishlist;
+select * from tbl_wishlist order by wishseq desc;
 select * from tbl_order;
 select * from tbl_orderdetail;
 
+select * from tbl_orderProgress;
+
 select * from tbl_member; -- leess, eomjh
+
+select * from tbl_point;
+desc tbl_point;
 
 desc tbl_member;
 desc tbl_recentViewProduct;
+desc tbl_wishlist;
+desc tbl_orderProgress;
+desc tbl_cart;
+------------------------------------------------------------------------------
