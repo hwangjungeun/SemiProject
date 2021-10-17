@@ -592,7 +592,7 @@ values(seq_tbl_odrProg_odrProseq.nextval, ?, ?, ?);
 
 -- 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보orderProgList를 보내준다.
 -- 이미지,제품명,옵션컬러명,가격,수량,적립금
-select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point
+select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point, P.pseq, O.opseq
 from tbl_product P JOIN tbl_poption O
 ON P.pseq = O.fk_pseq
 JOIN tbl_pcolor C
@@ -611,14 +611,14 @@ values(seq_tbl_cart_cartseq.nextval,'orange3088',14,2,sysdate,21);
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
 values(seq_tbl_cart_cartseq.nextval,'orange3088',3,1,sysdate,4);
-
+--update tbl_cart set fk_pseq = 13 where cartseq = 7;
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
 values(seq_tbl_cart_cartseq.nextval,'orange3088',3,3,sysdate,19);
 
 
 --***********************************************************************************************--
 -- 회원명,포인트,주소,연락처,이메일 조회하기
-select name, postcode, address, detailaddress, extraaddress, mobile, email
+select name, postcode, address, detailaddress, extraaddress, mobile, email, userid
 from tbl_member
 where userid = 'leess';
 

@@ -459,7 +459,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 	}// end of public int insertOdrProg(Map<String,String> map)---------------------------
 
 	
-	// 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보(이미지,제품명,옵션컬러명,가격,수량,적립금)인 orderProgList를 보내준다.
+	// 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보(이미지,제품명,옵션컬러명,가격,수량,적립금)와 주문완료가 원하는 정보(제품번호,옵션번호)인 orderProgList를 보내준다.
 	@Override
 	public List<OrderProgressVO_OHJ> showOdrProg() throws SQLException {
 		
@@ -468,7 +468,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point " + 
+			String sql = " select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point, P.pseq, O.opseq " + 
 						 " from tbl_product P JOIN tbl_poption O " + 
 						 " ON P.pseq = O.fk_pseq " + 
 						 " JOIN tbl_pcolor C " + 
@@ -492,6 +492,8 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 				pvo.setPrice(rs.getInt(4));
 				opvo.setWishoqty(rs.getInt(5));
 				pvo.setPoint(rs.getInt(6));
+				pvo.setPseq(rs.getString(7));
+				povo.setOpseq(rs.getString(8));
 				
 				povo.setPcvo(pcvo);
 				povo.setPvo(pvo);

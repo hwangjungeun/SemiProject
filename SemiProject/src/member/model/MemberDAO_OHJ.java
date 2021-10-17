@@ -64,7 +64,7 @@ public class MemberDAO_OHJ implements InterMemberDAO_OHJ {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select name, postcode, address, detailaddress, extraaddress, mobile, email " + 
+			String sql = " select name, postcode, address, detailaddress, extraaddress, mobile, email, userid " + 
 						 " from tbl_member " + 
 						 " where userid = ? ";
 			
@@ -83,6 +83,7 @@ public class MemberDAO_OHJ implements InterMemberDAO_OHJ {
 				member.setExtraaddress(rs.getString(5));
 				member.setMobile(aes.decrypt(rs.getString(6))); // 복호화
 				member.setEmail(aes.decrypt(rs.getString(7))); // 복호화
+				member.setUserid(rs.getString(8));
 			}
 			
 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
