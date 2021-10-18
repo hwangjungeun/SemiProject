@@ -64,11 +64,11 @@ public class OrderEndAction extends AbstractController {
 		// ===== Transaction 처리하기 ===== // 
 		// 1) tbl_order와 tbl_orderdetail 주문내역insert
 		// 2) tbl_orderProgress 주문대기중목록delete
-		// 3) tbl_point 포인트 update,delete
-		// 4) tbl_cart 해당목록delete
-		// 5) tbl_wishlist 해당목록delete
-		// * 6) tbl_recentViewProduct 해당목록delete(-> 안함!)
-		// 7) tbl_poption 의 cnt 감소 update
+		// 3) tbl_cart 해당목록delete
+		// 4) tbl_wishlist 해당목록delete
+		// * 5) tbl_recentViewProduct 해당목록delete(-> 안함!)
+		// 6) tbl_poption 의 cnt 감소 update
+		// 7) tbl_member 포인트 insert,delete
 		
 		
 		// 결제성공했으니, orderEnd.jsp에 넘겨줄꺼야~~
@@ -93,12 +93,25 @@ public class OrderEndAction extends AbstractController {
 		
         if(isSuccess == 1) { // 데이터베이스에서 성공한 경우
         	
+        //	System.out.println("~~~주문이 성공적으로 완료되었습니다!!!~~~");
         	
+        	request.setAttribute("odrcode", odrcode); // 주문완료페이지에 보여줄 주문코드번호
+        
+        //	super.setRedirect(false);
+			super.setViewPage("/WEB-INF/order/orderEnd.jsp");
+		
+        }
+        else { // 데이터베이스에서 실패한 경우
+        	String loc = request.getContextPath() + "/index.go";
+        	String message = "Sorry! 주문이 실패되었습니다...";
         	
+        	request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			 
+		//	super.setRedirect(false);
+			super.setViewPage("/WEB-INF/msg.jsp");
         }
         
-//		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/order/orderEnd.jsp");
 		
 	}
 

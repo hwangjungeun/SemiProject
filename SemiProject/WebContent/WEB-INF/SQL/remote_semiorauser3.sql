@@ -259,7 +259,16 @@ nocycle
 nocache;
 -- Sequence ODRSEQNUMSEQ이(가) 생성되었습니다.
 
-
+-- 옵션번호 컬럼 추가하기
+alter table tbl_orderdetail
+add fk_opseq number;
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+alter table tbl_orderdetail
+add constraint FK_tbl_orderdetail3 foreign key(fk_opseq) references tbl_poption(opseq);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+alter table tbl_orderdetail
+modify fk_opseq not null;
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
 
 
 -- **** 주문진행중 테이블 생성하기 **** --
@@ -605,13 +614,13 @@ insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
 values(seq_tbl_cart_cartseq.nextval,'eomjh',14,3,sysdate,20);
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
-values(seq_tbl_cart_cartseq.nextval,'orange3088',14,2,sysdate,21);
+values(seq_tbl_cart_cartseq.nextval,'eomjh',14,2,sysdate,21);
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
-values(seq_tbl_cart_cartseq.nextval,'orange3088',3,1,sysdate,4);
---update tbl_cart set fk_pseq = 13 where cartseq = 7;
+values(seq_tbl_cart_cartseq.nextval,'eomjh',13,1,sysdate,4);
+
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
-values(seq_tbl_cart_cartseq.nextval,'orange3088',3,3,sysdate,19);
+values(seq_tbl_cart_cartseq.nextval,'eomjh',3,3,sysdate,19);
 
 
 --***********************************************************************************************--
@@ -640,9 +649,25 @@ where fk_userid = 'eomjh';
 delete from tbl_orderProgress
 where fk_userid = ?;
 
+-- 장바구니에 해당 옵션번호가 존재하는지 select
+select count(*)
+from tbl_cart
+where fk_userid = 'eomjh' and fk_opseq = 20;
 -- 장바구니에서 해당 옵션번호 delete
 delete from tbl_cart
 where fk_userid = ? and fk_opseq = ?;
+
+-- 위시리스트에 해당 옵션번호가 존재하는지 select
+select count(*)
+from tbl_wishlist
+where fk_userid = 'eomjh' and fk_opseq = 4;
+-- 위시리스트에서 해당 옵션번호 delete
+delete from tbl_wishlist
+where fk_userid = ? and fk_opseq = ?;
+
+-- 해당하는 옵션번호의 재고량 감하기(update)
+update tbl_poption set cnt = cnt - ?
+where opseq = ?;
 
 
 ----------------------------------------------------------------------------

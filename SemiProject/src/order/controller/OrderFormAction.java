@@ -105,7 +105,7 @@ public class OrderFormAction extends AbstractController {
 				
 				// 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보(이미지,제품명,옵션컬러명,가격,수량,적립금)와 주문완료가 원하는 정보(제품번호,옵션번호)인 orderProgList를 보내준다.
 				List<OrderProgressVO_OHJ> orderProgList = pdao.showOdrProg();
-				System.out.println("확인용 orderProgList => " + orderProgList);
+			//	System.out.println("확인용 orderProgList => " + orderProgList);
 				
 				
 				// 회원정보를 조회해서 뷰단에 보낸다.(getParameter로 넘어온 userid를 이용)
