@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface InterProductDAO_OHJ {
 
-	// == 최근본상품 == //
+	// == 최근본상품 == // ================================================================================
 	
 	// 최근본상품 목록을 조회(select)하는 메소드
 	List<RecentViewProdVO_OHJ> selectRecentViewProduct(Map<String, String> paraMap) throws SQLException;
@@ -22,8 +22,7 @@ public interface InterProductDAO_OHJ {
 	
 	
 	
-	
-	// == 위시리스트 == //
+	// == 위시리스트 == // ================================================================================
 	
 	// 위시리스트 목록을 조회(select)하는 메소드
 	List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap) throws SQLException;
@@ -39,15 +38,7 @@ public interface InterProductDAO_OHJ {
 	
 	
 	
-	
-	// == 주문== //
-	// 옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
-//	List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException;
-
-	
-	
-	
-	
+	// == 주문폼 작성 == // ====================================================================================
 	
 	// 장바구니번호를 이용하여 fk_opseq(옵션번호)와 oqty(주문량)을 조회(select)하는 메소드
 	Map<String, String> selectFromCart(String cartseq) throws SQLException;
@@ -59,8 +50,13 @@ public interface InterProductDAO_OHJ {
 	List<OrderProgressVO_OHJ> showOdrProg() throws SQLException;
 
 	
-
 	
+	// == 주문 완료 == // ====================================================================================
+	// 전표(주문코드)를 생성해주는 메소드
+	String getSeq_ordercode() throws SQLException;
+
+	// 결제성공시 transaction 처리를 해주는 메소드
+	int orderAdd(Map<String, Object> paraMap) throws SQLException;
 
 	
 

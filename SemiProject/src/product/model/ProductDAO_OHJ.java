@@ -225,57 +225,7 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		return wishList;
 	}// end of public List<WishListVO_OHJ> selectWishList(Map<String, String> paraMap)-----------------------
-
-/*
-	// 옵션번호를 이용하여 주문하고자 하는 내역을 조회(select)하는 메소드
-	@Override
-	public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap) throws SQLException {
-		
-		List<POptionVO_OHJ> orderList = new ArrayList<>();
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select cimage, pname, cname, price, point " + 
-						 " from tbl_product P JOIN tbl_poption O " + 
-						 " ON P.pseq = O.fk_pseq " + 
-						 " JOIN tbl_pcolor C " + 
-						 " ON O.fk_cseq = C.cseq " + 
-						 " where opseq = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("opseq"));
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				POptionVO_OHJ povo = new POptionVO_OHJ();
-				povo.setCimage(rs.getString(1));
-				
-				ProductVO_OHJ pvo = new ProductVO_OHJ();
-				pvo.setPname(rs.getString(2));
-				
-				PColorVO_OHJ pcvo = new PColorVO_OHJ();
-				pcvo.setCname(rs.getString(3));
-				
-				pvo.setPrice(rs.getInt(4));
-				pvo.setPoint(rs.getInt(5));
-				
-				povo.setPvo(pvo);
-				povo.setPcvo(pcvo);
-				
-				orderList.add(povo);
-				
-			}// end of if------------------------------------------------
-			
-		} finally {
-			close();
-		}
-		
-		return orderList;
-	}// end of public List<POptionVO_OHJ> selectOrderList(Map<String, String> paraMap)-----------------------
-*/
+	
 	
 	// 최근본상품에서 해당제품의 목록을 삭제(delete)하는 메소드
 	@Override
@@ -539,7 +489,253 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 		return deleted;
 	}// end of public boolean deleteAllWishList(String fk_userid)-------------------------------------
+	
+	
+	// 전표(주문코드)를 생성해주는 메소드
+	@Override
+	public String getSeq_ordercode() throws SQLException {
+		
+		String seq = "";
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select seq_tbl_order_odrcode.nextval AS seq " + 
+						 " from dual ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			seq = rs.getString(1); // 채번해온 주문코드 값
+			
+		} finally {
+			close();
+		}
+			
+		return seq;
+		
+	}// end of public int getSeq_ordercode()-----------------------------------------
 
 	
+	
+	// 결제성공시 transaction 처리를 해주는 메소드
+	@Override
+	public int orderAdd(Map<String, Object> paraMap) throws SQLException {
+
+		int isSuccess = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			conn.setAutoCommit(false);  // ★수동커밋★
+
+			
+			String userid = (String) paraMap.get("userid"); 				// 회원아이디
+			String odrtotalprice = (String) paraMap.get("odrtotalprice"); 	// 주문총액
+			String[] fk_pseqArr = (String[]) paraMap.get("fk_pseqArr"); 	// 제품번호
+			String[] oqtyArr = (String[]) paraMap.get("oqtyArr"); 			// 주문량
+			String[] odrpriceArr = (String[]) paraMap.get("odrpriceArr"); 	// 주문가격
+			String[] fk_opseqArr = (String[]) paraMap.get("fk_opseqArr"); 	// 옵션번호
+			String odrcode = (String) paraMap.get("odrcode"); 				// 주문테이블의 주문코드(채번)
+			
+			int totalquantity = 0; // 주문 총수량
+			
+			for(int i=0; i<odrpriceArr.length; i++) {
+				totalquantity += Integer.parseInt(odrpriceArr[i]);
+			}// end of for------------------------------------
+			
+		//	System.out.println("주문 총 수량 : " + totalquantity);
+			
+			
+			////////////////////////////////////////////////////////////////////
+			// 5) tbl_wishlist 해당목록delete
+			// * 6) tbl_recentViewProduct 해당목록delete(-> 안함!)
+			// 7) tbl_poption 의 cnt(재고) 감소update
+			
+			
+			// 1-1) tbl_order에 주문내역insert (회원아이디, 주문총액 ) - 수동커밋처리
+			String sql = " insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity) " + 
+						 " values(?,?,?,default,?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, odrcode);
+			pstmt.setString(2, userid);
+			pstmt.setString(3, odrtotalprice);
+			pstmt.setInt(4, totalquantity);
+			
+			int n_orderInsert = pstmt.executeUpdate();
+			// insert 가 성공되어지면 n_orderInsert 에는 1 이 들어올 것이다.
+			// insert 가 실패되어지면 n_orderInsert 에는 0 이 들어올 것이다.
+		//	System.out.println("확인용 n_orderInsert : " + n_orderInsert);
+			
+			
+			if(n_orderInsert == 1) { // 주문테이블에 insert성공
+				
+				// 1-2) tbl_orderdetail에 주문내역insert (제품번호, 주문량, 주문가격)
+				int n_orderDetailInsert = 0;
+				
+				for(int i=0; i<fk_pseqArr.length; i++) {
+					
+					sql = " insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,cancelstatus) " + 
+						  " values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,default,default) "; // deliverdate는 안쓰면 null이므로 그냥 빼버림
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, odrcode);
+					pstmt.setString(2, fk_pseqArr[i]); 
+					pstmt.setString(3, oqtyArr[i]);
+					pstmt.setString(4, odrpriceArr[i]);
+					
+					n_orderDetailInsert += pstmt.executeUpdate();
+					
+				}// end of for-------------------------------------------
+				
+				if(n_orderDetailInsert == fk_pseqArr.length) { // 주문상세테이블에 insert성공
+					
+				//	System.out.println("확인용 n_orderDetailInsert : " + n_orderDetailInsert);
+					
+					// 2) tbl_orderProgress 주문대기중목록delete (회원아이디)
+					// 우선, 주문대기테이블에 해당user의 행이 총 몇개있는지 확인함.
+					sql = " select count(*) " + 
+						  " from tbl_orderProgress " + 
+						  " where fk_userid = ? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, userid);
+					
+					rs = pstmt.executeQuery();
+					
+					rs.next();
+					
+					int odrProgCount = rs.getInt(1);
+					
+					// 그 다음엔, delete한 행의 갯수가 odrProgCount와 같은지 확인함.
+					sql = " delete from tbl_orderProgress " + 
+						  " where fk_userid = ? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, userid);
+					
+					int n_orderProgDelete = pstmt.executeUpdate();
+					
+					if(odrProgCount == n_orderProgDelete) { // 주문진행테이블에 user의 모든행 delete성공
+						
+					//	System.out.println("확인용 n_orderProgDelete : " + n_orderProgDelete);
+						
+						
+						
+						
+						
+						
+						
+						
+					}// 2)주문진행테이블에 user의 모든행 delete성공 -------------------------------------------
+					
+				} // 1-2)주문상세테이블에 insert성공 -------------------------------------------------
+				
+			}// 1-1)주문테이블에 insert성공 -------------------------------------------------
+				
+				
+				
+			
+				
+			
+					
+					
+				/*		
+						// 3) tbl_point 포인트 update,delete
+						sql = "~~~~";
+						
+	//					if() {
+							// 포인트 테이블 변경
+							
+							// 4) tbl_cart 해당목록delete
+							sql = " delete from tbl_cart " + 
+								  " where fk_userid = ? and fk_opseq = ? ";
+							
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, (String)paraMap.get("userid"));
+	//						pstmt.setString(2, opseq); // fk_opseqArr
+							
+							int n_cartDelete = pstmt.executeUpdate();
+							
+	//						if(n_cartDelete가 해당하는유저의 옵션번호들을 지웠으면) {
+								// 포인트테이블 변경완료
+								
+	//						}// end of if(n_cartDelete가 해당하는유저의 옵션번호들을 지웠으면)-----------------
+							
+	//					}// end of 3)-----------------------------------------------------
+					
+*/			
+		} finally {
+			close();
+		}
+		
+		//////////////////////////////////////////////////////////////////////////////////////
+		/*
+			
+			int n_update = 0;
+			if(n_insert == 1) {
+				n_update = mdao.updateMemberPoint(member.getUserid());
+				// 회원테이블에서 글을 작성한 회원의 point를 10 증가하도록 하는 update.
+		        // update 가 성공되어지면 n_update 에는 1 이 들어올것이다.
+		        // 그런데 jdbc_member 테이블에 point 컬럼에는 check 제약으로 인해서
+		        // 30을 넘지 못한다. 30을 넘으면 check 제약으로 인해 오류가 발생할 것이다.
+		        // check 제약으로 인해 오류가 발생할 경우에는 n_update 에 0 을 넣어주도록 하겠다.
+			}
+			
+			Connection conn = MyDBConnection.getConn();
+			
+			try {
+				if(n_insert == 1 && n_update == 1) {
+					// 게시판에 글쓰기 및 회원의 point 값이 10 증가 한 것이 모두 성공이라면
+					do {
+						System.out.print(">> 정말로 글쓰기를 하시겠습니까?[Y/N] : ");
+						String yn = sc.nextLine();
+						
+						if("y".equalsIgnoreCase(yn)) {
+							conn.commit();
+							result = 1;
+							break;
+						}
+						
+						else if("n".equalsIgnoreCase(yn)) {
+							conn.rollback();
+							result = 0;
+							break;
+						}
+						
+						else {
+							System.out.println(">> Y 또는 N 만 입력하세요!! << \n");
+						}
+						
+					}while(true); // end of do~while(true)-----------------------
+				} // end of if(n_insert == 1 && n_update == 1)-------------------
+				
+				else {
+					// 제약조건을 포함한 SQL구문 장애가 발생한 경우
+					conn.rollback();
+					result = -1;
+				}
+				
+			} catch(SQLException e) {
+				
+			}
+		*/	
+		//////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		
+		return isSuccess;
+	/*	
+		리턴되는 isSuccess 값이 1 인 경우는 성공한 경우
+		리턴되는 isSuccess 값이 0 인 경우는 취소한 경우
+		리턴되는 isSuccess 값이 -1인 경우는 장애가 발생해서 실패한 경우
+	*/	
+	}// end of public int orderAdd(Map<String, Object> paraMap-------------------------
+
+
+		
 	
 }

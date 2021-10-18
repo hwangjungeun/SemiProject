@@ -600,8 +600,6 @@ ON O.fk_cseq = C.cseq
 JOIN tbl_orderProgress G
 ON O.opseq = G.fk_opseq;
 
---delete from tbl_orderProgress;
-commit;
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
 values(seq_tbl_cart_cartseq.nextval,'eomjh',14,3,sysdate,20);
@@ -622,9 +620,36 @@ select name, postcode, address, detailaddress, extraaddress, mobile, email, user
 from tbl_member
 where userid = 'leess';
 
+--***********************************************************************************************--
+-- 결제완료시, 각각의 테이블 delete,insert,update등 진행하기
+-- 주문테이블 dao
+select seq_tbl_order_odrcode.nextval AS odrcode
+from dual;
+-- 주문테이블에 insert
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values(?,?,?,?,?);
+-- 주문상세테이블에 insert
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,deliverdate,cancelstatus)
+values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,?,?,?);
+
+-- 주문진행테이블에 해당 userid의 행이 몇개인지 확인
+select count(*) 
+from tbl_orderProgress
+where fk_userid = 'eomjh';
+-- 주문진행테이블 모두 delete
+delete from tbl_orderProgress
+where fk_userid = ?;
+
+-- 장바구니에서 해당 옵션번호 delete
+delete from tbl_cart
+where fk_userid = ? and fk_opseq = ?;
 
 
 ----------------------------------------------------------------------------
+--delete from tbl_orderProgress;
+commit;
+rollback;
+
 show user;
 
 select * from tab;
@@ -652,4 +677,10 @@ desc tbl_recentViewProduct;
 desc tbl_wishlist;
 desc tbl_orderProgress;
 desc tbl_cart;
+desc tbl_order;
+desc tbl_orderdetail;
+
+-- 제약조건 알아보기
+select * from user_constraints
+where table_name = 'TBL_ORDERDETAIL';
 ------------------------------------------------------------------------------

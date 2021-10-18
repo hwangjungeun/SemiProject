@@ -404,19 +404,23 @@
 	function test(){	
 		// 1) tbl_order와 tbl_orderdetail 주문내역insert
 		// 2) tbl_orderProgress 주문대기중목록delete
-		// 3) tbl_member/tbl_point 포인트update?delete?
-		// 4) tbl_cart 해당목록delete
-		// 5) tbl_wishlist 해당목록delete
-		// * 6) tbl_recentViewProduct 해당목록delete(-> 안함!)
+		// 3) tbl_cart 해당목록delete
+		// 4) tbl_wishlist 해당목록delete
+		// * 5) tbl_recentViewProduct 해당목록delete(-> 안함!)
+		// 6) tbl_poption 의 cnt 감소 update
+		// 7) tbl_member 포인트 insert,delete
 		
 		
 		// 차라리 orderEnd.go로 데이터를 다 넘겨서 거기서 insert,update,delete 등을 실행하고 뷰단에 주문완료를 보여주자!
 		
 		// 1) 회원아이디, 주문총액 / 제품번호, 주문량, 주문가격
 		// 2) 회원아이디
-		// 3) ?
+		// 3) 회원아이디, 옵션번호
 		// 4) 회원아이디, 옵션번호
-		// 5) 회원아이디, 옵션번호
+		// 5)
+		// 6) 옵션번호
+		// 7) 주문코드
+		
 		
 		
 		// 주문총액
