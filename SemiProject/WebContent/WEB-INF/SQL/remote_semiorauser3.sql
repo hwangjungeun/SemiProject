@@ -199,6 +199,14 @@ create table tbl_wishlist
 );
 --Table TBL_WISHLIST이(가) 생성되었습니다.
 
+-- 등록일자번호 컬럼 추가하기
+alter table tbl_wishlist
+add enrollmentday date;
+-- Table TBL_WISHLIST이(가) 변경되었습니다.
+alter table tbl_wishlist 
+modify enrollmentday date default sysdate;
+-- Table TBL_WISHLIST이(가) 변경되었습니다.
+
 -- **** 위시리스트 시퀀스 생성하기 **** --
 create sequence seq_tbl_wishlist_wishseq
 start with 1
@@ -259,7 +267,16 @@ nocycle
 nocache;
 -- Sequence ODRSEQNUMSEQ이(가) 생성되었습니다.
 
-
+-- 옵션번호 컬럼 추가하기
+alter table tbl_orderdetail
+add fk_opseq number;
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+alter table tbl_orderdetail
+add constraint FK_tbl_orderdetail3 foreign key(fk_opseq) references tbl_poption(opseq);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+alter table tbl_orderdetail
+modify fk_opseq not null;
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
 
 
 -- **** 주문진행중 테이블 생성하기 **** --
@@ -592,7 +609,7 @@ values(seq_tbl_odrProg_odrProseq.nextval, ?, ?, ?);
 
 -- 주문원하는테이블인 tbl_orderProgress을 이용해, 주문서폼이 원하는 정보orderProgList를 보내준다.
 -- 이미지,제품명,옵션컬러명,가격,수량,적립금
-select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point
+select O.cimage, P.pname, C.cname, P.price, g.wishoqty, P.point, P.pseq, O.opseq
 from tbl_product P JOIN tbl_poption O
 ON P.pseq = O.fk_pseq
 JOIN tbl_pcolor C
@@ -600,31 +617,161 @@ ON O.fk_cseq = C.cseq
 JOIN tbl_orderProgress G
 ON O.opseq = G.fk_opseq;
 
---delete from tbl_orderProgress;
-commit;
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
 values(seq_tbl_cart_cartseq.nextval,'eomjh',14,3,sysdate,20);
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
-values(seq_tbl_cart_cartseq.nextval,'orange3088',14,2,sysdate,21);
+values(seq_tbl_cart_cartseq.nextval,'eomjh',14,2,sysdate,21);
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
-values(seq_tbl_cart_cartseq.nextval,'orange3088',3,1,sysdate,4);
+values(seq_tbl_cart_cartseq.nextval,'eomjh',13,1,sysdate,4);
 
 insert into tbl_cart(cartseq,fk_userid,fk_pseq,oqty,registerday,fk_opseq)
-values(seq_tbl_cart_cartseq.nextval,'orange3088',3,3,sysdate,19);
+values(seq_tbl_cart_cartseq.nextval,'eomjh',3,3,sysdate,19);
 
 
 --***********************************************************************************************--
 -- 회원명,포인트,주소,연락처,이메일 조회하기
-select name, postcode, address, detailaddress, extraaddress, mobile, email
+select name, postcode, address, detailaddress, extraaddress, mobile, email, userid
 from tbl_member
 where userid = 'leess';
 
+--***********************************************************************************************--
+-- 결제완료시, 각각의 테이블 delete,insert,update등 진행하기
+-- 주문테이블 dao
+select seq_tbl_order_odrcode.nextval AS odrcode
+from dual;
+-- 주문테이블에 insert
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values(?,?,?,?,?);
+-- 주문상세테이블에 insert
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,deliverdate,cancelstatus,FK_OPSEQ)
+values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,default,?,default,?); -- deliverdate는 안쓰면 null이므로 그냥 빼도 된다.
 
+-- 주문진행테이블에 해당 userid의 행이 몇개인지 확인
+select count(*) 
+from tbl_orderProgress
+where fk_userid = 'eomjh';
+-- 주문진행테이블 모두 delete
+delete from tbl_orderProgress
+where fk_userid = ?;
+
+-- 장바구니에 해당 옵션번호가 존재하는지 select
+select count(*)
+from tbl_cart
+where fk_userid = 'eomjh' and fk_opseq = 20;
+-- 장바구니에서 해당 옵션번호 delete
+delete from tbl_cart
+where fk_userid = ? and fk_opseq = ?;
+
+-- 위시리스트에 해당 옵션번호가 존재하는지 select
+select count(*)
+from tbl_wishlist
+where fk_userid = 'eomjh' and fk_opseq = 4;
+-- 위시리스트에서 해당 옵션번호 delete
+delete from tbl_wishlist
+where fk_userid = ? and fk_opseq = ?;
+
+-- 해당하는 옵션번호의 재고량 감하기(update)
+update tbl_poption set cnt = cnt - ?
+where opseq = ?;
+
+--***********************************************************************************************--
+-- 상세페이지 dao
+-- 최근본목록 리스트에 해당제품이 있는지 select
+select count(*)
+from tbl_recentViewProduct
+where fk_userid = 'eomjh' and fk_pseq = 3;
+-- 존재하는 경우 update
+update tbl_recentViewProduct set viewday = sysdate
+where fk_userid = ? and fk_pseq = ?;
+-- 존재하지 않는 경우 insert
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,?,?,default);
+
+-- 위시리스트에 해당제품이 있는지 select
+select count(*)
+from tbl_wishlist
+where fk_userid = 'eomjh' and fk_opseq = 20;
+-- 위시리스트에 존재하는 건 등록일자를 update
+update tbl_wishlist set enrollmentday = sysdate
+where fk_userid = ? and fk_opseq = ?;
+-- fk_opseq로 fk_pseq알아오기
+select P.pseq
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+where O.opseq = 20;
+-- 위시리스트에 insert
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq,enrollmentday) 
+values(seq_tbl_wishlist_wishseq.nextval,?,?,?,default);
+
+--***********************************************************************************************--
+-- 적립금 dao
+-- 구현을 위해 포인트테이블에 행들 insert함.
+insert into tbl_point(fk_odrcode,fk_userid,point)
+values('s20211019-33','orange3088',635);
+
+insert into tbl_point(fk_odrcode,fk_userid,point)
+values('s20211019-34','orange3088',314);
+
+insert into tbl_point(fk_odrcode,fk_userid,point)
+values('s20211019-37','leess',315);
+
+-- 테스트샘플들
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values('22','leess',76500,'210903',1);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,FK_OPSEQ)
+values(32,'22',6,1,76500,7);
+insert into tbl_point(fk_odrcode,fk_userid,start_day,end_day,p_status,p_idle,point,odrdate)
+values('22','leess','210923','220214',0,0,765,'210903');
+--
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values('24','leess',78000,'210902',1);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,FK_OPSEQ)
+values(34,'24',11,1,78000,14);
+insert into tbl_point(fk_odrcode,fk_userid,start_day,end_day,p_status,p_idle,point,odrdate)
+values('24','leess','210922','220213',0,0,780,'210902');
+--
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values('25','leess',86400,'210901',1);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,FK_OPSEQ)
+values(38,'25',4,1,86400,5);
+insert into tbl_point(fk_odrcode,fk_userid,start_day,end_day,p_status,p_idle,point,odrdate)
+values('25','leess','210921','220212',0,0,864,'210901');
+
+--delete from tbl_order where odrcode = '22';
+--delete from tbl_orderdetail where fk_odrcode = '22';
+--delete from tbl_point where fk_odrcode = '22';
+
+
+-- 회원의 모든 포인트 총합 구하기
+select sum(point)
+from tbl_point
+where fk_userid = 'leess' 
+and sysdate >= start_day 
+and sysdate <= end_day 
+and p_status = 0 and p_idle = 0;
+-- 사용 가능한 적립금 목록을 보여줌
+-- 사용가능한 포인트 : sysdate가 stary_day와 end_day사이에 있고, p_status가 0이고, p_idle이 0인거 비교
+select fk_odrcode, end_day, point
+from tbl_point
+where fk_userid = 'leess' 
+and sysdate >= start_day 
+and sysdate <= end_day 
+and p_status = 0 and p_idle = 0;
+-- 주문완료시, 포인트테이블에 insert하기
+insert into tbl_point(fk_odrcode,fk_userid,point,p_idle)
+values(?,?,?,1);
+-- 적립금 사용시, 해당 포인트 테이블의 값 변경하기(p_status,p_idle)
+update tbl_point set p_status = 1, p_idle = 0
+where fk_odrcode = ?;
 
 ----------------------------------------------------------------------------
+--delete from tbl_orderProgress;
+commit;
+rollback;
+
 show user;
 
 select * from tab;
@@ -652,4 +799,10 @@ desc tbl_recentViewProduct;
 desc tbl_wishlist;
 desc tbl_orderProgress;
 desc tbl_cart;
+desc tbl_order;
+desc tbl_orderdetail;
+
+-- 제약조건 알아보기
+select * from user_constraints
+where table_name = 'TBL_ORDERDETAIL';
 ------------------------------------------------------------------------------

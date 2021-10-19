@@ -16,17 +16,17 @@ public class WishListAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// 위시리스트를 보기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
-/*		if( super.checkLogin(request) ) {
+		if( super.checkLogin(request) ) {
 			// 로그인을 했으면
 			
 			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
 			
 			HttpSession session = request.getSession();
-			MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+			MemberVO_OHJ loginuser = (MemberVO_OHJ)session.getAttribute("loginuser");
 			
 			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신의 위시리스트를 보는 경우
-*/				
+				
 				String currentShowPageNo = request.getParameter("currentShowPageNo");
 				// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
 		        // 최근본상품 목록을 처음볼때에는 currentShowPageNo 은 null 이 된다.
@@ -50,7 +50,7 @@ public class WishListAction extends AbstractController {
 				InterProductDAO_OHJ pdao = new ProductDAO_OHJ();
 				
 				Map<String,String> paraMap = new HashMap<>(); // paraMap에 where절 조건 담을꺼야(userid,currentShowPageNo)
-				paraMap.put("userid", "eomjh"); // ##################( 로그인merge된거 받기전까지 코드 돌리는용으로, "eomjh"대신 userid다. )##################
+				paraMap.put("userid", userid); // ##################################뿌잉##################################
 				paraMap.put("currentShowPageNo", currentShowPageNo);
 				
 				// 위시리스트 목록들을 페이지바를 이용한 페이징 처리하여 조회(select)해오기
@@ -65,25 +65,25 @@ public class WishListAction extends AbstractController {
 				
 				String pageBar = ""; // 뷰단에 들어갈 <li>태그
 				
-				int blockSize = 1; // 10 => 1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				int blockSize = 1; // 10 => 1 @@
 				// blockSize 는 블럭(토막)당 보여지는 페이지 번호의 개수이다.
 				
 				int loop = 1;
-				// loop는 "1부터 증가"하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개@@@@@@@@@@@@@@@@=> 1개@@@@@@@@@@@@@@@@@@@@)까지만 증가하는 용도이다. 
+				// loop는 "1부터 증가"하여 1개 블럭을 이루는 페이지번호의 개수(지금은 10개@@ => 1개@@)까지만 증가하는 용도이다. 
 				
 				// !!! 아래는 pageNo 를 구하는 공식이다. !! //
 				int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
 				// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
 				
 				// 페이지바를 만들기 위해서 해당userid의 최근본상품 목록에 대한 총페이지수 알아오기(select) 
-				int totalPage = pdao.getWishTotalPage("eomjh"); // 특정 userid를 넘김. // cnum => userid => "eomjh"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+				int totalPage = pdao.getWishTotalPage(userid); // 특정 userid를 넘김. // ##################################뿌잉##################################
 			//	System.out.println("~~~ 확인용 totalPage : " + totalPage);
 				
 				
 				// **** [맨처음][이전] 만들기 **** //
 				if(pageNo != 1) {
-					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo=1&userid=eomjh'><span class='text-dark' aria-hidden='true'>&lt;&lt;</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+(pageNo-1)+"&userid=eomjh'><span class='text-dark' aria-hidden='true'>&lt;</span></a></li></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo=1&userid="+userid+"'><span class='text-dark' aria-hidden='true'>&lt;&lt;</span></a></li>"; // ##################################뿌잉##################################
+					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+(pageNo-1)+"&userid="+userid+"'><span class='text-dark' aria-hidden='true'>&lt;</span></a></li></a></li>"; // ##################################뿌잉##################################
 				}
 				
 				
@@ -93,7 +93,7 @@ public class WishListAction extends AbstractController {
 						pageBar += "<li class='page-item active'><a class='page-link' href='#' style='background-color: #ffe6e6; border-color: #ffe6e6;' ><span class='text-dark' style='background-color: #ffe6e6; border-color: #ffe6e6;' >"+pageNo+"</span></a></li>"; // 페이지바에서, 현재 내가 클릭한 페이지수 표시(부트스트랩의 active)
 					}
 					else {
-						pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+pageNo+"&userid=eomjh'><span class='text-dark'>"+pageNo+"</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+						pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+pageNo+"&userid="+userid+"'><span class='text-dark'>"+pageNo+"</span></a></li>"; // ##################################뿌잉##################################
 					}
 					
 					loop++; // 1 2 3 4 5 6 7 8 9 10 (총 10번 반복)
@@ -110,8 +110,8 @@ public class WishListAction extends AbstractController {
 				// **** [다음][마지막] 만들기 **** //
 				// while문을 빠져나올때, pageNo ==> 11
 				if( pageNo <= totalPage ) { // while문의 탈출조건인 pageNo > totalPage가 아닌 경우
-					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+pageNo+"&userid=eomjh'><span class='text-dark' aria-hidden='true'>&gt;</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+totalPage+"&userid=eomjh'><span class='text-dark' aria-hidden='true'>&gt&gt;</span></a></li>"; // eomjh=>userid@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+pageNo+"&userid="+userid+"'><span class='text-dark' aria-hidden='true'>&gt;</span></a></li>"; // ##################################뿌잉##################################
+					pageBar += "<li class='page-item'><a class='page-link' href='wishList.go?currentShowPageNo="+totalPage+"&userid="+userid+"'><span class='text-dark' aria-hidden='true'>&gt&gt;</span></a></li>"; // ##################################뿌잉##################################
 				}
 				
 				
@@ -121,7 +121,7 @@ public class WishListAction extends AbstractController {
 				
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/mypage/wishList.jsp");
-/*			
+			
 			}
 			else {
 				// 로그인한 사용자가 다른 사용자의 위시리스트를 보려고 시도하는 경우 
@@ -147,7 +147,7 @@ public class WishListAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-*/	
+	
 		
 	}// end of public void execute(HttpServletRequest request, HttpServletResponse response)--------------------------------------
 

@@ -59,6 +59,9 @@
 		
 		$("span.error").hide(); // 맨처음에는 입력사항에러페이지가 안나오도록 숨겨줘야함.
 		
+		//////////////////////////////////////////////////////////////////
+		// 배송
+		
 		$("input#receiverName").blur(function(){
 			
 			var receiverName = $(this).val().trim();
@@ -249,7 +252,7 @@
 			
 			$("input#receiverName").val("${member.name}");
 			
-			b_flagPostcodeClick = false;
+			b_flagPostcodeClick = true; // 우편번호찾기 버튼을 굳이 클릭안하도록 함.
 			
 			$("input#postcode").val("${member.postcode}");
 			$("input#address").val("${member.address}");
@@ -277,6 +280,64 @@
 			
 		});
 		
+		
+		//////////////////////////////////////////////////////////////	
+		// 결제
+		/*
+		$("input#usePoint").blur(function(){ // 적립금 입력시 제대로 입력했는지 확인후, 할인금액에 넣어줌.
+			
+			var usePoint = $(this).val();
+		//	console.log("확인용 usePoint => " + usePoint);
+		//	console.log("확인용 typeof(usePoint) => " + typeof(usePoint));
+			// input타입이라서 다 string이 나온다.
+			
+			if(isNaN(usePoint)){ // is Not a Number -> 모양이 숫자가 아니니?
+			//	console.log("숫자타입이 아니다.");
+				alert("입력하신 적립금이 숫자가 아닙니다!");
+				$("input#usePoint").val("0");
+			}
+			else{ // 적립금사용의 입력값은 숫자만 입력이 가능하도록 해줘야함.
+			//	console.log("숫자타입이다.");
+				
+				if(parseInt(usePoint) > "4500"){ // parseInt를 안쓰면 앞자리 4와 usePoint의 앞자리를 아스키코드로 비교한다.
+					// 사용가능 적립금보다 많이 작성하면, 다시 작성해야함.
+				//	console.log("4500보다 크다.");
+					alert("사용가능 적립금보다 많습니다. 적립금 사용금액을 다시 입력해 주세요.");
+					$("input#usePoint").val("0");
+				}
+				else{// 제대로 입력한 경우
+				//	console.log("4500보다 작다.");
+				//	console.log("확인용 typeof(parseInt(usePoint)) => " + typeof(parseInt(usePoint))); // number타입
+				
+				//////////////////////////////////////////////
+					// 총가격 계산하기
+					var totalPrice = $("input#totalPrice").val();
+					var deliveryFee = $("input#deliveryFee").val();
+					
+				//	console.log("확인용 totalPrice => " + totalPrice);
+				//	console.log("확인용 deliveryFee => " + deliveryFee);
+					var realTotalPrice = parseInt(totalPrice)+parseInt(deliveryFee)-parseInt(usePoint);
+				//	console.log("확인용 realTotalPrice => " + realTotalPrice);
+					realTotalPrice = parseInt(realTotalPrice).toLocaleString('en');
+				//	console.log("확인용 realTotalPrice => " + realTotalPrice);
+				///////////////////////////////////////////////
+				
+				//	$("strong#pointDiscount").html("<c:set var='pointDiscount' value='"+usePoint+"'/>${pointDiscount}"); // 잘못된방식 : 이렇게 쓰게되면 body태그에서 값을 "+usePoint+" 라고 인식한다.
+					
+				//	console.log("확인용 usePoint => " + usePoint);
+					usePoint = parseInt(usePoint).toLocaleString('en'); // 자바스크립트에서 숫자 3자리마다 콤마 찍어주기 (자바스크립트에서 fmt이 제대로 작동안함.)
+				//	console.log("확인용 usePoint => " + usePoint);
+					
+					$("strong#pointDiscount").html(usePoint);
+					$("span#pointDiscount1").text(usePoint);
+					$("span#realTotalPrice").text(realTotalPrice);
+				}
+			}
+			
+		});// end of $("input#usePoint").blur(function(){})------------------------
+		*/
+		
+		
 	});// end of $(document).ready(function(){})----------------------------
 	
 	
@@ -302,19 +363,249 @@
 			return; // 종료
 		}
 		
+		
+		if( $("input#destinationSame").prop("checked") ){
+			b_flagPostcodeClick = true; // 회원정보와 동일이 체크가 되어져있으면, "우편번호찾기"를 클릭했는지 검사할 필요 없음.
+		}
+		
+		
 		if(!b_flagPostcodeClick){
 			// "우편번호찾기" 를 클릭했는지 클릭안했는지를 알아보기위한 용도임.
 			alert("우편번호찾기를 클릭하여 배송 정보에 주소를 입력하세요!!");
 			return; // 종료
 		}
 		
-		var frm = document.deliveryInfoFrm;
-	//	frm.action = "orderEnd.go"; // 결제완료페이지로 이동#########################################################################################
-	//	frm.method = "get"; // (memberRegister회원가입정보는 비공개)#################################################################################
-	//	frm.submit();//#######################################################################################################################
+		
+		// === 아임포트 결제를 해주는 팝업창 시작 === //
+		
+		var realTotalPrice = $("span#realTotalPrice").text(); // 46,500
+	//	alert("확인용 결제금액 : " + realTotalPrice + " 원 결제예정");
+		// 금액에서 콤마제거하기
+		realTotalPrice = realTotalPrice.split(",").join(""); // 46500
+	//	alert("확인용 결제금액 : " + realTotalPrice + " 원 결제예정");
+		
+		var userid = "${sessionScope.loginuser.userid}"; // 자바스크립트 // sessionScope.loginuser.get다음의뭐뭐뭐  // ##################################뿌잉##################################
+		
+	//	alert("확인용 결제할 사용자 아이디 : " + userid);
+		
+		//  아임포트 결제 팝업창 띄우기 
+		var url = "<%= request.getContextPath()%>/order/orderPayment.go?userid="+userid+"&coinmoney="+realTotalPrice;  
+		
+		window.open(url, "orderPayment",
+					"left=350px, top=100px, width=1000px, height=600px");
+		
+		// === 아임포트 결제를 해주는 팝업창 끝 === //
 		
 	}// end of function goPurchase()------------------------------------------------
- 	
+	
+	
+	// === 결제가 성공되면, DB 상의 테이블 내용들을 변경하는 함수 ===
+	function goPaymentSuccess(){ // ##################################뿌잉##################################
+//	function test(){	
+		
+		// 1) tbl_order와 tbl_orderdetail 주문내역insert
+		// 2) tbl_orderProgress 주문대기중목록delete
+		// 3) tbl_cart 해당목록delete
+		// 4) tbl_wishlist 해당목록delete
+		// * 5) tbl_recentViewProduct 해당목록delete(-> 안함!)
+		// 6) tbl_poption 의 cnt 감소 update
+		// 7) tbl_member 포인트 insert,update
+		
+		
+		// 차라리 orderEnd.go로 데이터를 다 넘겨서 거기서 insert,update,delete 등을 실행하고 뷰단에 주문완료를 보여주자!
+		
+		// 1) 회원아이디, 주문총액 / 제품번호, 주문량, 주문가격
+		// 2) 회원아이디
+		// 3) 회원아이디, 옵션번호
+		// 4) 회원아이디, 옵션번호
+		// 5)
+		// 6) 옵션번호
+		// 7) 회원아이디, 주문코드
+		
+		
+		
+		// 주문총액
+		var realTotalPrice = $("span#realTotalPrice").text(); // 46,500
+		// 총액에서 콤마제거하기
+		realTotalPrice = realTotalPrice.split(",").join(""); // 46500
+		
+		// 여러개의 제품번호
+		var str_Pseq = strPseq();
+		
+		// 여러개의 주문량
+		var str_Wishoqty = strWishoqty();
+	
+		// 여러개의 주문가격
+		var str_Odrprice = strOdrprice();
+		
+		// 여러개의 옵션번호
+		var str_Opseq = strOpseq();
+		
+		
+		var frm = document.OrderFormInfo;
+		frm.userid.value = "${requestScope.member.userid}";
+		frm.odrtotalprice.value = realTotalPrice;
+		frm.fk_pseqjoin.value = str_Pseq;
+		frm.oqtyjoin.value = str_Wishoqty;
+		frm.odrpricejoin.value = str_Odrprice;
+		frm.fk_opseqjoin.value = str_Opseq;
+		
+	
+		// 결제완료페이지로 이동
+		frm.action = "<%= request.getContextPath()%>/order/orderEnd.go"; 
+		frm.method = "POST";
+		frm.submit();
+		
+	}// end of function goPaymentSuccess(){}-----------------------------
+	
+	
+	
+	// 여러개의 pseq를 String타입으로 묶어서 반환하는 함수
+	function strPseq(){
+		
+		// 자바스크립트의 배열은 아래와 같이 나타낸다.(배열도 객체이다.)
+		var arrPseq = new Array();
+		// 배열명.push("~~~");
+		
+		var arrProduct_pseq = document.getElementsByName("product_pseq");
+		
+		for(var i=0; i<arrProduct_pseq.length; i++){ // input태그 길이만큼 반복돌림
+			
+			var pseq = arrProduct_pseq[i].value;
+		//	console.log("input태그에 입력된 pseq => " + pseq);
+			
+			arrPseq.push(pseq);
+			
+		}// end of for---------------------------------------------
+		
+		var str_Pseq = arrPseq.join(",");
+		
+		return str_Pseq;
+		
+	}// end of function strPseq()-------------------------------------------
+	
+	
+	// 여러개의 wishoqty를 String타입으로 묶어서 반환하는 함수
+	function strWishoqty(){
+		
+		// 자바스크립트의 배열은 아래와 같이 나타낸다.(배열도 객체이다.)
+		var arrWishoqty = new Array();
+		// 배열명.push("~~~");
+		
+		var arrProduct_wishoqty = document.getElementsByName("product_wishoqty");
+		
+		for(var i=0; i<arrProduct_wishoqty.length; i++){ // input태그 길이만큼 반복돌림
+			
+			var wishoqty = arrProduct_wishoqty[i].value;
+		//	console.log("input태그에 입력된 wishoqty => " + wishoqty);
+			
+			arrWishoqty.push(wishoqty);
+			
+		}// end of for---------------------------------------------
+		
+		var str_Wishoqty = arrWishoqty.join(",");
+		
+		return str_Wishoqty;
+		
+	}// end of function strWishoqty()-------------------------------------------
+	
+	
+	// 여러개의 odrprice를 String타입으로 묶어서 반환하는 함수
+	function strOdrprice(){
+		
+		// 자바스크립트의 배열은 아래와 같이 나타낸다.(배열도 객체이다.)
+		var arrOdrprice = new Array();
+		// 배열명.push("~~~");
+		
+		var arrProduct_odrprice = document.getElementsByName("product_odrprice");
+		
+		for(var i=0; i<arrProduct_odrprice.length; i++){ // input태그 길이만큼 반복돌림
+			
+			var odrprice = arrProduct_odrprice[i].value;
+		//	console.log("input태그에 입력된 odrprice => " + odrprice);
+			
+			arrOdrprice.push(odrprice);
+			
+		}// end of for---------------------------------------------
+		
+		var str_Odrprice = arrOdrprice.join(",");
+		
+		return str_Odrprice;
+		
+	}// end of function strOdrprice()-------------------------------------------
+	
+	
+	// 여러개의 opseq를 String타입으로 묶어서 반환하는 함수
+	function strOpseq(){
+		
+		// 자바스크립트의 배열은 아래와 같이 나타낸다.(배열도 객체이다.)
+		var arrOpseq = new Array();
+		// 배열명.push("~~~");
+		
+		var arrProduct_opseq = document.getElementsByName("product_opseq");
+		
+		for(var i=0; i<arrProduct_opseq.length; i++){ // input태그 길이만큼 반복돌림
+			
+			var opseq = arrProduct_opseq[i].value;
+		//	console.log("input태그에 입력된 opseq => " + opseq);
+			
+			arrOpseq.push(opseq);
+			
+		}// end of for---------------------------------------------
+		
+		var str_Opseq = arrOpseq.join(",");
+		
+		return str_Opseq;
+		
+	}// end of function strOpseq()-------------------------------------------
+	
+	
+	// 사용가능한 포인트보여주는 팝업창 띄우기
+	function showUsablePoint(){
+		
+		var url = "<%= request.getContextPath()%>/order/showUsablePoint.go?userid=${sessionScope.loginuser.userid}"; // ##################################뿌잉##################################
+		
+		window.open(url, "showUsablePoint",
+        			"left=350px, top=100px, width=650px, height=570px"); // window.open이 팝업창 띄우는거다.
+		
+		
+	}// end of function showUsablePoint()-----------------------------------
+	
+	
+	// 적립금 선택한 내역들을 할인금액란에 보여줌
+	function showDiscountMoney(dc_money){
+		
+	//	console.log("확인용 dc_money : " + dc_money);
+	//	console.log("확인용 typeof(dc_money) : " + typeof(dc_money)); // number
+		
+		$("input[name=pointUsed]").val(dc_money); // 할인받았더라면 pointUsed에 (가공하지않은)할인액을 넣어줌. 안넣어주면 기본 value값은 0이다. -> 가격이 2,200이 아니라 2200이다.
+	
+		/////////////////////////////////////////////////////////////
+		var dc_money = parseInt(dc_money).toLocaleString('en');
+	//	console.log("확인용 dc_money : " + dc_money);
+		
+		$("strong#pointDiscount").text(dc_money);
+		
+		/////////////////////////////////////////////////////////////
+		// 총가격 계산하기
+		var totalPrice = $("input#totalPrice").val();
+		var deliveryFee = $("input#deliveryFee").val();
+		
+		var realTotalPrice = parseInt(totalPrice)+parseInt(deliveryFee)-parseInt(dc_money);
+	
+		realTotalPrice = parseInt(realTotalPrice).toLocaleString('en');
+	
+		///////////////////////////////////////////////
+	
+		dc_money = dc_money.toLocaleString('en'); // 자바스크립트에서 숫자 3자리마다 콤마 찍어주기 (자바스크립트에서 fmt이 제대로 작동안함.)
+
+		$("span#pointDiscount1").text(dc_money);
+		$("span#realTotalPrice").text(realTotalPrice);
+		
+	}// end of function showDiscountMoney(dc_money,fk_odrcode)---------------------------------------------------
+	
+	
+	
 </script>
 
 	<div class = "container px-0">
@@ -333,7 +624,7 @@
 			</tr>
 			<tr>
 				<td>
-					<a href="#">가용적립금</a> : 0원
+					<a href="#">가용적립금</a> : <fmt:formatNumber value="${totalPoint}" pattern="#,###"/>원
 					<!-- &nbsp;&nbsp;&nbsp;
 					<a href="#">쿠폰</a> : 2개 -->
 				</td>
@@ -381,13 +672,16 @@
 								<td class="verticalM" align="center"><img alt="${opvo.povo.cimage}" src="../images/${opvo.povo.cimage}" width="90" height="100"></td>
 								<td class="verticalM">
 									<strong>${opvo.povo.pvo.pname} (2color)</strong>
+									<input type="hidden" name="product_pseq" value="${opvo.povo.pvo.pseq}" /> <!-- 주문완료페이지에 보낼 제품번호 -->
 									<ul style="margin-top: 15px;">
 										<li>[옵션: ${opvo.povo.pcvo.cname}]</li>
 									</ul>
+									<input type="hidden" name="product_opseq" value="${opvo.povo.opseq}" /> <!-- 주문완료페이지에 보낼 옵션번호 -->
 								</td>
 								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${opvo.povo.pvo.price}" pattern="#,###"/>원</strong></td>
 								<td class="verticalM" align="center">
 									<span>${opvo.wishoqty}</span>
+									<input type="hidden" name="product_wishoqty" value="${opvo.wishoqty}" /> <!-- 주문완료페이지에 보낼 주문수량 -->
 								</td>
 								<td class="verticalM" align="center">
 									<img alt="301coins.png" src="../images/301coins.png" width="15" height="15">
@@ -397,7 +691,10 @@
 								<td class="verticalM" align="center">
 									<div>[고정]</div>
 								</td>
-								<td class="verticalM" align="center"><strong><fmt:formatNumber value="${opvo.povo.pvo.price * opvo.wishoqty}" pattern="#,###"/>원</strong></td>
+								<td class="verticalM" align="center">
+									<strong><fmt:formatNumber value="${opvo.povo.pvo.price * opvo.wishoqty}" pattern="#,###"/>원</strong>
+									<input type="hidden" name="product_odrprice" value="${opvo.povo.pvo.price * opvo.wishoqty}" /> <!-- 주문완료페이지에 보낼 주문가격(한개당가격*수량) -->
+								</td>
 							</tr>
 							
 							<c:set var="totalPrice" value="${totalPrice+(opvo.povo.pvo.price*opvo.wishoqty)}" />
@@ -523,8 +820,12 @@
 			<tbody>	
 				<tr style="font-weight: bolder; font-size: 13pt;">
 					<td><fmt:formatNumber value="${totalPrice+deliveryFee}" pattern="#,###"/>원</td>
-					<td>- 0,000원</td>
-					<td>= 00,000원</td>
+					<td>- <span id="pointDiscount1"><fmt:formatNumber value="0" pattern="#,###"/></span>원</td>
+					<td>
+						<input type="hidden" id="totalPrice" value="${totalPrice}"/>
+						<input type="hidden" id="deliveryFee" value="${deliveryFee}"/>
+					= <span id="realTotalPrice"><fmt:formatNumber value="${totalPrice+deliveryFee-0}" pattern="#,###"/></span>원
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -537,17 +838,22 @@
 				<tr>
 					<th>적립금</th>
 					<td>
-						<input type="text" id="usePoint" style="margin-bottom: 8px;"/>원(총 사용가능 적립금 : <span class="text-danger">0</span>원)
+						<!-- 
+						<input type="text" id="usePoint" style="margin-bottom: 8px;"/>원(총 사용가능 적립금 : <span class="text-danger">###4,500###</span>원)
 						<ul style="list-style-type: '- '; padding-left: 8px;">
 							<li>적립금은 최소 2,000 이상일 때 결제가 가능합니다.</li>
 							<li>최대 사용금액은 제한이 없습니다.</li>
 							<li>적립금으로만 결제할 경우, 결제금액이 0으로 보여지는 것은 정상이며 [결제하기] 버튼을 누르면 주문이 완료됩니다.</li>
 						</ul>
+						 -->
+						<button type="button" id="btnUsePoint" class="btn btn-outline-secondary btn-lg" onClick="showUsablePoint()" >적립금 조회</button>
 					</td>
 				</tr>
 				<tr>
 					<th>총 할인금액</th>
-					<td><strong>0,000</strong>원</td>
+					<td>
+						<strong id="pointDiscount">0</strong>원
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -555,9 +861,26 @@
 		
 		<!-- 결제하기 버튼 시작 -->
 		<div class="text-center">
-			<button type="button" id="btnPurchase" class="btn btn-dark btn-lg" onClick="goPurchase();" style="width: 100%">결제하기</button>
+			<button type="button" id="btnPurchase" class="btn btn-dark btn-lg" onClick="goPurchase();" style="width: 100%; height: 6%">결제하기</button>
 		</div>
 		<!-- 결제하기 버튼 끝 -->
+		
+		
+		<!-- 결제완료시, orderEnd에 POST방식으로 보내기 위한 폼 시작 -->
+		<form name="OrderFormInfo">
+			<!-- 회원아이디, 주문총액 / 제품번호, 주문량, 주문가격 / 옵션번호 -->
+			<input type="hidden" name="userid" value="" />
+			<input type="hidden" name="odrtotalprice" value="" />
+			<input type="hidden" name="fk_pseqjoin" value="" />
+			<input type="hidden" name="oqtyjoin" value="" />
+			<input type="hidden" name="odrpricejoin" value="" />
+			<input type="hidden" name="fk_opseqjoin" value="" />
+			<input type="text"   name="fk_odrcodejoin" id="str_Fk_odrcode"/> <!-- 적립금조회(자식팝업창)에서 opener를 통해 여기에 값을 넣어준다. -->
+			<!-- ------------------------------------------------------- -->
+			<input type="text" name="pointUsed" value="0" /> <!-- 할인받았는지아닌지 유무, 할인받으면 value를 할인액으로 바꿔줌 -->
+		</form>
+		<!-- 결제완료시, orderEnd에 POST방식으로 보내기 위한 폼 끝 -->
+		<button type="button" onclick="test()" >결제완료되었을때 결과버튼</button>
 		
 		
 		

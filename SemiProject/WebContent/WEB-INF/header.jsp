@@ -55,6 +55,10 @@
 	a.nav-link{
 		font-size: 9pt;
 	}
+	a.nav-link:hover{ <%-- 상위카테고리 클릭시 바탕색,글자색 효과줌  --%>
+		background-color:gray;
+		color:white;
+	}
 	span.badge {
 		position: absolute; 
 		right: 15px;
@@ -93,7 +97,17 @@
     line-height: 28px;
     text-align: center;
     font-size : 10pt;
-}
+    }
+    
+    #collapsibleNavbar{
+    	margin-top:20px;
+    	margin-bottom:30px;
+    }
+
+.dropdown:hover .dropdown-menu {
+	    display: inline-block;
+	    margin-top: 0;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -142,7 +156,7 @@
 			<div class="topArea container-fluid navbar-header mx-auto text-center">
 				<a class="navbar-brand mx-auto mb-3" href="<%= ctxPath %>/index.go">o H ! &nbsp; D a i L Y</a>
 				<i class="fas fa-shopping-basket fa-2x"></i>
-				<span class="badge badge-pill badge-light text-black-50">0</span>
+				<span class="badge badge-pill badge-light text-black-50">${requestScope.basketCnt}</span>
 			</div>
 			</nav>
 			
@@ -170,7 +184,7 @@
 			<a href="<%= ctxPath %>/member/memberEdit.go">MODIFY</a>
 			</c:if>
 			<a href="#">CART <span class="count ">(<span class="EC-Layout-Basket-count">0</span>)</span></a>
-			<a href="#">ORDER</a>
+			<a href="<%= ctxPath %>/mypage/orderList.go">ORDER</a>
 			<a href="<%= ctxPath %>/member/memberLookup.go">MYPAGE</a>
 			</div>
 			</div>
@@ -184,83 +198,96 @@
 			
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="nav mx-auto">
-					<li class="nav-item mx-2"><a class="nav-link" href="#">BEST</a></li>
+					<div>
+					<li class="nav-item mx-2"><a class="nav-link" href="<%= ctxPath %>/product/bestList.go">BEST</a></li>
 					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li> -->
+					</div>
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="outerDropdown" data-toggle="dropdown">OUTER</a>
-						<div class="dropdown-menu" aria-labelledby="outerDropdown">
-				           <a class="dropdown-item" href="#">코트</a>
-				           <a class="dropdown-item" href="#">자켓</a>
-				           <a class="dropdown-item" href="#">가디건</a>
-				           <a class="dropdown-item" href="#">야상</a>
-				           <a class="dropdown-item" href="#">패딩</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=1" id="outerDropdown">OUTER</a>
+							<div class="dropdown-menu" aria-labelledby="outerDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=1">자켓</a>
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=2">가디건</a>
+					         </div>
 				         </div>
 					</li>
 					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="topDropdown" data-toggle="dropdown">TOP</a>
-						<div class="dropdown-menu" aria-labelledby="topDropdown">
-				           <a class="dropdown-item" href="#">티셔츠</a>
-				           <a class="dropdown-item" href="#">민소매</a>
-				           <a class="dropdown-item" href="#">맨투맨/후드</a>
-				           <a class="dropdown-item" href="#">니트</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=2" id="topDropdown">TOP</a>
+							<div class="dropdown-menu" aria-labelledby="topDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=3">티셔츠</a>
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=4">니트</a>
+					         </div>
 				         </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="blouseDropdown" data-toggle="dropdown">BLOUSE</a>
-						<div class="dropdown-menu" aria-labelledby="blouseDropdown">
-				           <a class="dropdown-item" href="#">BLOUSE</a>
-				           <a class="dropdown-item" href="#">SHIRTS</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=3" id="blouseDropdown">BLOUSE</a>
+							<div class="dropdown-menu" aria-labelledby="blouseDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=5">BLOUSE</a>
+					         </div>
+			         </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="pantsDropdown" data-toggle="dropdown">PANTS</a>
-						<div class="dropdown-menu" aria-labelledby="blouseDropdown">
-				           <a class="dropdown-item" href="#">데님</a>
-				           <a class="dropdown-item" href="#">반바지</a>
-				           <a class="dropdown-item" href="#">긴바지</a>
-				           <a class="dropdown-item" href="#">슬렉스</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=4" id="pantsDropdown">PANTS</a>
+							<div class="dropdown-menu" aria-labelledby="blouseDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=6">데님</a>
+					         </div>
 				         </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="skirtDropdown" data-toggle="dropdown">SKIRT</a>
-						<div class="dropdown-menu" aria-labelledby="skirtDropdown">
-				           <a class="dropdown-item" href="#">미니</a>
-				           <a class="dropdown-item" href="#">미디</a>
-				           <a class="dropdown-item" href="#">롱</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=5" id="skirtDropdown">SKIRT</a>
+							<div class="dropdown-menu" aria-labelledby="skirtDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=7">미니</a>
+					        </div>
+					    </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="dressDropdown" data-toggle="dropdown">DRESS</a>
-						<div class="dropdown-menu" aria-labelledby="dressDropdown">
-				           <a class="dropdown-item" href="#">One-Piece</a>
-				           <a class="dropdown-item" href="#">Two-Piece</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=6" id="dressDropdown">DRESS</a>
+							<div class="dropdown-menu" aria-labelledby="dressDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=8">One-Piece</a>
+					        </div>
+				        </div>
 					</li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">SHOES &amp; BAG</a>
-					<div class="dropdown-menu" aria-labelledby="Dropdown">
-				           <a class="dropdown-item" href="#">신발</a>
-				           <a class="dropdown-item" href="#">가방</a>
+					
+					<li class="nav-item mx-2">
+					<div class="dropdown">
+						<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=7">SHOES &amp; BAG</a>
+						<div class="dropdown-menu" aria-labelledby="Dropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=9">가방</a>
+					    </div>
 				    </div>
 					</li>
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="accDropdown" data-toggle="dropdown">ACC</a>
-						<div class="dropdown-menu" aria-labelledby="accDropdown">
-				           <a class="dropdown-item" href="#">귀걸이</a>
-				           <a class="dropdown-item" href="#">기타</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=8" id="accDropdown">ACC</a>
+							<div class="dropdown-menu" aria-labelledby="accDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=10">귀걸이</a>
+					         </div>
 				         </div>
 					</li>
 					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li> -->
 					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li> -->
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
-						<div class="dropdown-menu" aria-labelledby="Dropdown">
-				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
-				           <a class="dropdown-item" href="#">Review</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/event.jsp">Event</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/delay.jsp">Delay</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
+							<div class="dropdown-menu" aria-labelledby="Dropdown">
+								 <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/noticeList.go">Notice</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
+						         <a class="dropdown-item" href="#">Review</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
+					         </div>
+					    </div>
 					</li>
 				</ul>
 			</div>
