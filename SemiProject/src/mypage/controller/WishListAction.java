@@ -8,25 +8,27 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import member.model.MemberVO_OHJ;
+import member.model.MemberVO_PJW;
 import product.model.*;
 
 public class WishListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	/*
 		// 위시리스트를 보기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
 		if( super.checkLogin(request) ) {
 			// 로그인을 했으면
-			
-			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
+	*/	
+//			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
 			
 			HttpSession session = request.getSession();
-			MemberVO_OHJ loginuser = (MemberVO_OHJ)session.getAttribute("loginuser");
-			
+			MemberVO_PJW loginuser = (MemberVO_PJW)session.getAttribute("loginuser");
+			String userid = loginuser.getUserid();
+/*	
 			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신의 위시리스트를 보는 경우
-				
+*/		
 				String currentShowPageNo = request.getParameter("currentShowPageNo");
 				// currentShowPageNo 은 사용자가 보고자하는 페이지바의 페이지번호 이다.
 		        // 최근본상품 목록을 처음볼때에는 currentShowPageNo 은 null 이 된다.
@@ -122,7 +124,7 @@ public class WishListAction extends AbstractController {
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/mypage/wishList.jsp");
 			
-			}
+		/*	}
 			else {
 				// 로그인한 사용자가 다른 사용자의 위시리스트를 보려고 시도하는 경우 
 	            String message = "다른 사용자의 위시리스트를 보는건 불가합니다.!!";
@@ -147,7 +149,7 @@ public class WishListAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-	
+*/	
 		
 	}// end of public void execute(HttpServletRequest request, HttpServletResponse response)--------------------------------------
 

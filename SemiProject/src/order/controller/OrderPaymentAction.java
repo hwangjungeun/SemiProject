@@ -8,24 +8,25 @@ import common.controller.AbstractController;
 import member.model.InterMemberDAO_OHJ;
 import member.model.MemberDAO_OHJ;
 import member.model.MemberVO_OHJ;
+import member.model.MemberVO_PJW;
 
 public class OrderPaymentAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+		/*
 		// 아임포트 결제창을 사용하기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
 		if( super.checkLogin(request) ) {
 			// 로그인을 했으면
-			
-			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
+		*/	
+//			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
 			
 			HttpSession session = request.getSession();
-			MemberVO_OHJ loginuser = (MemberVO_OHJ)session.getAttribute("loginuser");
-			
-			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
+			MemberVO_PJW loginuser = (MemberVO_PJW)session.getAttribute("loginuser");
+			String userid = loginuser.getUserid();
+		/*	if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신의 코인을 결제하는 경우
-				
+		*/		
 				String coinmoney = request.getParameter("coinmoney");
 				
 				// 회원정보를 조회해서 뷰단에 보낸다.(getParameter로 넘어온 userid를 이용)
@@ -40,7 +41,7 @@ public class OrderPaymentAction extends AbstractController {
 				
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/order/paymentGateway.jsp");
-			}
+/*			}
 			else {
 				// 로그인한 사용자가 다른 사용자의 코인을 충전하려고 시도하는 경우 
 	            String message = "다른 사용자의 결제 시도는 불가합니다.!!";
@@ -65,7 +66,7 @@ public class OrderPaymentAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-	
+*/	
 	}
 
 }
