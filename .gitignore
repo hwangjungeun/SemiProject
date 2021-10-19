@@ -33,4 +33,10 @@ hs_err_pid*
 /SemiProject/src/common/controller/FrontController.java
 /SemiProject/WebContent/WEB-INF/Command.properties
 /SemiProject/WebContent/WEB-INF/header.jsp
+<<<<<<< HEAD
 /SemiProject/WebContent/WEB-INF/footer.jsp
+=======
+/SemiProject/WebContent/WEB-INF/footer.jsp
+/SemiProject/src/product/model/ProductVO_OHJ.java
+/SemiProject/src/product/model/PColorVO_OHJ.java
+>>>>>>> refs/heads/hwangjungeun
