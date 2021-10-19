@@ -1,5 +1,7 @@
 package mypage.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +40,21 @@ public class OrderListAction extends AbstractController {
 			String date2 = request.getParameter("date2");
 			String date3 = request.getParameter("date3");
 			String date4 = request.getParameter("date4");
+			
+			// 현재 날짜 구해오기
+			LocalDate now = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			// 조회버튼을 누르지 않았을 때, null 값이 아닌 날짜 값 주기(기본 3개월)
+			if(date2 == null && date4 == null ) {
+				date2 = now.format(formatter);
+				date4 = now.format(formatter);
+			}
+			if(date1 == null && date3 == null) {
+				now = now.minusMonths(3);	// 3개월 전 값 저장
+				date1 = now.format(formatter);
+				date3 = now.format(formatter);
+			}
 			
 			request.setAttribute("date1", date1);
 			request.setAttribute("date2", date2);

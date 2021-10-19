@@ -84,7 +84,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 					"    ON A.fk_odrcode = O.odrcode " + 
 						 "    where fk_userid= ? and rank = 1 ";
 			
-			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( paraMap.get("date1") !=null && paraMap.get("date2") != null ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') +1 ";
 			}
 				  sql += " ) "  
@@ -96,7 +96,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			
 			pstmt.setString(1, paraMap.get("userid"));
 			
-			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( paraMap.get("date1") !=null && paraMap.get("date2") != null ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
 				pstmt.setInt(4, (currentShowPageNo * 5) - 4 );
@@ -149,14 +149,14 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " from tbl_order " + 
 						 " where fk_userid= ? ";
 							
-			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( paraMap.get("date1") !=null && paraMap.get("date2") != null ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( paraMap.get("date1") !=null && paraMap.get("date2") != null ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
 			}
@@ -188,14 +188,14 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " from tbl_order " + 
 						 " where fk_userid= ? ";
 							
-			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( paraMap.get("date1") !=null && paraMap.get("date2") != null ) {
 				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
+			if( paraMap.get("date1") !=null && paraMap.get("date2") != null ) {
 				pstmt.setString(2, paraMap.get("date1"));
 				pstmt.setString(3, paraMap.get("date2"));
 			}
@@ -291,14 +291,14 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " ON D.fk_odrcode = O.odrcode " + 
 						 " where fk_userid= ?  and cancelstatus != 0 ";
 			
-			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
+			if( paraMap.get("date3") !=null && paraMap.get("date4") != null ) {
 				sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, paraMap.get("userid"));
-			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
+			if( paraMap.get("date3") !=null && paraMap.get("date4") != null ) {
 				pstmt.setString(2, paraMap.get("date3"));
 				pstmt.setString(3, paraMap.get("date4"));
 			}
