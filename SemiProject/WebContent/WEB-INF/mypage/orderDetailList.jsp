@@ -123,6 +123,9 @@
 	<!-- 주문상세 내역조회 끝 -->
 </div>
 
+<div class="container my-5 text-right ">
+	<button type="button" class='btn btn-outline-dark btn-sm' onclick="javascript:history.back();">주문목록</button>
+</div>
 
 
 <jsp:include page="../footer.jsp" />

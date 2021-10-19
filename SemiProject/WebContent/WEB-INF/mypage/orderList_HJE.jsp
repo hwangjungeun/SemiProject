@@ -191,8 +191,8 @@
 								"<td class='verticalM' align='center'>"+item.totalquantity+"</td>"+
 								"<td class='verticalM' align='center'><strong>"+(item.odrtotalprice).toLocaleString('en')+" 원</strong></td>"+
 								"<td class='verticalM' align='center'>"+(item.odrtotalprice*0.1).toLocaleString('en')+" POINT</td>"+
-// 								"<td class='verticalM' align='center'><a href='/SemiProject/mypage/orderDetailList.go?userid="+${sessionScope.loginuser.userid}+"&odrcode="+item.fk_odrcode+"' class='btn btn-outline-dark btn-sm' role='button'>보기</a></td>"+
-								"<td class='verticalM' align='center'><a href='/SemiProject/mypage/orderDetailList.go?userid=leess&odrcode="+item.fk_odrcode+"'  class='btn btn-outline-dark btn-sm' role='button'>보기</a></td>"+
+								"<td class='verticalM' align='center'><a href='/SemiProject/mypage/orderDetailList.go?userid=${sessionScope.loginuser.userid}&odrcode="+item.fk_odrcode+"' class='btn btn-outline-dark btn-sm' role='button'>보기</a></td>"+
+// 								"<td class='verticalM' align='center'><a href='/SemiProject/mypage/orderDetailList.go?userid=leess&odrcode="+item.fk_odrcode+"'  class='btn btn-outline-dark btn-sm' role='button'>보기</a></td>"+
 							 "</tr>";
 	        	  });
 	        	  
@@ -299,8 +299,8 @@
 						<button type="button" class="btn btn-light border" id="btn6m_1">6개월</button>
 					</div>
 					
-<%-- 			  		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid }"> --%>
-			  		<input type="hidden" name="userid" value="leess">
+			  		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid }">
+<!-- 			  		<input type="hidden" name="userid" value="leess"> -->
 					<input type="text" id="datepicker1" class="datepicker"  name="date1">
 		       		~
 			  		<input type="text" id="datepicker2" class="datepicker"  name="date2">

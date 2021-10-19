@@ -5,10 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
  
 import common.controller.AbstractController;
-//import member.model.MemberVO_PJW;
+import member.model.MemberVO_PJW;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
 
@@ -27,11 +27,11 @@ public class OrderListAction extends AbstractController {
 		else {  */
 		
 
-//			HttpSession session = request.getSession();
+			HttpSession session = request.getSession();
 			
-//			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
-//			String userid = loginuser.getUserid();
-			String userid= request.getParameter("userid");
+			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+			String userid = loginuser.getUserid();
+//			String userid= request.getParameter("userid");
 			InterOrderDAO_HJE odao = new OrderDAO_HJE();
 			
 			String date1 = request.getParameter("date1");
