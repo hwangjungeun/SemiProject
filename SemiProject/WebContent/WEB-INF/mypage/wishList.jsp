@@ -96,7 +96,7 @@
 		
 	//	console.log("확인용 opseq => " + opseq);
 		 
-		// 자바스크립트에서 페이지 이동 (최근본상품->주문하기)
+		// 자바스크립트에서 페이지 이동 (위시리스트->주문하기)
 		location.href = "<%= request.getContextPath()%>/order/orderForm.go?userid=eomjh&opseq="+opseq;
 		//																   userid=${(sessionScope.loginuser).userid}로 나중에 변경해야함##################################
 		

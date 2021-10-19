@@ -59,6 +59,25 @@ public interface InterProductDAO_OHJ {
 	int orderAdd(Map<String, Object> paraMap) throws SQLException;
 
 	
+	
+	
+	
+	
+	// == 상세페이지(채은님과 공통 부분) -> 이것의 java와 jsp는 gitignore됨. // ========================================= 
+	// ------------------------------------------------------------------------
+	// 해당 상품 가져오기
+	ProductVO_OHJ selectProduct(String pseq) throws SQLException;
+	// 해당 상품의 옵션 가져오기
+	List<OptionVO_LCE> selectProductOption(String pseq) throws SQLException;
+	// ------------------------------------------------------------------------(채은)
+	
+	// 최근본상품 리스트에 해당 제품을 insert/update해야함.
+	int insertRecentViewProd(String userid, String pseq) throws SQLException;
+
+	// 상세페이지에서 해당옵션번호를 위시리스트에 insert/update해야함.
+	boolean insertWishList(String fk_userid, String fk_opseq) throws SQLException;
+
+	
 
 	
 

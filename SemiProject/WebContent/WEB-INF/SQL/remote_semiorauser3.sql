@@ -199,6 +199,14 @@ create table tbl_wishlist
 );
 --Table TBL_WISHLIST이(가) 생성되었습니다.
 
+-- 등록일자번호 컬럼 추가하기
+alter table tbl_wishlist
+add enrollmentday date;
+-- Table TBL_WISHLIST이(가) 변경되었습니다.
+alter table tbl_wishlist 
+modify enrollmentday date default sysdate;
+-- Table TBL_WISHLIST이(가) 변경되었습니다.
+
 -- **** 위시리스트 시퀀스 생성하기 **** --
 create sequence seq_tbl_wishlist_wishseq
 start with 1
@@ -668,6 +676,35 @@ where fk_userid = ? and fk_opseq = ?;
 -- 해당하는 옵션번호의 재고량 감하기(update)
 update tbl_poption set cnt = cnt - ?
 where opseq = ?;
+
+--***********************************************************************************************--
+-- 상세페이지 dao
+-- 최근본목록 리스트에 해당제품이 있는지 select
+select count(*)
+from tbl_recentViewProduct
+where fk_userid = 'eomjh' and fk_pseq = 3;
+-- 존재하는 경우 update
+update tbl_recentViewProduct set viewday = sysdate
+where fk_userid = ? and fk_pseq = ?;
+-- 존재하지 않는 경우 insert
+insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday)
+values(seq_tbl_rvProduct_recentseq.nextval,?,?,default);
+
+-- 위시리스트에 해당제품이 있는지 select
+select count(*)
+from tbl_wishlist
+where fk_userid = 'eomjh' and fk_opseq = 20;
+-- 위시리스트에 존재하는 건 등록일자를 update
+update tbl_wishlist set enrollmentday = sysdate
+where fk_userid = ? and fk_opseq = ?;
+-- fk_opseq로 fk_pseq알아오기
+select P.pseq
+from tbl_product P JOIN tbl_poption O
+ON P.pseq = O.fk_pseq
+where O.opseq = 20;
+-- 위시리스트에 insert
+insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq,enrollmentday) 
+values(seq_tbl_wishlist_wishseq.nextval,?,?,?,default);
 
 
 ----------------------------------------------------------------------------

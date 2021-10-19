@@ -816,7 +816,259 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 		
 	}// end of public int orderAdd(Map<String, Object> paraMap-------------------------
 
+	
+	
+	
+	// 상세페이지(채은님과 공통부분) 시작 -> gitignore대상
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 해당 상품 가져오기 (상품상세페이지) -> 상세페이지에서 정보 보여줄 것 
+	@Override
+	public ProductVO_OHJ selectProduct(String pseq) throws SQLException {
+	      
+	      ProductVO_OHJ pvo = null;
+	      
+	      try {
+	    	  conn = ds.getConnection();
 
+	    	  String sql = " select pseq, fk_clseq, pname, pimage, price, pcontent, point " +
+	                   	   " from tbl_product " +
+	                   	   " where pseq = ? " ;
+	                  
+	         
+	    	  pstmt = conn.prepareStatement(sql);
+	    	  pstmt.setInt(1, Integer.parseInt(pseq));
+	         
+	    	  rs = pstmt.executeQuery();
+	         
+	    	  if(rs.next()) {
+	    		  pvo = new ProductVO_OHJ();
+	            
+	    		  pvo.setPseq(rs.getString(1));
+	    		  pvo.setFk_clseq(rs.getString(2));
+	    		  pvo.setPname(rs.getString(3));
+	    		  pvo.setPimage(rs.getString(4));
+	    		  pvo.setPrice(rs.getInt(5));
+	    		  pvo.setPcontent(rs.getString(6));
+	    		  pvo.setPoint(rs.getInt(7));
+	         }// end of while(rs.next())---------------
+	      } finally {
+	    	  close();
+	      }
+	      
+	      return pvo;
+	      
+	}// end of end of public ProductVO selectProduct(String pseq)-------------------------------------------
+	
+	// 해당 상품의 옵션 가져오기 (상세페이지) -> 옵션번호, 색상번호, 색상명, 색상이미지, 옵션재고량 가져와야함  
+	@Override
+	public List<OptionVO_LCE> selectProductOption(String pseq) throws SQLException {
+	      
+		List<OptionVO_LCE> optionList = new ArrayList<>();
+	      
+	      
+		try {
+	         conn = ds.getConnection();
+	         
+	         String sql = "select pseq, pname, pimage, price, pcontent, point, opseq, cimage, cnt, cname"
+		                + " from "
+		                + " ( "
+		                + "   select p.pseq, pname, pimage, price, pcontent, point, opseq, cimage, cnt, cname "
+		                + "   from tbl_product p "
+		                + "   join tbl_poption O "
+		                + "   on p.pseq = o.fk_pseq "
+		                + "   join tbl_pcolor C "
+		                + "  on o.fk_cseq = c.cseq "
+		                + " ) V "
+		                + " where pseq = ? ";
+	         
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, pseq);
+	      
+	         rs = pstmt.executeQuery();
+	         
+	         while(rs.next()) {
+	            
+				OptionVO_LCE ovo = new OptionVO_LCE();
+			    
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
+			    
+			    pvo.setPseq(rs.getString(1));
+			    pvo.setPname(rs.getString(2));
+			    pvo.setPimage(rs.getString(3));
+			    pvo.setPrice(rs.getInt(4));
+			    pvo.setPcontent(rs.getString(5));
+			    pvo.setPoint(rs.getInt(6));
+			    
+			    ovo.setFk_pseq(pvo);
+			    ovo.setOpseq(String.valueOf(rs.getInt(7)));
+			    ovo.setCimage(rs.getString(8));
+			    ovo.setCnt(rs.getInt(9));
+			    
+			    PColorVO_OHJ cvo = new PColorVO_OHJ();
+			    cvo.setCname(rs.getString(10));
+			    
+			    ovo.setFk_cseq(cvo);
+			 
+			    optionList.add(ovo);
+	         }// end of while(rs.next())-----------------------
+	         
+		} finally {
+	    	  close();
+		}      
+	   
+		return optionList;
+	      
+	}// end of public List<OptionVO_LCE> selectProductOption(String pseq)---------------------------------------
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	// 상세페이지(채은님과 공통부분) 끝 -> gitignore대상
+
+	
+	// 최근본상품 리스트에 해당 제품을 insert/update해야함.
+	@Override
+	public int insertRecentViewProd(String userid, String pseq) throws SQLException {
 		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			// 먼저 해당 제품이 최근본상품 리스트에 있는지 알아온다.
+			String sql = " select count(*) " + 
+						 " from tbl_recentViewProduct " + 
+						 " where fk_userid = ? and fk_pseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setString(2, pseq);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int existsInRVP = rs.getInt(1); // 변수 existsInRVP는 최근본상품리스트 목록에 해당제품이 존재하는지 안하는지 유무이다.
+			
+			System.out.println("확인용 existsInRVP : " + existsInRVP);
+			
+			if(existsInRVP == 1) { // 이미 존재한다라면 update
+				sql = " update tbl_recentViewProduct set viewday = sysdate " + 
+					  " where fk_userid = ? and fk_pseq = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, userid);
+				pstmt.setString(2, pseq);
+				
+				n = pstmt.executeUpdate();
+				
+			}
+			else { // 존재하지 않으면 새로 insert
+				sql = " insert into tbl_recentViewProduct(recentseq,fk_userid,fk_pseq,viewday) " + 
+					  " values(seq_tbl_rvProduct_recentseq.nextval,?,?,default) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, userid);
+				pstmt.setString(2, pseq);
+				
+				n = pstmt.executeUpdate();
+			}
+			
+			// update 또는 insert를 했으면 1, 실패했으면 0이다.
+			System.out.println("확인용 n : " + n);
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	}// end of public int insertRecentViewProd(String userid, String pseq)--------------------------------------------------
+
+	
+	// 상세페이지에서 해당옵션번호를 위시리스트에 insert/update해야함.
+	@Override
+	public boolean insertWishList(String fk_userid, String fk_opseq) throws SQLException {
+
+		boolean success = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			// 먼저 해당 제품이 위시리스트에 있는지 알아온다.
+			String sql = " select count(*) " + 
+						 " from tbl_wishlist " + 
+						 " where fk_userid = ? and fk_opseq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			pstmt.setString(2, fk_opseq);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			int existsInWishList = rs.getInt(1); // 위시리스트에 해당 옵션번호가 있는지 확인하기
+			
+			System.out.println("확인용 existsInWishList : " + existsInWishList);
+			
+			int n = 0; // update 또는 insert를 했는지안했는지 유무
+			if(existsInWishList == 1) {
+				// 이미 존재하므로, 등록일자를 update한다.
+				sql = " update tbl_wishlist set enrollmentday = sysdate " + 
+					  " where fk_userid = ? and fk_opseq = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, fk_userid);
+				pstmt.setString(2, fk_opseq);
+				
+				n = pstmt.executeUpdate();
+			}
+			else {
+				
+				// 옵션번호에 해당하는 fk_pseq 알아오기
+				sql = " select P.pseq " + 
+					  " from tbl_product P JOIN tbl_poption O " + 
+					  " ON P.pseq = O.fk_pseq " + 
+					  " where O.opseq = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, fk_opseq);
+				
+				rs = pstmt.executeQuery();
+				rs.next();
+				String pseq = rs.getString(1); // 제품번호
+				
+				// 존재하지 않으므로, insert해준다.
+				sql = " insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq,enrollmentday) " + 
+					  " values(seq_tbl_wishlist_wishseq.nextval,?,?,?,default) ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, fk_userid);
+				pstmt.setString(2, pseq);
+				pstmt.setString(3, fk_opseq);
+				
+				n = pstmt.executeUpdate();
+			}
+			
+			if(n == 1) { // update또는insert를 성공한 경우
+				success = true;
+			}
+			System.out.println("확인용 success : " + success);
+			
+		} finally {
+			close();
+		}
+		
+		return success;
+	}// end of public boolean insertWishList(String fk_userid, String fk_opseq)------------------------------------------------------
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
