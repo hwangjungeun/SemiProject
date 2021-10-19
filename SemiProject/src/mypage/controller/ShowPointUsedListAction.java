@@ -117,7 +117,7 @@ public class ShowPointUsedListAction extends AbstractController {
 				
 				JSONObject jsonObj = new JSONObject(); // {} {}
 				
-				jsonObj.put("fk_odrdate", pvo.getFk_odrdate());    
+				jsonObj.put("odrdate", pvo.getOdrdate());    
 				jsonObj.put("start_day", pvo.getStart_day());    
 	            jsonObj.put("point", pvo.getPoint());
 	            jsonObj.put("fk_odrcode", pvo.getFk_odrcode());

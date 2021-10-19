@@ -35,3 +35,8 @@ hs_err_pid*
 /SemiProject/WebContent/WEB-INF/header.jsp
 /SemiProject/WebContent/WEB-INF/footer.jsp
 
+
+#OHJ+LCE 상세페이지 공동작업
+productDetail_OHJ.jsp
+ProductDetailAction_OHJ.java
+OptionVO_LCE.java

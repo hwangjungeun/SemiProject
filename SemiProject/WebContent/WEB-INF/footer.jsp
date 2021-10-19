@@ -49,25 +49,25 @@
 						<div class="row">
 							<div class="col-md-4">
 								<h2>community</h2>
-								<p><a href="#">NOTICE</a></p>
-								<p><a href="#">Q&amp;A</a></p>
-								<p><a href="#">DELAY</a></p>
-								<p><a href="#">REVIEW</a></p>
-								<p><a href="#">EVENT</a></p>
+								<p><a href="<%= ctxPath%>/board/noticeList.go">NOTICE</a></p>
+								<p><a href="<%= ctxPath%>/board/qnaList.go">Q&amp;A</a></p>
+								<p><a href="<%= ctxPath%>/board/delay.go">DELAY</a></p>
+								<p><a href="<%= ctxPath%>/board/review.go">REVIEW</a></p>
+								<p><a href="<%= ctxPath%>/board/event.go">EVENT</a></p>
 							</div>
 							
 							<div class="col-md-4">
 								<h2>membership</h2>
-								<p><a href="#">회원가입</a></p>
-								<p><a href="#">아이디 찾기</a></p>
-								<p><a href="#">비밀번호 찾기</a></p>
-								<p><a href="#">주문조회 바로가기</a></p>
-								<p><a href="<%= ctxPath%>/product/recentViewProduct.go">최근 본 상품</a></p>
+								<p><a href="<%= ctxPath %>/member/memberRegister.go">회원가입</a></p>
+								<p><a href="<%= ctxPath %>/login/idSearch.go">아이디 찾기</a></p>
+								<p><a href="<%= ctxPath %>/login/pwdSearch.go">비밀번호 찾기</a></p>
+								<p><a href="<%= ctxPath %>/mypage/orderList.go?userid=${sessionScope.loginuser.userid}">주문조회 바로가기</a></p>
+								<p><a href="<%= ctxPath%>/product/recentViewProduct.go?userid=${sessionScope.loginuser.userid}">최근 본 상품</a></p>
 							</div>
 							
 							<div class="col-md-4">
 								<h2>shop guide</h2>
-								<p><a href="#">홈으로</a></p>
+								<p><a href="<%= ctxPath%>/index.go">홈으로</a></p>
 								<p><a href="#">회사소개</a></p>
 								<p><a href="#">이용약관안내</a></p>
 								<p><a href="#">개인정보취급방침</a></p>
