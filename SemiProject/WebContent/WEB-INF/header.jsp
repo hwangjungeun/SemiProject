@@ -11,11 +11,9 @@
 %>
 
 
-<!-- <!DOCTYPE html> -->
 <html lang="ko">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
 <title>오!데일리</title>
 
 <!-- Required meta tags -->
@@ -27,7 +25,6 @@
 
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%=ctxPath %>/js/jquery-3.3.1.min.js"></script>
@@ -58,6 +55,10 @@
 	a.nav-link{
 		font-size: 9pt;
 	}
+	a.nav-link:hover{ <%-- 상위카테고리 클릭시 바탕색,글자색 효과줌  --%>
+		background-color:gray;
+		color:white;
+	}
 	span.badge {
 		position: absolute; 
 		right: 15px;
@@ -66,11 +67,7 @@
 	div a {
 		color: black;
 	}
-	h1 {
-		display: block;
-	    font-size: 15px;
-	    font-weight: bold;
-	}
+	
 	h2 {
 		display: block;
 	    font-size: 12px;
@@ -95,6 +92,22 @@
 	display : inline-block;
 	}
 	
+	.xans-layout-statelogon toplog {
+    float: left;
+    line-height: 28px;
+    text-align: center;
+    font-size : 10pt;
+    }
+    
+    #collapsibleNavbar{
+    	margin-top:20px;
+    	margin-bottom:30px;
+    }
+
+.dropdown:hover .dropdown-menu {
+	    display: inline-block;
+	    margin-top: 0;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -113,17 +126,6 @@
 		html += "</ol>";
 		
 		$("div#olli").html = html;
-		
-		
-		$("input:button[id=gobasket]").bind("click",function(){
-			
-			//alert("클릭이됩니다");
-			
-			location.href= "<%= request.getContextPath()%>/order/basket.go"; //장바구니 페이지로 이동 
-			
-			
-		});
-		
 	});
 	
 	function goLogOut(){
@@ -149,19 +151,17 @@
 					<button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
 			    </form>
 			</div>
-
+		
+	
 			<div class="topArea container-fluid navbar-header mx-auto text-center">
 				<a class="navbar-brand mx-auto mb-3" href="<%= ctxPath %>/index.go">o H ! &nbsp; D a i L Y</a>
-				<div>
-					<a href="<%= ctxPath%>/order/basket.go">
-						<i class="fas fa-shopping-basket fa-2x"></i>	
-						<span class="badge badge-pill badge-light text-black-50">0</span>
-					</a>
-					<!--<input type="button" id="gobasket" value="장바구니"/>-->
-				</div>
+				<i class="fas fa-shopping-basket fa-2x"></i>
+				<span class="badge badge-pill badge-light text-black-50">${requestScope.basketCnt}</span>
 			</div>
+			</nav>
 			
-			<div class="bottomArea ml-auto my-3">
+			<div class="xans-layout-statelogon toplog ">
+			
 			<c:if test ="${empty sessionScope.loginuser}">
 				<a href="<%= ctxPath %>/login/logintry.go">LOGIN</a>
 				<a href="<%= ctxPath %>/member/memberRegister.go">JOIN US</a>
@@ -169,21 +169,26 @@
 			
 			<!-- 세션에 로그인 유저 아이디가 있을때 , 즉 로그인 성공 했을 때 -->
 			<c:if test = "${not empty sessionScope.loginuser }">
-			
                                    어서오세요[<span style="color: black; font-weight: bold;">${(sessionScope.loginuser).name}</span>]님
                 <br/>다양하고 특별한 혜택을 누리세요!
                  &nbsp; &nbsp;<button type="button" class="btn btn-danger" onclick="goLogOut()">로그아웃</button><br/>
              
-		    	<a href="<%= ctxPath %>/member/memberRegister.go">MyPage</a>
+		    	<%-- <a href="<%= ctxPath %>/member/memberLookup.go">MODIFY</a> --%>
 			</c:if>
+			
 			<!-- 어드민으로 로그인 했을때 만 매니저 란이 활성화 된다.  -->
 			<c:if test = "${(sessionScope.loginuser).userid == 'admin' }">
 				<a href="#">MANAGER</a>
 			</c:if>
-				<a href="#">NOTICE</a>
-				<a href="#">Q&amp;A</a>
+			<c:if test = "${not empty sessionScope.loginuser }">
+			<a href="<%= ctxPath %>/member/memberEdit.go">MODIFY</a>
+			</c:if>
+			<a href="#">CART <span class="count ">(<span class="EC-Layout-Basket-count">0</span>)</span></a>
+			<a href="<%= ctxPath %>/mypage/orderList.go">ORDER</a>
+			<a href="<%= ctxPath %>/member/memberLookup.go">MYPAGE</a>
 			</div>
-		</nav>
+			</div>
+	
 			
 		<!-- 아코디언 같은 Navigation Bar 만들기 -->
 		<nav class="navbar navbar-expand-md navbar-light">
@@ -193,83 +198,96 @@
 			
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="nav mx-auto">
+					<div>
 					<li class="nav-item mx-2"><a class="nav-link" href="<%= ctxPath %>/product/bestList.go">BEST</a></li>
 					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li> -->
+					</div>
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="outerDropdown" data-toggle="dropdown">OUTER</a>
-						<div class="dropdown-menu" aria-labelledby="outerDropdown">
-				           <a class="dropdown-item" href="<%= ctxPath %>/product/productListForm.go">코트</a>
-				           <a class="dropdown-item" href="#">자켓</a>
-				           <a class="dropdown-item" href="#">가디건</a>
-				           <a class="dropdown-item" href="#">야상</a>
-				           <a class="dropdown-item" href="#">패딩</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=1" id="outerDropdown">OUTER</a>
+							<div class="dropdown-menu" aria-labelledby="outerDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=1">자켓</a>
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=2">가디건</a>
+					         </div>
 				         </div>
 					</li>
 					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="topDropdown" data-toggle="dropdown">TOP</a>
-						<div class="dropdown-menu" aria-labelledby="topDropdown">
-				           <a class="dropdown-item" href="#">티셔츠</a>
-				           <a class="dropdown-item" href="#">민소매</a>
-				           <a class="dropdown-item" href="#">맨투맨/후드</a>
-				           <a class="dropdown-item" href="#">니트</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=2" id="topDropdown">TOP</a>
+							<div class="dropdown-menu" aria-labelledby="topDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=3">티셔츠</a>
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=4">니트</a>
+					         </div>
 				         </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="blouseDropdown" data-toggle="dropdown">BLOUSE</a>
-						<div class="dropdown-menu" aria-labelledby="blouseDropdown">
-				           <a class="dropdown-item" href="#">BLOUSE</a>
-				           <a class="dropdown-item" href="#">SHIRTS</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=3" id="blouseDropdown">BLOUSE</a>
+							<div class="dropdown-menu" aria-labelledby="blouseDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=5">BLOUSE</a>
+					         </div>
+			         </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="pantsDropdown" data-toggle="dropdown">PANTS</a>
-						<div class="dropdown-menu" aria-labelledby="blouseDropdown">
-				           <a class="dropdown-item" href="#">데님</a>
-				           <a class="dropdown-item" href="#">반바지</a>
-				           <a class="dropdown-item" href="#">긴바지</a>
-				           <a class="dropdown-item" href="#">슬렉스</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=4" id="pantsDropdown">PANTS</a>
+							<div class="dropdown-menu" aria-labelledby="blouseDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=6">데님</a>
+					         </div>
 				         </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="skirtDropdown" data-toggle="dropdown">SKIRT</a>
-						<div class="dropdown-menu" aria-labelledby="skirtDropdown">
-				           <a class="dropdown-item" href="#">미니</a>
-				           <a class="dropdown-item" href="#">미디</a>
-				           <a class="dropdown-item" href="#">롱</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=5" id="skirtDropdown">SKIRT</a>
+							<div class="dropdown-menu" aria-labelledby="skirtDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=7">미니</a>
+					        </div>
+					    </div>
 					</li>
+					
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="dressDropdown" data-toggle="dropdown">DRESS</a>
-						<div class="dropdown-menu" aria-labelledby="dressDropdown">
-				           <a class="dropdown-item" href="#">One-Piece</a>
-				           <a class="dropdown-item" href="#">Two-Piece</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=6" id="dressDropdown">DRESS</a>
+							<div class="dropdown-menu" aria-labelledby="dressDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=8">One-Piece</a>
+					        </div>
+				        </div>
 					</li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">SHOES &amp; BAG</a>
-					<div class="dropdown-menu" aria-labelledby="Dropdown">
-				           <a class="dropdown-item" href="#">신발</a>
-				           <a class="dropdown-item" href="#">가방</a>
+					
+					<li class="nav-item mx-2">
+					<div class="dropdown">
+						<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=7">SHOES &amp; BAG</a>
+						<div class="dropdown-menu" aria-labelledby="Dropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=9">가방</a>
+					    </div>
 				    </div>
 					</li>
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="accDropdown" data-toggle="dropdown">ACC</a>
-						<div class="dropdown-menu" aria-labelledby="accDropdown">
-				           <a class="dropdown-item" href="#">귀걸이</a>
-				           <a class="dropdown-item" href="#">기타</a>
+						<div class="dropdown">
+							<a class="nav-link" href="<%= ctxPath %>/product/productListUp.go?cuseq=8" id="accDropdown">ACC</a>
+							<div class="dropdown-menu" aria-labelledby="accDropdown">
+					           <a class="dropdown-item" href="<%= ctxPath %>/product/productListLow.go?clseq=10">귀걸이</a>
+					         </div>
 				         </div>
 					</li>
 					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li> -->
 					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li> -->
 					<li class="nav-item mx-2">
-						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
-						<div class="dropdown-menu" aria-labelledby="Dropdown">
-				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
-				           <a class="dropdown-item" href="#">Review</a>
-				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
-				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
-				         </div>
+						<div class="dropdown">
+							<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
+							<div class="dropdown-menu" aria-labelledby="Dropdown">
+								 <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/noticeList.go">Notice</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
+						         <a class="dropdown-item" href="#">Review</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
+						         <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
+					         </div>
+					    </div>
 					</li>
 				</ul>
 			</div>
