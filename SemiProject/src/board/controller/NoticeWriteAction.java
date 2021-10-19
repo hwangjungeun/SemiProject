@@ -18,7 +18,7 @@ public class NoticeWriteAction extends AbstractController {
 		  // 관리자 로그인 시에만 글 작성이 가능 하도록 한다 //
 	      HttpSession session = request.getSession();
 	      
-	      MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	      MemberVO_KMK loginuser = (MemberVO_KMK) session.getAttribute("loginuser");
 
 	      // 관리자로 로그인 되었을 때
 	      if( loginuser != null && "admin".equals(loginuser.getUserid())) {

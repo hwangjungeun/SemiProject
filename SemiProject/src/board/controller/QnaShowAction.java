@@ -18,7 +18,7 @@ public class QnaShowAction extends AbstractController {
 		   
 	   try {
 		   HttpSession session = request.getSession();
-		   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		   MemberVO_KMK loginuser = (MemberVO_KMK) session.getAttribute("loginuser");
 		   userid = loginuser.getUserid();
 	   }catch(NullPointerException e) {
 		   userid = "no";

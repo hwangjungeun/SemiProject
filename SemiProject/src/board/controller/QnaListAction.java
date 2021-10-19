@@ -13,7 +13,7 @@ import board.model.BoardDAO;
 import board.model.BoardVO;
 import board.model.InterBoardDAO;
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import member.model.MemberVO_KMK;
 
 public class QnaListAction extends AbstractController {
 

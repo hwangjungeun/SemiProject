@@ -8,9 +8,9 @@ import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
+import member.model.InterMemberDAO_KMK;
+import member.model.MemberDAO_KMK;
+import member.model.MemberVO_KMK;
 
 public class NoticeListAction extends AbstractController {
 

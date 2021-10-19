@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import member.model.MemberVO;
+import member.model.MemberVO_KMK;
 
 
 public interface InterBoardDAO {

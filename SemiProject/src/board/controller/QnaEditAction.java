@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import board.model.*;
 import common.controller.AbstractController;
-import member.model.MemberVO;
+import member.model.MemberVO_KMK;
 
 
 public class QnaEditAction extends AbstractController {
