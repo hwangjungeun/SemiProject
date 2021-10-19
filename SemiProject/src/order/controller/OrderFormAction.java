@@ -18,18 +18,17 @@ public class OrderFormAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// 주문을 하기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
-/*		if( super.checkLogin(request) ) {
+		if( super.checkLogin(request) ) {
 			// 로그인을 했으면
 			
 			String userid = request.getParameter("userid"); // 주소창에 넘어온 userid
 			
 			HttpSession session = request.getSession();
-			MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+			MemberVO_OHJ loginuser = (MemberVO_OHJ)session.getAttribute("loginuser");
 			
 			if(loginuser.getUserid().equals(userid)) { // 로그인을 했으니 MemberVO는 null이 아님
 				// 로그인한 사용자가 자신의 주문을 하는 경우
-*/			
-				
+			
 				Map<String,String> map = null;
 				
 				
@@ -59,7 +58,7 @@ public class OrderFormAction extends AbstractController {
 						for(int i=0; i<cntArr.length; i++) { // opseqArr과 cntArr는 길이 같으므로 아무거나 반복돌림.
 							map.put("fk_opseq", opseqArr[i]);
 							map.put("oqty", cntArr[i]);
-							map.put("userid", "leess"); // ################################userid->eomjh###################
+							map.put("userid", userid); // ##################################뿌잉##################################
 							
 							pdao.insertOdrProg(map); // 주문진행중 테이블에 insert
 						}// end of for--------------------------------------------
@@ -72,7 +71,7 @@ public class OrderFormAction extends AbstractController {
 						for(int i=0; i<opseqArr.length; i++) {
 							map.put("fk_opseq", opseqArr[i]);
 							map.put("oqty", "1");
-							map.put("userid", "leess"); // ################################userid->eomjh###################
+							map.put("userid", userid); // ##################################뿌잉##################################
 							
 							pdao.insertOdrProg(map); // 주문진행중 테이블에 insert
 						}// end of for--------------------------------------------
@@ -94,7 +93,7 @@ public class OrderFormAction extends AbstractController {
 					//	System.out.println("확인용 oqty => " + map.get("oqty"));
 						
 						// map이 pdao를 통해서 new HashMap으로 바꼈으므로 키값인 userid를 다시 넣어줘야함.
-						map.put("userid", "leess"); // ################################userid->eomjh###################
+						map.put("userid", userid); // ##################################뿌잉##################################
 						
 						pdao.insertOdrProg(map); // 주문진행중 테이블에 insert
 						
@@ -111,10 +110,10 @@ public class OrderFormAction extends AbstractController {
 				// 회원정보를 조회해서 뷰단에 보낸다.(getParameter로 넘어온 userid를 이용)
 				InterMemberDAO_OHJ mdao = new MemberDAO_OHJ();
 				
-				MemberVO_OHJ member = mdao.showMemberInfo("leess"); // 원래는 userid가 들어감##############################################
+				MemberVO_OHJ member = mdao.showMemberInfo(userid); // ##################################뿌잉##################################
 				
 				// 해당user의 포인트에 대한 총합을 구해서 뷰단에 보낸다.
-				int totalPoint = mdao.showTotalPoint("leess"); // 원래는 userid가 들어감##############################################
+				int totalPoint = mdao.showTotalPoint(userid); // ##################################뿌잉##################################
 				
 				
 				request.setAttribute("member", member);
@@ -123,7 +122,7 @@ public class OrderFormAction extends AbstractController {
 				
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/order/orderForm.jsp");
-/*			
+		
 			}
 			else {
 				// 로그인한 사용자가 다른 사용자의 주문을 하려고 시도하는 경우 
@@ -149,7 +148,7 @@ public class OrderFormAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
-*/
+
 				
 	}// end of public void execute(HttpServletRequest request, HttpServletResponse response)-----------------------------------------------------------
 

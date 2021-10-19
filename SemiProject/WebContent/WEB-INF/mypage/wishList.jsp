@@ -97,8 +97,8 @@
 	//	console.log("확인용 opseq => " + opseq);
 		 
 		// 자바스크립트에서 페이지 이동 (위시리스트->주문하기)
-		location.href = "<%= request.getContextPath()%>/order/orderForm.go?userid=eomjh&opseq="+opseq;
-		//																   userid=${(sessionScope.loginuser).userid}로 나중에 변경해야함##################################
+		location.href = "<%= request.getContextPath()%>/order/orderForm.go?userid=${(sessionScope.loginuser).userid}&opseq="+opseq;
+		//																   // ##################################뿌잉##################################
 		
 	}// end of function goOrderForm(wishseq)-------------------------
 	 
@@ -301,7 +301,7 @@
 			$.ajax({
 				url:"<%= request.getContextPath()%>/mypage/deleteAllWishList.go",
 				type:"poST",
-				data:{"fk_userid":"eomjh"}, // 원래는 ${SessionScope.loginuser.userid} 이다.######################################################
+				data:{"fk_userid":"${sessionScope.loginuser.userid}"}, // ##################################뿌잉##################################
 				dataType:"json",
 	    		success:function(json){
 	    			

@@ -283,7 +283,7 @@
 		
 		//////////////////////////////////////////////////////////////	
 		// 결제
-		
+		/*
 		$("input#usePoint").blur(function(){ // 적립금 입력시 제대로 입력했는지 확인후, 할인금액에 넣어줌.
 			
 			var usePoint = $(this).val();
@@ -335,7 +335,7 @@
 			}
 			
 		});// end of $("input#usePoint").blur(function(){})------------------------
-		
+		*/
 		
 		
 	});// end of $(document).ready(function(){})----------------------------
@@ -384,8 +384,8 @@
 		realTotalPrice = realTotalPrice.split(",").join(""); // 46500
 	//	alert("확인용 결제금액 : " + realTotalPrice + " 원 결제예정");
 		
-	//	var userid = "${sessionScope.loginuser.userid}"; // 자바스크립트 // sessionScope.loginuser.get다음의뭐뭐뭐 
-		var userid = "leess"; //##############################################################################
+		var userid = "${sessionScope.loginuser.userid}"; // 자바스크립트 // sessionScope.loginuser.get다음의뭐뭐뭐  // ##################################뿌잉##################################
+		
 	//	alert("확인용 결제할 사용자 아이디 : " + userid);
 		
 		//  아임포트 결제 팝업창 띄우기 
@@ -400,8 +400,9 @@
 	
 	
 	// === 결제가 성공되면, DB 상의 테이블 내용들을 변경하는 함수 ===
-//	function goPaymentSuccess(){ //############################################################################
-	function test(){	
+	function goPaymentSuccess(){ // ##################################뿌잉##################################
+//	function test(){	
+		
 		// 1) tbl_order와 tbl_orderdetail 주문내역insert
 		// 2) tbl_orderProgress 주문대기중목록delete
 		// 3) tbl_cart 해당목록delete
@@ -450,7 +451,7 @@
 		frm.fk_opseqjoin.value = str_Opseq;
 		
 	
-		// 결제완료페이지로 이동########################################################################################
+		// 결제완료페이지로 이동
 		frm.action = "<%= request.getContextPath()%>/order/orderEnd.go"; 
 		frm.method = "POST";
 		frm.submit();
@@ -562,7 +563,7 @@
 	// 사용가능한 포인트보여주는 팝업창 띄우기
 	function showUsablePoint(){
 		
-		var url = "<%= request.getContextPath()%>/order/showUsablePoint.go?userid=leess"; // ##원래는 ${sessionScope.loginuser.userid}다.##########################################################
+		var url = "<%= request.getContextPath()%>/order/showUsablePoint.go?userid=${sessionScope.loginuser.userid}"; // ##################################뿌잉##################################
 		
 		window.open(url, "showUsablePoint",
         			"left=350px, top=100px, width=650px, height=570px"); // window.open이 팝업창 띄우는거다.
