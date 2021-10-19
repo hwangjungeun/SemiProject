@@ -136,66 +136,8 @@ span.button {
 
    $(document).ready(function(){
 	   
-	  
-	   $("td#board_num").click(function(){
-		   var board_num = $(this).next().next().next().next().next().text();	
-		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
-	   });
-	   $("td#board_subject").click(function(){
-		   var board_num = $(this).next().next().next().next().text();	
-		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
-	   });
-	   $("td#board_id").click(function(){
-		   var board_num = $(this).next().next().next().text();	
-		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
-	   });
-	   $("td#board_count").click(function(){
-		   var board_num = $(this).next().next().text();	
-		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
-	   });
-	   $("td#board_date").click(function(){
-		   var board_num = $(this).next().text();	
-		   location.href="<%=ctxPath%>/board/qnaShow.go?board_num="+board_num; 
-	   });
-	   
-	   
-	   if("${requestScope.searchWord}" != "" ) {
-	    	$("select#searchType").val("${requestScope.searchType}");
-	 	    $("input#searchWord").val("${requestScope.searchWord}");
-	    }
-	    	
-	   
-	 // *** select 태그에 대한 이벤트는  click 이 아니라 change 이다. *** // 
-	      $("select#sizePerPage").bind("change",function(){
-	         
-	         goSearch();
-	         
-	      });// end of $("select#sizePerPage").bind("change",function()
-	      
-	      if("${requestScope.sizePerPage}" != ""){
-	         $("select#sizePerPage").val("${requestScope.sizePerPage}");
-	      }      
-	      
-	      $("input#searchWord").bind("keyup",function(){
-	         if(event.keycode == 13) { // 검색어에서 엔터를 치면 검색하러 가도록 한다.
-	            goSearch();
-	         }
-
-	   })// end of $("select#sizePerPage").change(function(){})-----------------------------------      
-      
+	 
    });// end of $(document).ready(function(){})----------------------------------
-   
-   
-	// Function Declaration 
-    function goSearch() { // 검색창에 검색타입과 검색어를 입력하면 해당 글들을 조회해서 찾아줍니다.
-      
-      var frm = document.memberFrm; 
-      frm.action = "qnaList.go";
-      frm.method = "get";
-      frm.submit();
-      
-   }// end of function goSearch()---------------------------
-
 
    
    
@@ -213,7 +155,7 @@ span.button {
 	<br>
    
 	    <table id="boardTbl" class="tbl">
-			<colgroup>
+	    	<colgroup>
 			    <col style="width:100px;">
 				<col style="width:750px;">
 				<col style="width:125px;">
@@ -249,9 +191,9 @@ span.button {
 	     <form name="memberFrm">
 	     	<p> 
 		      <select id="searchType" name="searchType">
-		         <option value="board_id">회원명</option>
-		         <option value="board_subject">제목</option>
-		         <option value="board_content">내용</option>
+		         <option value="id">회원명</option>
+		         <option value="subject">제목</option>
+		         <option value="content">내용</option>
 		      </select>
 	      
 		      <input type="text" id="searchWord" name="searchWord" />
@@ -264,7 +206,7 @@ span.button {
 		      </select>
 		      
 		      <span class="button">	
-		         <a href="<%=ctxPath%>/board/qnaWrite.go">글작성</a> 
+		         <a href="<%=ctxPath%>/board/qnaList.go">글목록</a> 
 		      </span>
 		   </p>
 		      
@@ -272,7 +214,7 @@ span.button {
 	      
 	    <nav class="my-5">
 	      	 <div style="display: flex; width::80%;">
-	      	 	 <ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul> 
+	      	 	<%-- <ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul> --%>
 	      	 </div>	 			
 	    </nav>
       

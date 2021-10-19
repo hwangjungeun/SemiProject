@@ -1,10 +1,14 @@
 package common.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import board.model.*;
 import member.model.MemberVO;
-import member.model.MemberVO_HJE;
+
 
 public abstract class AbstractController implements InterCommand {
 	
@@ -59,7 +63,7 @@ public abstract class AbstractController implements InterCommand {
 	public boolean checkLogin(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		MemberVO_HJE loginuser = (MemberVO_HJE)session.getAttribute("loginuser");
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		if(loginuser != null) {
 			// 로그인 한 경우
@@ -70,11 +74,5 @@ public abstract class AbstractController implements InterCommand {
 			return false;
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

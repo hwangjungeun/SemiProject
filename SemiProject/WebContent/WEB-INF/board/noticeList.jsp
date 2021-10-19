@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
 
 <%
@@ -8,9 +7,8 @@
 	//		/SemiProject
 %>
 
-
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <meta charset="UTF-8">
@@ -21,6 +19,7 @@
 <link rel="stylesheet" href="/SemiProject/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+<jsp:include page="../header.jsp" />
 
 <style type="text/css">
 
@@ -54,68 +53,33 @@ p.desc {
 #contents {
    /*  position: relative; */
     margin: auto;
-    min-height: 800px;
+    min-height: 700px;
 }
 
-div.typeWrite{
-	width: 1250px;
-	vertical-align: middle;
+table#boardTbl {
+	width: 1100px;
 	margin: auto;
-}
-
-table.tbl {
-    width: 1150px;
-    margin: auto;
-    border-top: 0.8px solid #dfdfdf;
+	border-top: 1.5px solid #dfdfdf;
     border-bottom: 1.5px solid #dfdfdf;
-    line-height: 3.8;
+    line-height: 3.5;
     border-left: hidden;
     border-right: hidden;
-}
-tr#top{
-	text-align: center;
-}
-tr#bt {
-	border-top: 0.5px solid #dfdfdf;
-	border-bottom: 0.5px solid #dfdfdf;
-	text-align: center;
+    margin-top: 20px;
 }
 
 th {
-	font-size: 9pt;
-    padding: 12px 0px 12px 18px;
-}
-td {
-	font-size: 9pt;
-    padding: 8px 0px 7px;
-}
-td.subject{
-	text-align: left;
-}
-span.date {
-	font-weight: bold;
-}
-span.txtNum {
-	color: #737373;
-}
-p.searchresult {
 	text-align: center;
-	color: #737373;
-	font-size: 9pt;
+	border-bottom: 0.5px solid #dfdfdf;
 }
-form {
-	margin-left: 60px;
+
+td {
+	text-align: center;
+	border-bottom: 0.5px solid #dfdfdf;
 }
-input {
-    height: 22px;
-    line-height: 22px;
-    margin-left: 150px;
-    padding: 2px 4px;
-    border: 1px solid #d5d5d5;
-    color: #353535;
-    font-size: 12px;
-}
-select {
+
+select#searchType {
+    display: inline-block;
+    margin-left: 75px;
     min-width: 100px;
     height: 22px;
     line-height: 22px;
@@ -124,109 +88,166 @@ select {
     color: #333;
     border: 1px #d5d5d5 solid;
 }
-a.btn {
-    padding: 2.5px 8px;
+
+input {
+    height: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
     border: 1px solid #d5d5d5;
-    font-size: 9px;
-    line-height: 17px;
-    vertical-align: middle;
-    text-align: center;
     color: #353535;
+    font-size: 12px;
 }
 
+select#sizePerPage {
+	display: inline-block;
+    min-width: 50px;
+    height: 22px;
+    line-height: 22px;
+    margin: 0 2 0 0px;
+    padding: 0 0 0 5px;
+    color: #333;
+    border: 1px #d5d5d5 solid;
+}
+
+button#search {
+	background-color: #fff;
+	border: 1px solid #d5d5d5;
+	height: 22px;
+}
+
+span.button {
+	width: 96px;
+	height: 32;
+	border: 1px solid #b3b3b3;
+    float: right;
+    text-align: center;
+    padding: 5px;
+    margin-right: 75px;
+}
 
 </style>
+
 </head>
+
 <body>
-<jsp:include page="../header.jsp" />
+
+
+<script type="text/javascript">
+
+   $(document).ready(function(){
+	   
+	 
+	   $("td#notice_num").click(function(){
+		   var notice_num = $(this).next().next().next().next().next().text();	
+		   location.href="<%=ctxPath%>/board/noticeShow.go?notice_num="+notice_num; 
+	   });
+	   $("td#notice_subject").click(function(){
+		   var notice_num = $(this).next().next().next().next().text();	
+		   location.href="<%=ctxPath%>/board/noticeShow.go?notice_num="+notice_num; 
+	   });
+	   $("td#notice_id").click(function(){
+		   var notice_num = $(this).next().next().next().text();	
+		   location.href="<%=ctxPath%>/board/noticeShow.go?notice_num="+notice_num; 
+	   });
+	   $("td#notice_count").click(function(){
+		   var notice_num = $(this).next().next().text();	
+		   location.href="<%=ctxPath%>/board/noticeShow.go?notice_num="+notice_num; 
+	   });
+	   $("td#notice_date").click(function(){
+		   var notice_num = $(this).next().text();	
+		   location.href="<%=ctxPath%>/board/noticeShow.go?notice_num="+notice_num; 
+	   });
+      
+   });// end of $(document).ready(function(){})----------------------------------
+
+   
+   
+   
+   
+   
+   
+   
+</script>
+
 
 <div id="container">
-	<div id="contents">
-		<div class="titleArea">
-			<h2><font color="#353535">NOTICE</font> </h2>
-			<p class="desc">공지사항입니다.</p>
-		</div>
-		<br>
-	<div class="typeWrite ">
-            <table class="tbl">
-					<colgroup>
-						<col style="width: 10%;">
-						<col>
-						<col style="width: 12%;">
-						<col style="width: 10%;">
-					</colgroup>
-					<thead>
-						<tr id="top">
-							<th scope="col">no</th>
-							<th scope="col">contents</th>
-							<th scope="col">name</th>
-							<th scope="col">date</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr id="bt">
-							<td>공지</td>
-							<td class="subject">
-								<strong><a href="<%=ctxPath%>/board/noticeShow1.go" style="color:#353535;">무통장 입금 안내</a></strong>
-							</td>
-							<td>oh! daily</td>
-							<td>2021-10-10</td>
-						</tr>
-						<tr id="bt">
-							<td>공지</td>
-							<td class="subject">
-								<strong><a href="<%=ctxPath%>/board/noticeShow2.go" style="color:#353535;">적립금&쿠폰 시행 안내(21.09.27 시행)</a></strong>
-							</td>
-							<td>oh! daily</td>
-							<td>2021-09-27</td>
-						</tr>
-						<tr id="bt">
-							<td>공지</td>
-							<td class="subject">
-								<strong><a href="<%=ctxPath%>/board/noticeShow3.go" style="color:#353535;">구매/반품,취소 안내</a></strong>
-							</td>
-							<td>oh! daily</td>
-							<td>2021-09-27</td>
-						</tr>
-						<tr id="bt">
-							<td>공지</td>
-							<td class="subject">
-								<strong><a href="<%=ctxPath%>/board/noticeShow4.go" style="color:#353535;">주문 및 결제 안내</a></strong>
-							</td>
-							<td>oh! daily</td>
-							<td>2021-08-03</td>
-						</tr>
-					</tbody>
-				</table>	
-			</div>
-			<div class="xans-element- xans-board xans-board-buttonlist-8 xans-board-buttonlist xans-board-8 ec-base-button "><span class="gLeft">
-            <form id="boardSearchForm" name="" action="/board/event/8" method="get" target="_top" enctype="multipart/form-data">
-				<input id="board_no" name="board_no" value="8" type="hidden">
-				<input id="page" name="page" value="1" type="hidden">
-				<input id="board_sort" name="board_sort" value="" type="hidden"><div class="xans-element- xans-board xans-board-search-8 xans-board-search xans-board-8 "><fieldset class="boardSearch">
-				<br><br>
-				<p><select id="search_date" name="search_date">
-					<option value="week">일주일</option>
-					<option value="month">한달</option>
-					<option value="month3">세달</option>
-					<option value="all">전체</option>
-				</select> 
-				<select id="search_key" name="search_key">
-					<option value="subject">제목</option>
-					<option value="content">내용</option>
-					<option value="writer_name">글쓴이</option>
-					<option value="member_id">아이디</option>
-					<option value="nick_name">별명</option>
-				</select> 
-					<input id="search" name="search" class="inputTypeText" placeholder="" value="" type="text"> <a href="#none" class="btn" onclick="BOARD.form_submit('boardSearchForm');">찾기</a></p>
-				</fieldset>
-				</div>
-			</form>
-			</div>
-			</div>	
-		</div>
+    <div id="contents">
 
-<jsp:include page="../footer.jsp" />
+		<div class="titleArea">
+            <h2><font color="#333333">NOTICE</font> </h2>
+            <p class="desc">공지사항입니다.</p>
+    	</div>
+    	
+	<br>
+   
+	    <table id="boardTbl" class="tbl">
+	    	<colgroup>
+			    <col style="width:100px;">
+				<col style="width:750px;">
+				<col style="width:125px;">
+				<col style="width:75px;" >
+				<col style="width:150px;" class="displaynone">
+			</colgroup>
+	
+			<thead >
+					<tr style=" ">
+						<th scope="col">NO</th>
+			            <th scope="col">SUBJECT</th>
+			            <th scope="col">NAME</th>
+			            <th scope="col" class="displaynone">HIT</th>
+			            <th scope="col" class="">DATE</th>      
+				    </tr>
+		    </thead>
+		    <tbody>
+		         <c:forEach var="nvo" items="${requestScope.noticeList}">
+		            <tr>
+		               <td id="notice_num">${nvo.notice_num}</td>
+		               <td id="notice_subject">${nvo.notice_subject}</td>
+		               <td id="notice_id">${nvo.notice_id}</td>
+		               <td id="notice_count">${nvo.notice_count}</td>
+		               <td id="notice_date">${nvo.notice_date}</td>
+   					   <td style="display:none">${nvo.notice_num}</td>
+		            </tr>
+		         </c:forEach>
+		     </tbody>
+     	</table>
+     
+     	<br><br>
+     
+	     <form name="noticeFrm">
+	     	<p> 
+		      <select id="searchType" name="searchType">
+		         <option value="id">회원명</option>
+		         <option value="subject">제목</option>
+		         <option value="content">내용</option>
+		      </select>
+	      
+		      <input type="text" id="searchWord" name="searchWord" />
+		      <button id="search" type="button" onclick="goSearch();">검색</button>
+		
+		      <select id="sizePerPage" name="sizePerPage">
+		         <option value="10">10</option>
+		         <option value="5">5</option>
+		         <option value="3">3</option>
+		      </select>
+		      
+		      <span class="button">	
+		         <a href="<%=ctxPath%>/board/noticeWrite.go">글작성</a> 
+		      </span>
+		   </p>
+		      
+	    </form>
+	      
+	    <nav class="my-5">
+	      	 <div style="display: flex; width::80%;">
+	      	 	<%-- <ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul> --%>
+	      	 </div>	 			
+	    </nav>
+      
+   </div>
+</div>
+    
 </body>
 </html>
 
+<jsp:include page="../footer.jsp" />

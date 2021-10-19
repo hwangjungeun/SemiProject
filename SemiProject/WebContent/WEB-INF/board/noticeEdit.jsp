@@ -79,16 +79,15 @@ button {
 	width: 90px;
 	height: 31px;
 	border: 1px solid #8c8c8c;
-	background-color: #ffffff;
+	background-color: #444444;
     float: right;
     text-align: center;
     font-size: 9pt;
     padding: 5px;
-    margin-right: 120px;
+    margin-right: 10px;
 }
-button#btn {
-	background-color: #444444;
-	color: #ffffff;
+button.btn {
+	border: 1px solid #8c8c8c;
 }
 
 
@@ -99,39 +98,43 @@ button#btn {
 
 <script type="text/javascript">
 
-
 	
-	$(document).ready(function() {
-
-
-		
-		
-		$("input#notice_id").val("${requestScope.userid}");
-		
-		$("button#btn").click(function(){
-			
-			
-			var boolFlag = false;
-			
-			$("input.requiredInfo").each(function(){
-				var data = $(this).val().trim();
-				if(data == "") {
-					alert("* 표시된 필수입력사항은 모두 입력하셔야 합니다.");
-					boolFlag = true;
-					return false; // break; 라는 뜻이다.
-				}
-			});
-			
-			if(boolFlag) {
-				return; // 종료
-			}
-
-				var frm = document.registerFrm;
-				frm.action = "noticeList.go";
-				frm.method = "post";
-				frm.submit();  
-			});
-
+		$(document).ready(function(){
+	    
+		    $("button#GoEdit").click(function(){ // 수정할 글정보를 작성하고 수정하기 버튼을 클릭하면 작동하는 이벤트처리
+		       
+		        if( $("input[name=notice_id]").val().trim() == "" ){
+		          alert("글쓴이를 입력해야합니다!");
+		          return;
+		       }
+		       
+		       if(  $("input[name=notice_subject]").val().trim() == ""  ){
+		          alert("글제목을 입력해야합니다!");
+		          return;
+		       }
+		       
+		       if(  $("textarea[name=notice_content]").val().trim() == ""  ){
+		          alert("글내용을 입력해야합니다!");
+		          return;
+		       }
+		       
+		       if( parseInt($("input[name=notice_subject]").val().length) > 100  ){
+		          alert("글제목은 100글자까지 가능합니다.!");
+		          return;
+		       }
+		       
+		       
+		    // 값을 보내기 위해 꺼놨던 인풋을 다시 켜준다.
+		       $("input#notice_num").prop("disabled", false);
+		       $("input#notice_id").prop("disabled", false);
+		       
+		       var frm = document.registerFrm;
+		       frm.action="noticeEditEnd.go";
+		       frm.method="POST";
+		       frm.submit();	       
+		       
+		    });// end of $("button#btnGoInsert").click(function(){})---------------------------------
+		    
 		});// end of $(document).ready(function(){})-------------------------------
 
 
@@ -158,27 +161,29 @@ button#btn {
 			  	</tr>
 			</thead>
 		    <tbody>
-		    
+		       <tr>
+			      <td style="font-weight: bold;">글번호&nbsp;<span class="star">*</span></td>
+			      <td style="text-align: left;">
+				      <input type="text" id="notice_num" name="notice_num" value="${requestScope.notice_num}" disabled="disabled"/>
+			      </td> 
+			   </tr>
 			   <tr>
 			      <td style="font-weight: bold;">아이디&nbsp;<span class="star">*</span></td>
 			      <td style="text-align: left;">
-				      <input type="text" name="notice_id" id="notice_id" class="requiredInfo" />&nbsp;&nbsp;
+				      <input type="text" id="notice_id" name="notice_id" value="${requestScope.notice_id}" disabled="disabled"/>&nbsp;&nbsp;
 				      <span id="idcheckResult"></span>
-				      
 			      </td> 
 			   </tr>
 			   <tr>
 			      <td style="font-weight: bold;">제목&nbsp;<span class="star">*</span></td>
 			      <td style="text-align: left;">
-			         <input type="text" name="notice_subject" id="notice_subject" class="requiredInfo" style="width:60%"/> 
-			         
+			          <input type="text" id="notice_subject" name="notice_subject" maxlength="100"  style="width:50%" placeholder="${requestScope.notice_subject}" autofocus required />
 			      </td>
 			   </tr>
 			   <tr>
 			      <td style="font-weight: bold;">내용&nbsp;<span class="star">*</span></td>
 			      <td style="text-align: left;">
-			         <input type="text" name="notice_content" id="notice_content" class="requiredInfo" style="width:650px; height:400px;"/>
-			        
+			        <textarea name="notice_content" style="width:650px; height:400px;" placeholder="${requestScope.notice_content}" wrap="hard" required style="resize: none; width: 90%;" ></textarea>
 			      </td>
 			   </tr>
 			   <tr>
@@ -191,13 +196,11 @@ button#btn {
 			   </tr>
 		     </tbody>
 		 </table>
+		 <br>
+		 	<button id="GoEdit" type="button" class="btn btn-dark btn-md" style="margin-right: 125px;">수정</button>
+      		<button type="button" class="btn" onclick="javascript:history.back()">취소</button>
 		 </form>
 		<br><br>
-		
-		<button style="margin-right: 120px;" type="button" onclick="javascript:history.back();">취소</button>
-		<button id="btn" style="margin-right: 5px;">등록</button>
-		
-
 		
 	</div>
 </div>

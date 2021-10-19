@@ -100,15 +100,6 @@ tr.view {
 	border-top: hidden;
 	border-bottom: 1px solid #dfdfdf;
 }
-span#delaylist {
-	font-weight: bold;
-	font-size: 12pt;
-}
-span#delayred {
-	font-weight: bold;
-	font-size: 12pt;
-	color: red;
-}
 span.button {
 	width: 90px;
 	height: 30px;
@@ -141,17 +132,6 @@ button#btn {
     margin-right: 5px;
 }
 
-button#reply {
-	width: 60px;
-	height: 30px;
-	border: 1px solid #8c8c8c;
-	background-color: ##dfdfdf;
-    float: left;
-    text-align: center;
-    padding: 5px;
-    margin-left: 75px;
-}
-
 
 
 </style>
@@ -165,63 +145,42 @@ $(document).ready(function(){
 	
 	$("span.button").click(function(){
 		
-		if("${requestScope.userid}"=="no"){
-			alert("로그인 후 이용 가능합니다");
-		}
-		else if("${requestScope.userid}"!="${requestScope.bvo.board_id}"){
-			alert("다른작성자의 게시글 수정은 불가 합니다.");
-		}
-		else{
-			 var frm = document.goEdit;
-			 frm.action = "qnaEdit.go";
-			 frm.method = "post";
-			 frm.submit();
-		}
+		 var frm = document.boardFrm;
+		 frm.action = "noticeEdit.go";
+		 frm.method = "post";
+		 frm.submit();
 		
 	}); // end of $("span.button").click(function()-------------------------------
+
 	
 	$("button#btn").click(function(){
 		
-		if("${requestScope.userid}"=="no"){
-			alert("로그인 후 이용 가능합니다");
-		}
-		else if("${requestScope.userid}"!="${requestScope.bvo.board_id}"){
-			alert("다른작성자의 게시글 삭제는 불가 합니다.");
-		}
-		else{
-			 var frm = document.delFrm;
-			 frm.action = "qnaDelete.go";
-			 frm.method = "post";
-			 frm.submit();
-		}
+		 var frm = document.ndelFrm;
+		 frm.action = "noticeDelete.go";
+		 frm.method = "post";
+		 frm.submit();
 	});
 	
-	$("button#reply").click(function(){
-		
-			 var frm = document.goReply;
-			 frm.action = "qnaReply.go";
-			 frm.method = "post";
-			 frm.submit();
-	});
-
-
 });// end of $(document).ready(function(){})-------------------------------------------
-	
+
+
 
 </script>
 
+	
+	
 <div id="container">
     <div id="contents">
 
 		<div class="titleArea">
-            <h2><font color="#333333">Q & A</font> </h2>
-            <p class="desc">Q&A 게시판입니다.</p>
+            <h2><font color="#333333">NOTICE</font> </h2>
+            <p class="desc">공지사항입니다.</p>
     	</div>
     	
 	<br>
 
 <div class="typeWrite ">
-<div id="num"> ♥&nbsp; ${requestScope.board_num}번 게시글 &nbsp;♥ </div>
+<div id="num"> ♥&nbsp; ${requestScope.notice_num}번 게시글 &nbsp;♥ </div>
 <br><br>
             <table class="tbl">
 
@@ -231,17 +190,17 @@ $(document).ready(function(){
 			<col style="width:150px;">
 			</colgroup> 
 				<tr id="top">
-				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.bvo.board_id}</span></th>
+				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.nvo.notice_id}</span></th>
 				   <td> </td>
-				   <td><span class="date">hit</span><span class="txtNum">&nbsp;&nbsp;${requestScope.bvo.board_count}</span></td>
+				   <td><span class="date">hit</span><span class="txtNum">&nbsp;&nbsp;${requestScope.nvo.notice_count}</span></td>
                 </tr>
                 <tr id="mid">
-				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.bvo.board_subject}</span></th>
+				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목<span id="txt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.nvo.notice_subject}</span></th>
 				   <td> </td>
-				   <td><span class="date">date</span><span class="txtNum">&nbsp;&nbsp;${requestScope.bvo.board_date}</span></td>
+				   <td><span class="date">date</span><span class="txtNum">&nbsp;&nbsp;${requestScope.nvo.notice_date}</span></td>
 				</tr>
                 <tr id="btt">
-				   <td style="width:750px; height:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.bvo.board_content}</td>
+				   <td style="width:750px; height:200px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${requestScope.nvo.notice_content}</td>
 				</tr>
 
 </table>
@@ -249,33 +208,23 @@ $(document).ready(function(){
 <div>
 	<span class="button" style="margin-right: 75px;">수정</span>
 	<button id="list" type="button" onclick="javascript:history.back();">글목록</button>
-    <button id="btn" type="button">삭제</button>
-    <button id="reply" type="button">답글</button>
-
+	<button id="btn" type="button">삭제</button>
 </div>
 
 </div>
 </div>
 </div>
 
-<form name="goEdit">
-	<input type="hidden" name="board_num" value="${requestScope.bvo.board_num}"/>
-	<input type="hidden" name="board_id" value="${requestScope.bvo.board_id}"/>
-	<input type="hidden" name="board_count" value="${requestScope.bvo.board_count}"/>
-	<input type="hidden" name="board_subject" value="${requestScope.bvo.board_subject}"/>
-	<input type="hidden" name="board_date" value="${requestScope.bvo.board_date}"/>
-	<input type="hidden" name="board_content" value="${requestScope.bvo.board_content}"/>
+<form name="boardFrm">
+	<input type="hidden" name="notice_num" value="${requestScope.nvo.notice_num}"/>
+	<input type="hidden" name="notice_id" value="${requestScope.nvo.notice_id}"/>
+	<input type="hidden" name="notice_subject" value="${requestScope.nvo.notice_subject}"/>
+	<input type="hidden" name="notice_content" value="${requestScope.nvo.notice_content}"/>
 </form>
 
-<form name="delFrm">
-	<input type="hidden" name="board_num" value="${requestScope.bvo.board_num}"/>
+<form name="ndelFrm">
+	<input type="hidden" name="notice_num" value="${requestScope.nvo.notice_num}"/>
 </form>
-
-<form name="goReply">
-	<input type="hidden" name="board_num" value="${requestScope.bvo.board_num}"/>
-	<input type="hidden" name="board_content" value="${requestScope.bvo.board_content}"/>
-</form>
-
 
 </body>
 </html>

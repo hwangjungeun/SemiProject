@@ -4,56 +4,56 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
+import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
+
 
 public class QnaEditAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 내정보(회원정보)를 수정하기 위한 전제조건은 먼저 로그인을 해야 하는 것이다.
-				if( super.checkLogin(request) ) {
-					// 로그인을 했으면
-					
-					String userid = request.getParameter("userid");
-					
-					HttpSession session = request.getSession();
-					MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		 	String method = request.getMethod();
+		 	
+	        if("POST".equalsIgnoreCase(method)) {
+	         // 기존의 글정보를 먼저 찍어주기위해서 다음과 같이 VO에 넣어준다.
+	        
+	    	 String board_num = request.getParameter("board_num");
+	         String board_id = request.getParameter("board_id");
+	         String board_subject = request.getParameter("board_subject");
+	         String board_content = request.getParameter("board_content");
+	         String board_date = request.getParameter("board_date");
+	         String board_count = request.getParameter("board_count");
+	         
 
-					if( loginuser.getUserid().equals(userid) ) {
-						// 로그인한 사용자가 자신의 정보를 수정하는 경우
-					
-					//	super.setRedirect(false);
-						super.setViewPage("/WEB-INF/member/memberEdit.jsp");
-						
-					}
-					else {
-						// 로그인한 사용자가 다른 사용자의 정보를 수정하려고 시도하는 경우 
-			            String message = "다른 사용자의 정보변경은 불가합니다.!!";
-			            String loc = "javascript:history.back()";
-			            
-			            request.setAttribute("message", message);
-			            request.setAttribute("loc", loc);
-			            
-			        //  super.setRedirect(false);
-			            super.setViewPage("/WEB-INF/msg.jsp");
-			            return;
-					}
-				}
-				else {
-					// 로그인을 안 했으면
-			         String message = "회원정보를 수정 하기 위해서는 먼저 로그인을 하세요!!";
-			         String loc = "javascript:history.back()";
-			         
-			         request.setAttribute("message", message);
-			         request.setAttribute("loc", loc);
-			         
-			    //   super.setRedirect(false);
-			         super.setViewPage("/WEB-INF/msg.jsp");
-				}
-				
+	         request.setAttribute("board_num",board_num); 
+	         request.setAttribute("board_id",board_id); 
+	         request.setAttribute("board_subject",board_subject); 
+	         request.setAttribute("board_content",board_content); 
+	         request.setAttribute("board_date", board_date);
+	         request.setAttribute("board_count", board_count);
+	         
+	         // 글 수정을 위하여 새로운정보를 입력하도록 View 페이지로 이동한다.
+	         super.setViewPage("/WEB-INF/board/qnaEdit.jsp");
+	         
+	      }
+	      
+	      else {
+	         
+	         String message = "잘못된 접근입니다.";
+	         String loc = "javascript:history.back()";
+	         
+	         request.setAttribute("message", message);
+	         request.setAttribute("loc", loc);
+	         
+	         super.setViewPage("/WEB-INF/msg.jsp");
+	         
+	      }
+	      
+	   }
 
-	}
-
+	
 }

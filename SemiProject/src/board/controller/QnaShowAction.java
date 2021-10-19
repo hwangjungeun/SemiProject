@@ -2,17 +2,29 @@ package board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import board.model.*;
 import board.model.InterBoardDAO;
 import common.controller.AbstractController;
+import member.model.*;
 
 public class QnaShowAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
+		 String userid = "";
+		   
+	   try {
+		   HttpSession session = request.getSession();
+		   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		   userid = loginuser.getUserid();
+	   }catch(NullPointerException e) {
+		   userid = "no";
+	   }
+		
+		
 		   String method = request.getMethod();
 		
 			if("GET".equalsIgnoreCase(method)) {
@@ -28,7 +40,7 @@ public class QnaShowAction extends AbstractController {
 				
 				request.setAttribute("bvo", bvo);
 				request.setAttribute("board_num", board_num);
-				
+				request.setAttribute("userid", userid);
 			// *** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 *** // 
 				String goBackURL = request.getParameter("goBackURL");
 			//	System.out.println("~~~ 확인용 goBackURL => " + goBackURL);

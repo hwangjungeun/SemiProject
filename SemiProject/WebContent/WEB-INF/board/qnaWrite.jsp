@@ -113,6 +113,7 @@ button#btn {
 			$("span.error").hide();
 			$("input#board_id").focus();
 			
+			$("input#board_id").val("${requestScope.userid}");
 			$("input#board_id").blur(function(){
 				
 				var board_id = $(this).val().trim();

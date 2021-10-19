@@ -170,7 +170,7 @@
 			<a href="<%= ctxPath %>/member/memberEdit.go">MODIFY</a>
 			</c:if>
 			<a href="#">CART <span class="count ">(<span class="EC-Layout-Basket-count">0</span>)</span></a>
-			<a href="#">ORDER</a>
+			<a href="<%= ctxPath %>/mypage/orderList.go">ORDER</a>
 			<a href="<%= ctxPath %>/member/memberLookup.go">MYPAGE</a>
 			</div>
 			</div>
@@ -255,13 +255,12 @@
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
-				           <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
-				           <a class="dropdown-item" href="<%= ctxPath%>/board/notice.go">Notice</a>
+				            <a class="dropdown-item" href="<%= ctxPath%>/board/showroom.go">Showroom</a>
+				           <a class="dropdown-item" href="<%= ctxPath%>/board/noticeList.go">Notice</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/qnaList.go">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/event.go">Event</a>
 				           <a class="dropdown-item" href="<%= ctxPath%>/board/delay.go">Delay</a>
-
 				         </div>
 					</li>
 				</ul>

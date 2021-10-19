@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import member.model.MemberVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -81,7 +82,8 @@ public class BoardDAO implements InterBoardDAO {
         
         close();
         return result;    
-    } // end getSeq
+    } // end getSeq()---------------------------------------------
+    
     
   // QNA 게시판 글 목록 보여주기
  	@Override
@@ -151,57 +153,6 @@ public class BoardDAO implements InterBoardDAO {
  	}// end of public void register(String board_id, String board_subject, String board_content)----------------------------
 
  	
- 	
-	// 검색이 있는 또는 검색이 없는 전체 게시물에 대한 총페이지 알아오기
-	@Override
-	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
-		
-		int totalPage = 0;
-	      
-	      try {
-	         conn = ds.getConnection();
-	         
-	         String sql = " select ceil(count(*)/?) " + 
-	                      " from tbl_qna " + 
-	                      " where board_id = ? ";
-	         
-	         String colname = paraMap.get("searchType");
-	         String searchWord = paraMap.get("searchWord");
-	         
-	         if( "subject".equals(colname) ) {
-	            // 검색대상이 subject 인 경우
-	            searchWord = aes.encrypt(searchWord);
-	         }
-	         
-	         if( searchWord != null && !searchWord.trim().isEmpty() ) {
-	            sql += " and "+colname+" like '%'|| ? ||'%' ";
-	         }
-	         
-	         pstmt = conn.prepareStatement(sql);
-	         
-	         pstmt.setString(1, paraMap.get("sizePerPage"));
-	         
-	         if( searchWord != null && !searchWord.trim().isEmpty() ) {
-	            pstmt.setString(2, searchWord);
-	         }
-	         
-	         rs = pstmt.executeQuery();
-	         
-	         rs.next();
-	         
-	         totalPage = rs.getInt(1);
-	         
-	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {   
-	         e.printStackTrace();
-	      } finally {
-	         close();
-	      }
-	      
-	      return totalPage;
-	      
-	}// end of public int getTotalPage(Map<String, String> paraMap)-------------------
-
-
 	// board_num 값을 입력받아서 하나의 게시글에 대한 상세정보를 알아오기(select) 
 	@Override
 	public BoardVO boardOneDetail(String board_num) throws SQLException {
@@ -282,39 +233,336 @@ public class BoardDAO implements InterBoardDAO {
 		    } finally {
 				close();
 			}
-		}
+		}// end of public void boardCnt(String board_num)-------------------------------
+
+	
+
+
+	// 검색이 있는 또는 검색이 없는 전체 게시물에 대한 총페이지 알아오기
+	@Override
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+		
+		int totalPage = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select ceil(count(*)/?) " + 
+	                      " from tbl_qna " + 
+	                      " where board_id != 'null' ";
+	         
+	         String colname = paraMap.get("searchType");
+	         String searchWord = paraMap.get("searchWord");
+	         
+	         if( "subject".equals(colname) ) {
+	            // 검색대상이 subject 인 경우
+	            searchWord = aes.encrypt(searchWord);
+	         }
+	         
+	         if( searchWord != null && !searchWord.trim().isEmpty() ) {
+	            sql += " and "+colname+" like '%'|| ? ||'%' ";
+	         }
+	         
+	         pstmt = conn.prepareStatement(sql);
+
+	         pstmt.setString(1, paraMap.get("sizePerPage"));
+	         
+	         if( searchWord != null && !searchWord.trim().isEmpty() ) {
+	            pstmt.setString(2, searchWord);
+	         }
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalPage = rs.getInt(1);
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {   
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalPage;
+	      
+	}// end of public int getTotalPage(Map<String, String> paraMap)-------------------
 
 	
 	// 글 정보 수정하기
 	@Override
-	public int updateBoard(BoardVO board) throws SQLException {
+	public int updateBoard(String board_id, String board_subject, String board_content, String board_num) throws SQLException {
 		
 		int n = 0;
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_qna set board_id = ? "
-	                   + "                  , board_subject = ? "
-	                   + "                  , board_content = ? "
-	                   + " where board_num = ? ";
+			String sql = " update tbl_qna "+
+						 " set board_id = ?, board_subject = ?, board_content = ? "+
+						 " where board_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, board.getBoard_id());
-			pstmt.setString(2, board.getBoard_subject());
-			pstmt.setString(3, board.getBoard_content());
-			pstmt.setInt(4, board.getBoard_num());
+			pstmt.setString(1, board_id);
+			pstmt.setString(2, board_subject);
+			pstmt.setString(3, board_content);
+			pstmt.setString(4, board_num);
 
 			n = pstmt.executeUpdate();		
 			
-		 } catch(SQLException e) {   
-               e.printStackTrace();   
+
          } finally {
             close();
          }
 		
 		return n;
-	}
+	}// end of public int updateBoard(String board_id, String board_subject, String board_content)----------------------------
+
+	
+	// 수정한 글 보여주기
+	@Override
+	public BoardVO updateEnd(String board_id, String board_subject, String board_content, String board_num,
+			String board_date, String board_count) throws SQLException {
+		
+			BoardVO bvo = null;
+		
+			try {
+	 	        conn = ds.getConnection();
+	 	         
+	 	        String sql = " select board_num, board_id, board_subject, board_content, board_count, board_date "
+	 	        		   + " from tbl_qna "; 
+ 	         
+ 	            
+ 	            pstmt = conn.prepareStatement(sql);
+ 
+ 	            rs = pstmt.executeQuery();
+ 	            
+ 	            while(rs.next()) {
+ 	               
+ 	               bvo = new BoardVO();
+	               bvo.setBoard_num(rs.getInt(1));
+	               bvo.setBoard_id(rs.getString(2));
+	               bvo.setBoard_subject(rs.getString(3));
+	               bvo.setBoard_content(rs.getString(4));
+	               bvo.setBoard_count(rs.getInt(5));
+	               bvo.setBoard_date(rs.getDate(6));
+ 	               
+ 	            }// end of while---------------------------
+ 	            
+ 	      } catch(SQLException e) {   
+ 	         e.printStackTrace();
+ 	      } finally {
+ 	         close();
+ 	      }
+ 	      
+		return bvo;
+	}// end of public BoardVO updateEnd(String board_id, String board_subject, String board_content, String board_num, String board_date, String board_count)----------------------
+
+	
+	// 글 삭제하기
+	@Override
+	public int deleteBoard(String board_num) throws SQLException {
+		
+		int n = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " delete tbl_qna "
+	                  	+ " where board_num = ? ";
+	                  
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, board_num);
+	         
+	         n = pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return n;
+	}// end of public int deleteBoard(String board_num)-----------------------------------------
+
+	
+	
+	// 삭제 후 목록에서 삭제 확인
+	@Override
+	public List<BoardVO> deleteEnd() throws SQLException {
+		
+		List<BoardVO> boardList = new ArrayList<>();
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select board_num, board_id, board_subject, board_content, board_count, board_date "
+	        		 	+ " from tbl_qna "; 
+	         
+	            
+	            pstmt = conn.prepareStatement(sql);
+
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	               
+	               BoardVO bvo = new BoardVO();
+	               bvo.setBoard_num(rs.getInt(1));
+	               bvo.setBoard_id(rs.getString(2));
+	               bvo.setBoard_subject(rs.getString(3));
+	               bvo.setBoard_content(rs.getString(4));
+	               bvo.setBoard_count(rs.getInt(5));
+	               bvo.setBoard_date(rs.getDate(6));
+	               
+	               boardList.add(bvo);
+	               
+	            }// end of while---------------------------
+	            
+	      } catch(SQLException e) {   
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return boardList;
+	}// end of public List<BoardVO> deleteEnd()-------------------------------------------------
+
+	
+	// 답글 등록하기
+	@Override
+	public void writeReply(String board_id, String board_subject, String board_content, String board_num) throws SQLException {
+
+		try {
+  			conn = ds.getConnection();
+  			
+  			String sql = " insert into tbl_qna(board_num, board_id, board_subject, board_content, board_count, board_date) "
+  					   + " values(board_num.nextval, ?, ?, ?, default, default) ";
+  			
+  			pstmt = conn.prepareStatement(sql);
+  			
+  			pstmt.setString(1, board_id);
+  			pstmt.setString(2, board_subject);
+  			pstmt.setString(3, board_content);
+  			
+  	        pstmt.executeUpdate();
+  	        
+  		} catch (SQLException e) {
+  			e.printStackTrace();
+  		} finally {
+  			close();
+  		}
+
+	}// end of public void writeReply(String board_id, String board_subject, String board_content, String board_num)------------------------
+
+	
+	// 답글 보여주기
+	@Override
+	public BoardVO writeReplyEnd(String board_id, String board_subject, String board_content, String board_num,
+			String board_date, String board_count) throws SQLException {
+		
+		BoardVO bvo = null;
+		
+		try {
+ 	        conn = ds.getConnection();
+ 	         
+ 	        String sql = " select board_num, board_id, board_subject, board_content, board_count, board_date "
+ 	        		   + " from tbl_qna "; 
+	         
+	            
+	            pstmt = conn.prepareStatement(sql);
+
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	               
+	           bvo = new BoardVO();
+               bvo.setBoard_num(rs.getInt(1));
+               bvo.setBoard_id(rs.getString(2));
+               bvo.setBoard_subject(rs.getString(3));
+               bvo.setBoard_content(rs.getString(4));
+               bvo.setBoard_count(rs.getInt(5));
+               bvo.setBoard_date(rs.getDate(6));
+	               
+	            }// end of while---------------------------
+	            
+	      } catch(SQLException e) {   
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+		return bvo;
+	 }// end of public BoardVO writeReplyEnd(String board_id, String board_subject, String board_content, String board_num, String board_date, String board_count)-----------------------------------
+
+	
+	// // 페이징 처리를 한 글목록 보여주기
+	@Override
+	public List<BoardVO> selectPagingBoardList(Map<String, String> paraMap) throws SQLException {
+		
+		 List<BoardVO> boardlist = new ArrayList<>();
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select board_id, board_subject, board_content " + 
+	        		 	" from " + 
+	        		 	" ( " + 
+	        		 	" select rownum AS rno, board_id, board_subject, board_content " + 
+	        		 	" from " + 
+	        		 	" ( " + 
+	        		 	" select board_id, board_subject, board_content " + 
+	        		 	" from tbl_qna " + 
+	        		 	" where board_id != 'null' ";
+	         
+	         String colname = paraMap.get("searchType");
+	         String searchWord = paraMap.get("searchWord");
+	         
+	         if( searchWord != null && !searchWord.trim().isEmpty() ) {
+	            
+	            sql +=  " and "+colname+" like '%'|| ? ||'%' ";
+	         
+	         }
+	         
+	            sql +=    "     order by board_date desc " + 
+	               "    ) V " + 
+	               " ) T " + 
+	               " where rno between ? and ?";
+	            
+	            pstmt = conn.prepareStatement(sql);
+	            
+	            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+	            int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+	            
+	            if( searchWord != null && !searchWord.trim().isEmpty() ) {
+	               pstmt.setString(1, searchWord);
+	               pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식 
+	               pstmt.setInt(3, (currentShowPageNo * sizePerPage)); // 공식
+	            }
+	            else {
+	               pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); // 공식 
+	               pstmt.setInt(2, (currentShowPageNo * sizePerPage)); // 공식
+	            }
+	            
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	               
+	               BoardVO bvo = new BoardVO();
+	               bvo.setBoard_id(rs.getString(1));
+	               bvo.setBoard_subject(rs.getString(2));
+	               bvo.setBoard_content(rs.getString(3));
+	               boardlist.add(bvo);
+
+	            }// end of while---------------------------
+	            
+	      } catch(SQLException e) {   
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return boardlist;
+	}// end of public List<BoardVO> selectPagingBoardList(Map<String, String> paraMap)------------------------------------------------
+
+	
+
 
 }

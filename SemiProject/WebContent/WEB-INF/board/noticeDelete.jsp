@@ -100,9 +100,9 @@ h2.modal-body {
 
    $(document).ready(function(){
       
-      $("button#yesDelete").click(function(){ // 삭제를 눌렀다면
-         var frm = document.goToDeleteFrm;
-         frm.action = "qnaDeleteEnd.go";
+      $("button#yDelete").click(function(){ // 삭제를 눌렀다면
+         var frm = document.DeleteFrm;
+         frm.action = "noticeDeleteEnd.go";
          frm.method = "post";
          frm.submit();
       });
@@ -121,8 +121,8 @@ h2.modal-body {
     <div id="contents">
     
     <div class="titleArea">
-            <h2><font color="#333333">Q & A</font> </h2>
-            <p class="desc">Q&A 게시판입니다.</p>
+            <h2><font color="#333333">NOTICE</font> </h2>
+            <p class="desc">공지사항입니다.</p>
     	</div>
     	
 	<br>
@@ -152,12 +152,12 @@ h2.modal-body {
             
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <h2 class="modal-body" align="center">${requestScope.board_num} 번 게시물을 정말 삭제하시겠습니까? </h2>
+                    <h2 class="modal-body" align="center">${requestScope.notice_num} 번 게시물을 정말 삭제하시겠습니까? </h2>
                 </div>
             
                 <!-- Modal footer -->
                 <div class="modal-footer">
-			      	<button type="button" class="btn btn-primary" id="yesDelete">삭제</button>
+			      	<button type="button" class="btn btn-primary" id="yDelete">삭제</button>
 			       	<button type="button" class="btn btn-secondary" id="noDelete" data-dismiss="modal">취소</button>
 			    </div>
             </div>   
@@ -168,8 +168,8 @@ h2.modal-body {
     </div>
     </div>
     
-    <form name="goToDeleteFrm">
-      <input type="hidden" name="board_num" value="${requestScope.board_num}">
+    <form name="DeleteFrm">
+      <input type="hidden" name="notice_num" value="${requestScope.notice_num}">
    </form>
     
 </body>

@@ -12,10 +12,8 @@ public class BoardVO {
 	private int board_count;		// 글 조회수
 	private Date board_date;		// 글 작성일
 
-	
 	////////////////////////////////////////////////////////////////////////////////////////
 	
-	public BoardVO() {}
 	   
 	   public BoardVO(String board_id, String board_subject, String board_content) {
 	     
@@ -28,6 +26,10 @@ public class BoardVO {
 	   
 	   
 	
+	public BoardVO() {}
+
+
+
 	public int getBoard_num() {
 		return board_num;
 	}
@@ -84,7 +86,6 @@ public class BoardVO {
 	public void setBoard_date(Date board_date) {
 		this.board_date = board_date;
 	}
-
 
 	
 }
