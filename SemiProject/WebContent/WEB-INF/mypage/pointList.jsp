@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -121,7 +122,7 @@
 		        		  
 		        		  html += "<tr align='center'>"+
 		        				  "<td><h6>"+item.odrdate.substring(0,10)+"</h6></td>"+
-		        				  "<td><h6>"+item.point +"</h6></td>"+
+		        				  "<td><h6>"+(item.point).toLocaleString('en')+" point" +"</h6></td>"+
 		        				  "<td><h6>"+item.fk_odrcode +"</h6></td>"+
 		        				  "<td><h6>"+item.start_day.substring(0,10) +"</h6></td>"+
 		        				  "<td><h6>주문번호("+item.fk_odrcode +")의 구매금액에 대한 적립</h6></td>"+
@@ -174,7 +175,7 @@
 		        		  
 		        		  html += "<tr align='center'>"+
 		        				  "<td><h6>"+item.odrdate.substring(0,10)+"</h6></td>"+
-		        				  "<td><h6>"+item.point +"</h6></td>"+
+		        				  "<td><h6>"+(item.point).toLocaleString('en')+" point" +"</h6></td>"+
 		        				  "<td><h6>"+item.fk_odrcode +"</h6></td>"+
 		        				  "<td><h6>이미 사용된 적립금 입니다.</h6></td>"+
 		        				  "</tr>";
@@ -269,7 +270,7 @@
 							<c:forEach var="pvo" items="${requestScope.pointList}">
 				        		<tr align="center">
 				        			<td><h6>${pvo.odrdate.substring(0,10) }</h6></td>
-				        			<td><h6>${pvo.point }</h6></td>
+				        			<td><h6><fmt:formatNumber>${pvo.point }</fmt:formatNumber> point</h6></td>
 				        			<td><h6>${pvo.fk_odrcode }</h6></td>
 				        			<td><h6>주문번호(${pvo.fk_odrcode })의 구매금액에 대한 적립</h6></td>
 				        		</tr>

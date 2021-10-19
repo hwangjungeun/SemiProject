@@ -1,14 +1,15 @@
 package mypage.controller;
 
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
  
 import common.controller.AbstractController;
-//import member.model.MemberVO_PJW;
+import member.model.MemberVO_PJW;
 import mypage.model.*;
 
 public class PointListAction extends AbstractController {
@@ -32,28 +33,33 @@ public class PointListAction extends AbstractController {
 		}
 		else {	*/
 			
-//			HttpSession session = request.getSession();
+			HttpSession session = request.getSession();
 			
-//			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
-//			String userid = loginuser.getUserid();
-			String userid = request.getParameter("userid");
+			MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
+			String userid = loginuser.getUserid();
+//			String userid = request.getParameter("userid");
 			InterPointDAO_HJE pdao = new PointDAO_HJE();
 			
-			// 총 적립금
+			// 콤마찍기
+			DecimalFormat df = new DecimalFormat("###,###");
 			
 			Map<String,Integer> point_map = pdao.getPointInfo(userid);
 			
 			int point_sum = point_map.get("point_sum");
-			request.setAttribute("point_sum", point_sum);
+			String s_point_sum = df.format(point_sum);
+			request.setAttribute("point_sum", s_point_sum);
 			
 			int point_canuse = point_map.get("point_canuse");
-			request.setAttribute("point_canuse", point_canuse);
+			String s_point_canuse = df.format(point_canuse);
+			request.setAttribute("point_canuse", s_point_canuse);
 			
 			int point_used = point_map.get("point_used");
-			request.setAttribute("point_used", point_used);
+			String s_point_used = df.format(point_used);
+			request.setAttribute("point_used", s_point_used);
 			
 			int point_unuse = point_map.get("point_unuse");
-			request.setAttribute("point_unuse", point_unuse);
+			String s_point_unuse = df.format(point_unuse);
+			request.setAttribute("point_unuse", s_point_unuse);
 			
 			// 사용자가 보고싶어하는 페이지 숫자
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
