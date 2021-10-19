@@ -1,8 +1,6 @@
 package mypage.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +15,7 @@ import order.model.OrderDAO_HJE;
 //import member.model.MemberVO_PJW;
 import order.model.OrderdetailVO_HJE;
 
-public class OrderListJSONAction extends AbstractController {
+public class OrderDetailListJSONAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -26,36 +24,12 @@ public class OrderListJSONAction extends AbstractController {
 		
 //		MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
 //		String userid = loginuser.getUserid();
-		String userid= request.getParameter("userid");
 		
+		String odrcode= request.getParameter("odrcode");
 		InterOrderDAO_HJE odao = new OrderDAO_HJE();
 		
-		// 사용자가 보고싶어하는 페이지 숫자
-		String currentShowPageNo = request.getParameter("currentShowPageNo");
-//		String currentShowPageNo = (String) session.getAttribute("currentShowPageNo");
-		
-		String date1 = request.getParameter("date1");
-		String date2 = request.getParameter("date2");
-
-		if(currentShowPageNo == null) {
-			currentShowPageNo = "1";
-		}
-		
-		try {
-			Integer.parseInt(currentShowPageNo);
-			
-		} catch (NumberFormatException e) {
-			currentShowPageNo = "1";
-		}
-		
-		Map<String,String> paraMap = new HashMap<>();
-		
-		paraMap.put("userid", userid );
-		paraMap.put("currentShowPageNo", currentShowPageNo);
-		paraMap.put("date1", date1);
-		paraMap.put("date2", date2);
-		
-		List<OrderdetailVO_HJE> orderList =  odao.selectPagingOrder(paraMap);
+		// 해당 주문에 해당하는 주문상세 보기
+		List<OrderdetailVO_HJE> orderList =  odao.selectOrderDetail(odrcode);
 		
 		JSONArray jsonArr = new JSONArray();
 		
@@ -65,12 +39,41 @@ public class OrderListJSONAction extends AbstractController {
 				
 				JSONObject jsonObj = new JSONObject(); // {} {}
 				
-				jsonObj.put("fk_odrcode", odvo.getFk_odrcode());    
+				//  odrseqnum, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, cname
+				
+				jsonObj.put("odrseqnum", odvo.getOdrseqnum());    
 				jsonObj.put("pimage", odvo.getPvo().getPimage());
 				jsonObj.put("pname", odvo.getPvo().getPname());    
-				jsonObj.put("totalquantity", odvo.getOvo().getTotalquantity());    
-				jsonObj.put("odrtotalprice", odvo.getOvo().getOdrtotalprice());    
-				jsonObj.put("totalproduct", odvo.getOvo().getTotalproduct());    
+				jsonObj.put("oqty", odvo.getOqty());    
+				jsonObj.put("odrprice", odvo.getOdrprice());    
+				
+				String deliverstatus = "";
+				if (odvo.getDeliverstatus() == 0) {
+					deliverstatus = "주문완료";
+				}
+				else if ( odvo.getDeliverstatus() == 1 ) {
+					deliverstatus = "배송중";
+				}
+				else if ( odvo.getDeliverstatus() == 2 ) {
+					deliverstatus = "배송완료";
+				}
+				jsonObj.put("deliverstatus", deliverstatus);    
+				
+				String cancelstatus = "";
+				if (odvo.getCancelstatus() == 0) {
+				}
+				else if (odvo.getCancelstatus() == 1) {
+					cancelstatus = "취소";
+				}
+				else if ( odvo.getCancelstatus() == 2 ) {
+					cancelstatus = "교환";
+				}
+				else if ( odvo.getCancelstatus() == 3 ) {
+					cancelstatus = "반품";
+				}
+				jsonObj.put("cancelstatus", cancelstatus);    
+	            
+				jsonObj.put("cname", odvo.getPcvo().getCname());    
 			
 	            jsonArr.put(jsonObj);
 			} 

@@ -1,7 +1,6 @@
 package mypage.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import common.controller.AbstractController;
 //import member.model.MemberVO_PJW;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
-import order.model.OrderdetailVO_HJE;
 
 public class OrderListAction extends AbstractController {
 
@@ -78,6 +76,8 @@ public class OrderListAction extends AbstractController {
 			paraMap.put("userid", userid );
 			paraMap.put("date1", date1);
 			paraMap.put("date2", date2);
+			paraMap.put("date3", date3);
+			paraMap.put("date4", date4);
 			
 			// 페이징 처리를 위한 주문에 대한 총 페이지 알아오기
 			int totalPage = odao.getTotalPage(paraMap);

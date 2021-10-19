@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import product.model.PColorVO_OHJ;
 import product.model.ProductVO_OHJ;
 
 public class OrderDAO_HJE implements InterOrderDAO_HJE {
@@ -70,21 +71,21 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus " + 
-						 " from " + 
-						 " ( " + 
-						 "    select rownum as rno, fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, odrdate " + 
-						 "    from " + 
-						 "    (  " + 
-						 "        select fk_odrcode, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus " + 
-						 "        from tbl_product P join tbl_orderdetail D " + 
-						 "        on p.pseq = D.fk_pseq " + 
-						 "    )A JOIN tbl_order O " + 
-						 "    ON A.fk_odrcode = O.odrcode " + 
-						 "    where fk_userid= ? ";
+			String sql = " select fk_odrcode, pimage, pname ,totalquantity , odrtotalprice, totalproduct " + 
+					"from \r\n" + 
+					"( \r\n" + 
+					"    select rownum as rno, fk_odrcode, pimage, pname ,totalquantity, odrtotalprice, odrdate, rank, (select count(*) from tbl_orderdetail where fk_odrcode = A.fk_odrcode  group by fk_odrcode) as totalproduct " + 
+					"    from \r\n" + 
+					"    (  \r\n" + 
+					"        select fk_odrcode, pimage, pname, RANK() OVER (PARTITION BY fk_odrcode ORDER BY pseq) RANK  " + 
+					"        from tbl_product P join tbl_orderdetail D \r\n" + 
+					"        on p.pseq = D.fk_pseq \r\n" + 
+					"    )A JOIN tbl_order O \r\n" + 
+					"    ON A.fk_odrcode = O.odrcode " + 
+						 "    where fk_userid= ? and rank = 1 ";
 			
 			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
-				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') +1 ";
 			}
 				  sql += " ) "  
 						+ " where rno between ? and ? ";
@@ -117,13 +118,13 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 				ProductVO_OHJ pvo = new ProductVO_OHJ();
 				pvo.setPimage(rs.getString(2));
 				pvo.setPname(rs.getString(3));
-				
 				odvo.setPvo(pvo);
 				
-				odvo.setOqty(rs.getInt(4));
-				odvo.setOdrprice(rs.getInt(5));
-				odvo.setDeliverstatus(rs.getInt(6));
-				odvo.setCancelstatus(rs.getInt(7));
+				OrderVO_HJE ovo = new OrderVO_HJE();
+				ovo.setTotalquantity(rs.getInt(4));
+				ovo.setOdrtotalprice(rs.getInt(5));
+				ovo.setTotalproduct(rs.getInt(6));
+				odvo.setOvo(ovo);
 				
 				orderList.add(odvo);
 			}
@@ -145,12 +146,11 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			conn = ds.getConnection();
 			
 			String sql = " select ceil(count(*)/5) " + 
-						 " from tbl_orderdetail D JOIN tbl_order O " + 
-						 " ON d.fk_odrcode = O.odrcode " + 
+						 " from tbl_order " + 
 						 " where fk_userid= ? ";
 							
 			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
-				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
@@ -185,12 +185,11 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 			conn = ds.getConnection();
 			
 			String sql = " select count(*) " + 
-						 " from tbl_orderdetail D JOIN tbl_order O " + 
-						 " ON d.fk_odrcode = O.odrcode " + 
+						 " from tbl_order " + 
 						 " where fk_userid= ? ";
 							
 			if( !("".equals(paraMap.get("date1")) || "".equals(paraMap.get("date2"))) ) {
-				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
@@ -237,7 +236,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " where fk_userid= ? and cancelstatus != 0 ";
 			
 			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
-				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+				  sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
@@ -293,7 +292,7 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 						 " where fk_userid= ?  and cancelstatus != 0 ";
 			
 			if( !("".equals(paraMap.get("date3")) || "".equals(paraMap.get("date4"))) ) {
-				sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd') ";
+				sql += " and odrdate between to_date( ? ,'yyyy-mm-dd') and to_date( ? ,'yyyy-mm-dd')+1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
@@ -317,5 +316,76 @@ public class OrderDAO_HJE implements InterOrderDAO_HJE {
 		return cancelorder;
 		
 	} // end of public int getCountCancelOrder(Map<String, String> paraMap)
+
+	
+	// 해당 주문에 해당하는 주문상세 보기
+	@Override
+	public List<OrderdetailVO_HJE> selectOrderDetail(String odrcode) throws SQLException {
+
+		List<OrderdetailVO_HJE> orderList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select odrseqnum, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, cname " + 
+						 " from " + 
+						 " ( " + 
+						 "    select fk_odrcode, odrseqnum, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, cname " + 
+						 "    from " + 
+						 "    ( " + 
+						 "        select fk_odrcode, odrseqnum, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, fk_opseq " + 
+						 "        from tbl_product P join tbl_orderdetail D " + 
+						 "        on p.pseq = D.fk_pseq " + 
+						 "    )A JOIN " + 
+						 "    ( " + 
+						 "        select cname, opseq " + 
+						 "        from tbl_poption P JOIN tbl_pcolor C " + 
+						 "        ON P.fk_cseq = C.cseq " + 
+						 "    ) B " + 
+						 "    ON A.fk_opseq = B.opseq " + 
+						 " )D JOIN tbl_order O " + 
+						 " ON D.fk_odrcode = O.odrcode " + 
+						 " where odrcode= ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, odrcode);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				//  odrseqnum, pimage, pname ,oqty , odrprice ,deliverstatus, cancelstatus, cname
+				
+				OrderdetailVO_HJE odvo = new OrderdetailVO_HJE();
+				odvo.setOdrseqnum(rs.getInt(1));
+				
+				ProductVO_OHJ pvo = new ProductVO_OHJ();
+				pvo.setPimage(rs.getString(2));
+				pvo.setPname(rs.getString(3));
+				odvo.setPvo(pvo);
+				
+				odvo.setOdrprice(rs.getInt(4));
+				odvo.setOdrprice(rs.getInt(5));
+				odvo.setDeliverstatus(rs.getInt(6));
+				odvo.setCancelstatus(rs.getInt(7));
+				odvo.setCancelstatus(rs.getInt(7));
+				
+				PColorVO_OHJ pcvo = new PColorVO_OHJ();
+				pcvo.setCname(rs.getString(8));
+				odvo.setPcvo(pcvo);
+				
+				orderList.add(odvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return orderList;
+		
+	}
 
 }

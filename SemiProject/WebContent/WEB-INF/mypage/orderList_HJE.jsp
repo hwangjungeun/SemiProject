@@ -64,43 +64,59 @@
 	    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 	    ///////////////////////////////////////////////////////
 	    
-	    
+	    	
+		if("${requestScope.date1}" != "" ) { // datepitepicker 값 고정
+			$("input#datepicker1").val("${requestScope.date1}");
+			$("input#datepicker2").val("${requestScope.date2}");
+			$("input#datepicker3").val("${requestScope.date3}");
+			$("input#datepicker4").val("${requestScope.date4}");
+		}
 	    // 오늘 버튼 클릭시 오늘 주문만 보여주기
-	    $("button#btntoday").click(function(){
+	    $("button#btntoday_1").click(function(){
 		    $('#datepicker1').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    });
+	    $("button#btntoday_2").click(function(){
 		    $('#datepicker3').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 	    });
 	    
 	    // 1주일 버튼 클릭시 1주일동안의 주문만 보여주기
-	    $("button#btnweek").click(function(){
+	    $("button#btnweek_1").click(function(){
 		    $('#datepicker1').datepicker('setDate', '-7D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    });
+	    $("button#btnweek_2").click(function(){
 		    $('#datepicker3').datepicker('setDate', '-7D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 	    });
 	    
 	    // 1개월 버튼 클릭시 1개월동안의 주문만 보여주기
-	    $("button#btn1m").click(function(){
+	    $("button#btn1m_1").click(function(){
 		    $('#datepicker1').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    });
+	    $("button#btn1m_2").click(function(){
 		    $('#datepicker3').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 	    });
 	    
 	    // 3개월 버튼 클릭시 3개월동안의 주문만 보여주기
-	    $("button#btn3m").click(function(){
+	    $("button#btn3m_1").click(function(){
 		    $('#datepicker1').datepicker('setDate', '-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    });
+	    $("button#btn3m_2").click(function(){
 		    $('#datepicker3').datepicker('setDate', '-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 	    });
 	    
 	    // 6개월 버튼 클릭시 6개월동안의 주문만 보여주기
-	    $("button#btn6m").click(function(){
+	    $("button#btn6m_1").click(function(){
 		    $('#datepicker1').datepicker('setDate', '-6M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    });
+	    $("button#btn6m_2").click(function(){
 		    $('#datepicker3').datepicker('setDate', '-6M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 		    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 	    });
@@ -112,7 +128,7 @@
 	});
 	
 	// Function Decalaration
-	function goSubmit() {
+	function goSubmit1() {
 		
 		var frm = document.orderFrm;
 		
@@ -120,6 +136,14 @@
 		frm.method= "get";
 		frm.submit();
 		
+	}
+	function goSubmit2() {
+		
+		var frm = document.orderFrm;
+		
+		frm.action= "<%=ctxPath%>/mypage/orderList.go";
+		frm.method= "get";
+		frm.submit();
 		
 	}
 	
@@ -143,7 +167,7 @@
 			    	// if(json.length == 0) 으로 해야함!!
 					html += "<tr>"+
 								"<td colspan='7' style=' height: 100px; vertical-align: middle'>"+
-									"<h6 style='color: #d6d6d6; text-align: center; '> 적립금내역이 없습니다.</h6>"+
+									"<h6 style='color: #d6d6d6; text-align: center; '> 주문내역이 없습니다.</h6>"+
 								"</td>"+
 						    "</tr>";
 	
@@ -154,17 +178,21 @@
 	        	  // 데이터가 존재하는 경우
 	        	  
 	        	  $.each(json, function(index, item){	// 반복문
-	        		  
-	        		  html += "<tr>"+
-							  	"<td class='verticalM' align='center'>"+item.fk_odrcode+"</td>"+
+	        		// fk_odrcode, pimage, pname ,totalquantity , odrtotalprice ,deliverstatus, cancelstatus, totalproduct
+	        		  html += "<tr id='odrInfo'>"+
+							  	"<td id='odrcode' class='verticalM' align='center'>"+item.fk_odrcode+"</td>"+
 								"<td class='verticalM' align='center'><img alt='"+item.pimage+"' src='../images/"+item.pimage+"' width='90' height='100'></td>"+
-								"<td class='verticalM'>"+
-									"<strong>"+item.pname+"</strong>"+
-								"</td>"+
-								"<td class='verticalM' align='center'>"+item.oqty+"</td>"+
-								"<td class='verticalM' align='center'><strong>"+(item.odrprice).toLocaleString('en')+" 원</strong></td>"+
-								"<td class='verticalM text-info' align='center'>"+item.deliverstatus+"</td>"+
-								"<td class='verticalM text-danger' align='center'>"+item.cancelstatus+"</td>"+
+								"<td class='verticalM' align='center'>"+
+									"<strong>"+item.pname+"</strong>";
+									if( item.totalproduct > 1) {
+										html += " 외 <strong>" +(item.totalproduct -1)+"</strong>건";
+									}
+					 html += 	"</td>"+
+								"<td class='verticalM' align='center'>"+item.totalquantity+"</td>"+
+								"<td class='verticalM' align='center'><strong>"+(item.odrtotalprice).toLocaleString('en')+" 원</strong></td>"+
+								"<td class='verticalM' align='center'>"+(item.odrtotalprice*0.1).toLocaleString('en')+" POINT</td>"+
+// 								"<td class='verticalM' align='center'><a href='/SemiProject/mypage/orderDetailList.go?userid="+${sessionScope.loginuser.userid}+"&odrcode="+item.fk_odrcode+"' class='btn btn-outline-dark btn-sm' role='button'>보기</a></td>"+
+								"<td class='verticalM' align='center'><a href='/SemiProject/mypage/orderDetailList.go?userid=leess&odrcode="+item.fk_odrcode+"'  class='btn btn-outline-dark btn-sm' role='button'>보기</a></td>"+
 							 "</tr>";
 	        	  });
 	        	  
@@ -199,7 +227,7 @@
 			    	// if(json.length == 0) 으로 해야함!!
 					html += "<tr>"+
 								"<td colspan='7' style=' height: 100px; vertical-align: middle'>"+
-									"<h6 style='color: #d6d6d6; text-align: center; '> 적립금내역이 없습니다.</h6>"+
+									"<h6 style='color: #d6d6d6; text-align: center; '> 주문내역이 없습니다.</h6>"+
 								"</td>"+
 						    "</tr>";
 	
@@ -234,7 +262,6 @@
 	}
 	
 	
-	
 </script>
 
 	<div class = "container px-0">
@@ -265,11 +292,11 @@
 				<!-- 기간 조회하는 부분 시작-->
 				<div class="border" style="padding: 20px;">
 					<div class="btn-group" role="group">
-						<button type="button" class="btn btn-light border" id="btntoday">오늘</button>
-						<button type="button" class="btn btn-light border" id="btnweek">1주일</button>
-						<button type="button" class="btn btn-light border" id="btn1m">1개월</button>
-						<button type="button" class="btn btn-light border" id="btn3m">3개월</button>
-						<button type="button" class="btn btn-light border" id="btn6m">6개월</button>
+						<button type="button" class="btn btn-light border" id="btntoday_1">오늘</button>
+						<button type="button" class="btn btn-light border" id="btnweek_1">1주일</button>
+						<button type="button" class="btn btn-light border" id="btn1m_1">1개월</button>
+						<button type="button" class="btn btn-light border" id="btn3m_1">3개월</button>
+						<button type="button" class="btn btn-light border" id="btn6m_1">6개월</button>
 					</div>
 					
 <%-- 			  		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid }"> --%>
@@ -277,12 +304,12 @@
 					<input type="text" id="datepicker1" class="datepicker"  name="date1">
 		       		~
 			  		<input type="text" id="datepicker2" class="datepicker"  name="date2">
-			  		<button type="button" class="btn btn-dark" id="btnsubmit" onClick="goSubmit();">조회</button>
+			  		<button type="button" class="btn btn-dark" id="btnsubmit" onClick="goSubmit1();">조회</button>
 		  		</div>
 		  		<!-- 기간 조회하는 부분 끝 -->
 		  		
 		  		<ul style="list-style-type: disc; padding-left: 20px;">
-		  			<li>기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>	  
+		  			<li>기본적으로 최근 모든 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>	  
 		  			<li>취소/교환/반품 신청은 배송완료일 기준 7일까지 가능합니다.</li>		
 		  		</ul>
 		  		
@@ -299,67 +326,45 @@
 								</th>
 								<th class="verticalM">이미지</th>
 								<th class="verticalM">상품정보</th>
-								<th class="verticalM">수량</th>
-								<th class="verticalM">상품구매금액</th>
-								<th class="verticalM">주문처리상태</th>
-								<th class="verticalM">취소/교환/반품</th>
+								<th class="verticalM">총 주문 수량</th>
+								<th class="verticalM">총 주문 금액</th>
+								<th class="verticalM">총 적립포인트</th>
+								<th class="verticalM">주문상세보기</th>
 							</tr>
 						</thead>
 						<tbody id= "showOrderList">
 						
 						</tbody>
 					</table>
-				<nav class="my-5">
-					<div style="display: flex; width: 100%;">
-						<ul class="pagination" style="margin: auto;">${requestScope.pageBar }</ul>
-					</div>
-				</nav>
+			  		<!-- 페이지바 시작 -->
+					<nav class="my-5">
+						<div style="display: flex; width: 100%;">
+							<ul class="pagination" style="margin: auto;">${requestScope.pageBar }</ul>
+						</div>
+					</nav>
+					<!-- 페이지바 끝 -->
 				</div>
-
-				<!-- 주문상품정보 테이블 끝 -->
-		  		
-		  		<%-- 
-		  		<!-- 페이지바 시작 -->
-				<nav style="clear: both;">
-				  <ul class="pagination justify-content-center" style="margin-top: 50px;">
-				  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">2</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">3</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;</span></a></li> 
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
-				  </ul>
-				</nav>
-				<!-- 페이지바 끝 -->
-		  		--%>
 			</div>
-			<!-- 주문내역조회(0) 끝 -->
+			<!-- 주문내역조회 끝 -->
 			
 			
-			
-			
-			
-			
-			
-			<!-- 취소/반품/교환 내역(0) 시작 -->
+			<!-- 취소/반품/교환 내역 시작 -->
 			<div class="tab-pane container" id="listView2" style="padding: 0px;"> <!-- 탭을 클릭할 때 탭이 페이드 인 및 페이드 아웃되도록 하려면 .fade 클래스를 .tab-pane에 추가하세요. --> 
 				
 				<!-- 기간 조회하는 부분 시작-->
 				<div class="border" style="padding: 20px;">
 					<div class="btn-group" role="group">
-						<button type="button" class="btn btn-light border" id="btntoday">오늘</button>
-						<button type="button" class="btn btn-light border" id="btnweek">1주일</button>
-						<button type="button" class="btn btn-light border" id="btn1m">1개월</button>
-						<button type="button" class="btn btn-light border" id="btn3m">3개월</button>
-						<button type="button" class="btn btn-light border" id="btn6m">6개월</button>
+						<button type="button" class="btn btn-light border" id="btntoday_2">오늘</button>
+						<button type="button" class="btn btn-light border" id="btnweek_2">1주일</button>
+						<button type="button" class="btn btn-light border" id="btn1m_2">1개월</button>
+						<button type="button" class="btn btn-light border" id="btn3m_2">3개월</button>
+						<button type="button" class="btn btn-light border" id="btn6m_2">6개월</button>
 					</div>
 					
 					<input type="text" id="datepicker3" class="datepicker" name="date3">
 		       		~
 			  		<input type="text" id="datepicker4" class="datepicker" name="date4">
-			  		
-			  		<button type="button" class="btn btn-dark">조회</button>
+			  		<button type="button" class="btn btn-dark" id="btnsubmit" onClick="goSubmit2();">조회</button>
 		  		</div>
 		  		<!-- 기간 조회하는 부분 끝 -->
 		  		
@@ -384,53 +389,13 @@
 							</tr>
 						</thead>
 						<tbody id = "showCancelOrderList">
-							<!-- 
-							<tr>
-								<td class="verticalM" align="center">s20211003-17</td>
-								<td class="verticalM" align="center"><img alt="300.jpg" src="../images/300.jpg" width="90" height="100"></td>
-								<td class="verticalM">
-									<strong>상품명이 들어갈 곳 riha angora cardigan(5color)</strong>
-									<ul style="margin-top: 15px;">
-										<li>[옵션: 브라운]</li>
-									</ul>
-								</td>
-								<td class="verticalM" align="center">1 개</td>
-								<td class="verticalM" align="center"><strong>31,400원</strong></td>
-								<td class="verticalM text-danger" align="center">취소,교환,반품</td>
-							</tr>
-							<tr>
-								<td class="verticalM" align="center">s20211003-17</td>
-								<td class="verticalM" align="center"><img alt="302.jpg" src="../images/302.jpg" width="90" height="100"></td>
-								<td class="verticalM">
-									<strong>상품명이 들어갈 곳 toy cotton pants(4color)</strong>
-								</td>
-								<td class="verticalM" align="center">2 개</td>
-								<td class="verticalM" align="center"><strong>17,900원</strong></td>
-								<td class="verticalM text-danger" align="center">취소,교환,반품</td>
-							</tr>
-							 -->
 						</tbody>
 					</table>
 				</div>
 				<!-- 주문상품정보 테이블 끝 -->
 		  		
-		  		<!-- 페이지바 시작 -->
-		  		<%-- 
-				<nav style="clear: both;">
-				  <ul class="pagination justify-content-center" style="margin-top: 50px;">
-				  	<li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;&laquo;</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&laquo;</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">1</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">2</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark">3</span></a></li>
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;</span></a></li> 
-				    <li class="page-item"><a class="page-link" href="#"><span class="text-dark" aria-hidden="true">&raquo;&raquo;</span></a></li> 
-				  </ul>
-				</nav>
-				<!-- 페이지바 끝 -->
-		  		--%>
 			</div>
-			<!-- 취소/반품/교환 내역(0) 끝 -->
+			<!-- 취소/반품/교환 내역 끝 -->
 			
 			
 			
