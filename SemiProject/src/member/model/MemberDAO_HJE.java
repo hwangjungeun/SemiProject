@@ -439,8 +439,4 @@ public class MemberDAO_HJE implements InterMemberDAO_HJE {
 
 		return n;
 	} // end of public int updateMember(MemberVO member)
-
-	
-
-
 }

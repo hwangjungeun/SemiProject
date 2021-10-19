@@ -35,3 +35,4 @@ public interface InterMemberDAO_HJE {
 	int coinUpdate(Map<String, String> paraMap) throws SQLException;
 	
 }
+

@@ -14,6 +14,12 @@
 
 <jsp:include page="./header.jsp" />
 	
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<%-- 	시작페이지 --%>
+=======
+>>>>>>> refs/heads/main
 	
 	<!-- 상단 컨텐츠 시작 -->
 	<div id="visual" class ="row custom-topcontents container mx-auto p-0">
@@ -92,5 +98,11 @@
 			
 	<!-- 상단 컨텐츠 끝 -->	
 	
+<<<<<<< HEAD
 	
 <jsp:include page="./footer.jsp" />
+=======
+>>>>>>> branch 'main' of https://github.com/hwangjungeun/SemiProject.git
+	
+<jsp:include page="./footer.jsp" />
+>>>>>>> refs/heads/main

@@ -14,7 +14,7 @@ public class DelayAction extends AbstractController {
 		
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/delay.jsp");	
-		
+
 	}
 
 }

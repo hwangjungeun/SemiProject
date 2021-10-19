@@ -1,19 +1,17 @@
 package board.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import board.model.BoardDAO;
 import board.model.BoardVO;
 import board.model.InterBoardDAO;
 import common.controller.AbstractController;
-import member.model.MemberVO_KMK;
+
 
 public class QnaListAction extends AbstractController {
 

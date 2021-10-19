@@ -217,6 +217,7 @@ span#delayred {
 				   	<br><br> 	
 				   </td>
 				   </tr>
+
 		 </table>
 </div>
 <br>

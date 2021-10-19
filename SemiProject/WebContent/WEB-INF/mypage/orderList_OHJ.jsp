@@ -4,6 +4,7 @@
 <jsp:include page="../header.jsp" />
 
 
+<<<<<<< HEAD
 <style>
 	
 	input.datepicker {
@@ -57,6 +58,61 @@
 	    
 	});
 	
+=======
+<style>
+	
+	input.datepicker {
+		width: 72px; /* datepicker의 날짜 입력되어있는부분 가로길이 줄임 */
+	}
+	
+	table > thead > tr > th.verticalM { /* 테이블 안에 있는 th태그들을 세로방향으로 가운데정렬  */
+		vertical-align: middle;
+	}
+	
+	table > tbody > tr > td.verticalM { /* 테이블 안에 있는 td태그들을 세로방향으로 가운데정렬  */
+		vertical-align: middle;
+	}
+	
+</style>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		// === jQuery UI 의 datepicker === //
+	    $("input.datepicker").datepicker({
+              dateFormat: 'yy-mm-dd'  //Input Display Format 변경
+             ,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+             ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+        //     ,changeYear: true        //select태그에서 년 선택 가능
+        //     ,changeMonth: true       //select태그에서 월 선택 가능                
+             ,showOn: "both"          //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+             ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+             ,buttonImageOnly: true   //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+             ,buttonText: "선택"       //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+             ,yearSuffix: "년"         //달력의 년도 부분 뒤에 붙는 텍스트
+             ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+             ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+             ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+             ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+           //,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+           //,maxDate: "+1M" //최대 선택일자(+1D:하루후, +1M:한달후, +1Y:일년후)                
+        });                    
+	    
+	  	//초기값을 90일 전으로 설정
+	    $('#datepicker1').datepicker('setDate', '-90D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		//초기값을 오늘 날짜로 설정
+	    $('#datepicker2').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    
+	  //초기값을 90일 전으로 설정
+	    $('#datepicker3').datepicker('setDate', '-90D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+		//초기값을 오늘 날짜로 설정
+	    $('#datepicker4').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    /////////////////////////////////////////////////////
+	    
+	});
+	
+>>>>>>> refs/heads/main
 </script>
 
 	<div class = "container px-0">

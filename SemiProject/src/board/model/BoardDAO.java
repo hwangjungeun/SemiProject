@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import member.model.MemberVO_KMK;
 import util.security.AES256;
 import util.security.SecretMyKey;
-import util.security.Sha256;
 
 public class BoardDAO implements InterBoardDAO {
 
