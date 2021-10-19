@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -55,7 +57,7 @@ public class MemberDAO_OHJ implements InterMemberDAO_OHJ {
     ////////////////////////////////////////////////////////////////////////////////////
     
     
-    // 회원정보를 조회해서 뷰단에 보낸다.(getParameter로 넘어온 userid를 이용) -> 회원명,(포인트),주소,연락처,이메일
+    // 회원정보를 조회하는 메소드 (getParameter로 넘어온 userid를 이용) -> 회원명,(포인트),주소,연락처,이메일
 	@Override
 	public MemberVO_OHJ showMemberInfo(String userid) throws SQLException {
 		
@@ -94,6 +96,80 @@ public class MemberDAO_OHJ implements InterMemberDAO_OHJ {
 		
 		return member;
 	}// end of public MemberVO_OHJ showMemberInfo(String userid)----------------------------
+
+	
+	// 해당user의 포인트에 대한 총합 구하는 메소드
+	@Override
+	public int showTotalPoint(String userid) throws SQLException {
+		
+		int totalPoint = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select sum(point) " + 
+						 " from tbl_point " + 
+						 " where fk_userid = ? " + 
+						 "   and sysdate >= start_day " + 
+						 " 	 and sysdate <= end_day " + 
+						 " 	 and p_status = 0 and p_idle = 0 ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalPoint = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPoint;
+	}// end of public int showTotalPoint(String userid)--------------------------------------
+
+	
+	
+	// 사용가능한 적립금 목록을 select하는 메소드
+	@Override
+	public List<PointVO_OHJ> showUsablePoint(String userid) throws SQLException {
+		
+		List<PointVO_OHJ> pointList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select fk_odrcode, end_day, point " + 
+						 " from tbl_point " + 
+						 " where fk_userid = ? " + 
+						 " 	 and sysdate >= start_day " + 
+						 " 	 and sysdate <= end_day " + 
+						 " 	 and p_status = 0 and p_idle = 0 ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				PointVO_OHJ pointvo = new PointVO_OHJ();
+				pointvo.setFk_odrcode(rs.getString(1));
+				pointvo.setEnd_day(rs.getString(2));
+				pointvo.setPoint(rs.getInt(3));
+				
+				pointList.add(pointvo);
+				
+			}// end of while---------------------------------
+			
+		} finally {
+			close();
+		}
+		
+		return pointList;
+	}// end of public List<PointVO_OHJ> showUsablePoint(String userid)-----------------------------
     
   
 	

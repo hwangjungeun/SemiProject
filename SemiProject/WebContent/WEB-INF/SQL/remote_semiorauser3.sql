@@ -646,8 +646,8 @@ from dual;
 insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
 values(?,?,?,?,?);
 -- 주문상세테이블에 insert
-insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,deliverdate,cancelstatus)
-values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,?,?,?);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,deliverdate,cancelstatus,FK_OPSEQ)
+values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,default,?,default,?); -- deliverdate는 안쓰면 null이므로 그냥 빼도 된다.
 
 -- 주문진행테이블에 해당 userid의 행이 몇개인지 확인
 select count(*) 
@@ -706,6 +706,66 @@ where O.opseq = 20;
 insert into tbl_wishlist(wishseq,fk_userid,fk_pseq,fk_opseq,enrollmentday) 
 values(seq_tbl_wishlist_wishseq.nextval,?,?,?,default);
 
+--***********************************************************************************************--
+-- 적립금 dao
+-- 구현을 위해 포인트테이블에 행들 insert함.
+insert into tbl_point(fk_odrcode,fk_userid,point)
+values('s20211019-33','orange3088',635);
+
+insert into tbl_point(fk_odrcode,fk_userid,point)
+values('s20211019-34','orange3088',314);
+
+insert into tbl_point(fk_odrcode,fk_userid,point)
+values('s20211019-37','leess',315);
+
+-- 테스트샘플들
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values('22','leess',76500,'210903',1);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,FK_OPSEQ)
+values(32,'22',6,1,76500,7);
+insert into tbl_point(fk_odrcode,fk_userid,start_day,end_day,p_status,p_idle,point,odrdate)
+values('22','leess','210923','220214',0,0,765,'210903');
+--
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values('24','leess',78000,'210902',1);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,FK_OPSEQ)
+values(34,'24',11,1,78000,14);
+insert into tbl_point(fk_odrcode,fk_userid,start_day,end_day,p_status,p_idle,point,odrdate)
+values('24','leess','210922','220213',0,0,780,'210902');
+--
+insert into tbl_order(odrcode,fk_userid,odrtotalprice,odrdate,totalquantity)
+values('25','leess',86400,'210901',1);
+insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,FK_OPSEQ)
+values(38,'25',4,1,86400,5);
+insert into tbl_point(fk_odrcode,fk_userid,start_day,end_day,p_status,p_idle,point,odrdate)
+values('25','leess','210921','220212',0,0,864,'210901');
+
+--delete from tbl_order where odrcode = '22';
+--delete from tbl_orderdetail where fk_odrcode = '22';
+--delete from tbl_point where fk_odrcode = '22';
+
+
+-- 회원의 모든 포인트 총합 구하기
+select sum(point)
+from tbl_point
+where fk_userid = 'leess' 
+and sysdate >= start_day 
+and sysdate <= end_day 
+and p_status = 0 and p_idle = 0;
+-- 사용 가능한 적립금 목록을 보여줌
+-- 사용가능한 포인트 : sysdate가 stary_day와 end_day사이에 있고, p_status가 0이고, p_idle이 0인거 비교
+select fk_odrcode, end_day, point
+from tbl_point
+where fk_userid = 'leess' 
+and sysdate >= start_day 
+and sysdate <= end_day 
+and p_status = 0 and p_idle = 0;
+-- 주문완료시, 포인트테이블에 insert하기
+insert into tbl_point(fk_odrcode,fk_userid,point,p_idle)
+values(?,?,?,1);
+-- 적립금 사용시, 해당 포인트 테이블의 값 변경하기(p_status,p_idle)
+update tbl_point set p_status = 1, p_idle = 0
+where fk_odrcode = ?;
 
 ----------------------------------------------------------------------------
 --delete from tbl_orderProgress;

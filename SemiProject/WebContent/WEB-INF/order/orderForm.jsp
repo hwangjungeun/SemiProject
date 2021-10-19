@@ -385,7 +385,7 @@
 	//	alert("확인용 결제금액 : " + realTotalPrice + " 원 결제예정");
 		
 	//	var userid = "${sessionScope.loginuser.userid}"; // 자바스크립트 // sessionScope.loginuser.get다음의뭐뭐뭐 
-		var userid = "eomjh"; //##############################################################################
+		var userid = "leess"; //##############################################################################
 	//	alert("확인용 결제할 사용자 아이디 : " + userid);
 		
 		//  아임포트 결제 팝업창 띄우기 
@@ -400,7 +400,7 @@
 	
 	
 	// === 결제가 성공되면, DB 상의 테이블 내용들을 변경하는 함수 ===
-//	function goPaymentSuccess(){
+//	function goPaymentSuccess(){ //############################################################################
 	function test(){	
 		// 1) tbl_order와 tbl_orderdetail 주문내역insert
 		// 2) tbl_orderProgress 주문대기중목록delete
@@ -408,7 +408,7 @@
 		// 4) tbl_wishlist 해당목록delete
 		// * 5) tbl_recentViewProduct 해당목록delete(-> 안함!)
 		// 6) tbl_poption 의 cnt 감소 update
-		// 7) tbl_member 포인트 insert,delete
+		// 7) tbl_member 포인트 insert,update
 		
 		
 		// 차라리 orderEnd.go로 데이터를 다 넘겨서 거기서 insert,update,delete 등을 실행하고 뷰단에 주문완료를 보여주자!
@@ -419,7 +419,7 @@
 		// 4) 회원아이디, 옵션번호
 		// 5)
 		// 6) 옵션번호
-		// 7) 주문코드
+		// 7) 회원아이디, 주문코드
 		
 		
 		
@@ -448,8 +448,7 @@
 		frm.oqtyjoin.value = str_Wishoqty;
 		frm.odrpricejoin.value = str_Odrprice;
 		frm.fk_opseqjoin.value = str_Opseq;
-	
-	
+		
 	
 		// 결제완료페이지로 이동########################################################################################
 		frm.action = "<%= request.getContextPath()%>/order/orderEnd.go"; 
@@ -560,6 +559,52 @@
 	}// end of function strOpseq()-------------------------------------------
 	
 	
+	// 사용가능한 포인트보여주는 팝업창 띄우기
+	function showUsablePoint(){
+		
+		var url = "<%= request.getContextPath()%>/order/showUsablePoint.go?userid=leess"; // ##원래는 ${sessionScope.loginuser.userid}다.##########################################################
+		
+		window.open(url, "showUsablePoint",
+        			"left=350px, top=100px, width=650px, height=570px"); // window.open이 팝업창 띄우는거다.
+		
+		
+	}// end of function showUsablePoint()-----------------------------------
+	
+	
+	// 적립금 선택한 내역들을 할인금액란에 보여줌
+	function showDiscountMoney(dc_money){
+		
+	//	console.log("확인용 dc_money : " + dc_money);
+	//	console.log("확인용 typeof(dc_money) : " + typeof(dc_money)); // number
+		
+		$("input[name=pointUsed]").val(dc_money); // 할인받았더라면 pointUsed에 (가공하지않은)할인액을 넣어줌. 안넣어주면 기본 value값은 0이다. -> 가격이 2,200이 아니라 2200이다.
+	
+		/////////////////////////////////////////////////////////////
+		var dc_money = parseInt(dc_money).toLocaleString('en');
+	//	console.log("확인용 dc_money : " + dc_money);
+		
+		$("strong#pointDiscount").text(dc_money);
+		
+		/////////////////////////////////////////////////////////////
+		// 총가격 계산하기
+		var totalPrice = $("input#totalPrice").val();
+		var deliveryFee = $("input#deliveryFee").val();
+		
+		var realTotalPrice = parseInt(totalPrice)+parseInt(deliveryFee)-parseInt(dc_money);
+	
+		realTotalPrice = parseInt(realTotalPrice).toLocaleString('en');
+	
+		///////////////////////////////////////////////
+	
+		dc_money = dc_money.toLocaleString('en'); // 자바스크립트에서 숫자 3자리마다 콤마 찍어주기 (자바스크립트에서 fmt이 제대로 작동안함.)
+
+		$("span#pointDiscount1").text(dc_money);
+		$("span#realTotalPrice").text(realTotalPrice);
+		
+	}// end of function showDiscountMoney(dc_money,fk_odrcode)---------------------------------------------------
+	
+	
+	
 </script>
 
 	<div class = "container px-0">
@@ -578,7 +623,7 @@
 			</tr>
 			<tr>
 				<td>
-					<a href="#">가용적립금</a> : ###4,500###원
+					<a href="#">가용적립금</a> : <fmt:formatNumber value="${totalPoint}" pattern="#,###"/>원
 					<!-- &nbsp;&nbsp;&nbsp;
 					<a href="#">쿠폰</a> : 2개 -->
 				</td>
@@ -792,17 +837,22 @@
 				<tr>
 					<th>적립금</th>
 					<td>
+						<!-- 
 						<input type="text" id="usePoint" style="margin-bottom: 8px;"/>원(총 사용가능 적립금 : <span class="text-danger">###4,500###</span>원)
 						<ul style="list-style-type: '- '; padding-left: 8px;">
 							<li>적립금은 최소 2,000 이상일 때 결제가 가능합니다.</li>
 							<li>최대 사용금액은 제한이 없습니다.</li>
 							<li>적립금으로만 결제할 경우, 결제금액이 0으로 보여지는 것은 정상이며 [결제하기] 버튼을 누르면 주문이 완료됩니다.</li>
 						</ul>
+						 -->
+						<button type="button" id="btnUsePoint" class="btn btn-outline-secondary btn-lg" onClick="showUsablePoint()" >적립금 조회</button>
 					</td>
 				</tr>
 				<tr>
 					<th>총 할인금액</th>
-					<td><strong id="pointDiscount"></strong>원</td>
+					<td>
+						<strong id="pointDiscount">0</strong>원
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -810,7 +860,7 @@
 		
 		<!-- 결제하기 버튼 시작 -->
 		<div class="text-center">
-			<button type="button" id="btnPurchase" class="btn btn-dark btn-lg" onClick="goPurchase();" style="width: 100%">결제하기</button>
+			<button type="button" id="btnPurchase" class="btn btn-dark btn-lg" onClick="goPurchase();" style="width: 100%; height: 6%">결제하기</button>
 		</div>
 		<!-- 결제하기 버튼 끝 -->
 		
@@ -818,12 +868,15 @@
 		<!-- 결제완료시, orderEnd에 POST방식으로 보내기 위한 폼 시작 -->
 		<form name="OrderFormInfo">
 			<!-- 회원아이디, 주문총액 / 제품번호, 주문량, 주문가격 / 옵션번호 -->
-			<input type="text" name="userid" value="" />
-			<input type="text" name="odrtotalprice" value="" />
-			<input type="text" name="fk_pseqjoin" value="" />
-			<input type="text" name="oqtyjoin" value="" />
-			<input type="text" name="odrpricejoin" value="" />
-			<input type="text" name="fk_opseqjoin" value="" />
+			<input type="hidden" name="userid" value="" />
+			<input type="hidden" name="odrtotalprice" value="" />
+			<input type="hidden" name="fk_pseqjoin" value="" />
+			<input type="hidden" name="oqtyjoin" value="" />
+			<input type="hidden" name="odrpricejoin" value="" />
+			<input type="hidden" name="fk_opseqjoin" value="" />
+			<input type="text"   name="fk_odrcodejoin" id="str_Fk_odrcode"/> <!-- 적립금조회(자식팝업창)에서 opener를 통해 여기에 값을 넣어준다. -->
+			<!-- ------------------------------------------------------- -->
+			<input type="text" name="pointUsed" value="0" /> <!-- 할인받았는지아닌지 유무, 할인받으면 value를 할인액으로 바꿔줌 -->
 		</form>
 		<!-- 결제완료시, orderEnd에 POST방식으로 보내기 위한 폼 끝 -->
 		<button type="button" onclick="test()" >결제완료되었을때 결과버튼</button>

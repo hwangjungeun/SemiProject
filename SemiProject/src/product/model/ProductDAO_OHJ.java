@@ -532,13 +532,16 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			conn.setAutoCommit(false);  // ★수동커밋★
 
 			
-			String userid = (String) paraMap.get("userid"); 				// 회원아이디
-			String odrtotalprice = (String) paraMap.get("odrtotalprice"); 	// 주문총액
-			String[] fk_pseqArr = (String[]) paraMap.get("fk_pseqArr"); 	// 제품번호
-			String[] oqtyArr = (String[]) paraMap.get("oqtyArr"); 			// 주문량
-			String[] odrpriceArr = (String[]) paraMap.get("odrpriceArr"); 	// 주문가격
-			String[] fk_opseqArr = (String[]) paraMap.get("fk_opseqArr"); 	// 옵션번호
-			String odrcode = (String) paraMap.get("odrcode"); 				// 주문테이블의 주문코드(채번)
+			String userid = (String) paraMap.get("userid"); 					// 회원아이디
+			String odrtotalprice = (String) paraMap.get("odrtotalprice"); 		// 주문총액
+			String[] fk_pseqArr = (String[]) paraMap.get("fk_pseqArr"); 		// 제품번호
+			String[] oqtyArr = (String[]) paraMap.get("oqtyArr"); 				// 주문량
+			String[] odrpriceArr = (String[]) paraMap.get("odrpriceArr"); 		// 주문가격
+			String[] fk_opseqArr = (String[]) paraMap.get("fk_opseqArr"); 		// 옵션번호
+			String odrcode = (String) paraMap.get("odrcode"); 					// 주문테이블의 주문코드(채번)
+			String[] fk_odrcodeArr = (String[]) paraMap.get("fk_odrcodeArr"); 	// 포인트테이블의 주문코드(포인트 차감용도)
+			//-----------------------------------------
+			String pointUsed = (String) paraMap.get("pointUsed"); // 적립금을 사용한 할인액
 			
 			int totalquantity = 0; // 주문 총수량
 			
@@ -547,7 +550,6 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			}// end of for------------------------------------
 			
 		//	System.out.println("주문 총 수량 : " + totalquantity);
-			
 			
 			///////////////////////////////////////////////////////////////////////////////
 			
@@ -575,16 +577,21 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			
 			for(int i=0; i<fk_pseqArr.length; i++) {
 				
-				sql = " insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,cancelstatus) " + 
-					  " values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,default,default) "; // deliverdate는 안쓰면 null이므로 그냥 빼버림
+				sql = " insert into tbl_orderdetail(odrseqnum,fk_odrcode,fk_pseq,oqty,odrprice,deliverstatus,cancelstatus,FK_OPSEQ) " + 
+					  " values(seq_tbl_orderdetail_odrseqnum.nextval,?,?,?,?,default,default,?) "; // deliverdate는 안쓰면 null이므로 그냥 빼버림
 				
 				pstmt = conn.prepareStatement(sql);
+				
 				pstmt.setString(1, odrcode);
 				pstmt.setString(2, fk_pseqArr[i]); 
 				pstmt.setString(3, oqtyArr[i]);
 				pstmt.setString(4, odrpriceArr[i]);
+				pstmt.setString(5, fk_opseqArr[i]);
 				
 				n_orderDetailInsert += pstmt.executeUpdate();
+				
+			//	System.out.println("오류확인용 odrcode : " + odrcode + ",fk_pseqArr[i] : " + fk_pseqArr[i] + ",oqtyArr[i] : " + oqtyArr[i] + ",odrpriceArr[i]: " + odrpriceArr[i]);
+			//	System.out.println("오류확인용 : " + n_orderDetailInsert);
 				
 			}// end of for-------------------------------------------
 			
@@ -776,9 +783,55 @@ public class ProductDAO_OHJ implements InterProductDAO_OHJ {
 			
 			//////////////////////////////////////////////////////////////////////////////
 			
-			// 7) tbl_member 포인트 insert,delete
-			// ##포인트 사용/적립 해야함###############################################
-			int success7 = 1; // 성공유무 (원래는 0인데, 일단 1로 한다####################)
+			// 7) tbl_member 포인트 insert,update (회원아이디, 주문코드)
+			int success7 = 0; // 성공유무
+			
+			// 우선, 주문이 완료되었으니 포인트 테이블에 insert해준다.
+			sql = " insert into tbl_point(fk_odrcode,fk_userid,point,p_idle) " + 
+				  " values(?,?,?,1) "; // 처음 20일동안은 미가용포인트이므로 p_idle의 기한초과를 0아니라 1로 해준다.
+			
+			int point = (int)(Integer.parseInt(odrtotalprice) * 0.01); // 적립포인트는 주문총액*0.01
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, odrcode);
+			pstmt.setString(2, userid);
+			pstmt.setInt(3, point);
+			
+			int insertPoint = pstmt.executeUpdate();
+		//	System.out.println("확인용 insertPoint : " + insertPoint);
+			
+			if(insertPoint == 1) { // 주문완료한거를 포인트테이블에 적립 성공
+				
+				int discountMoney = (int)(Integer.parseInt(pointUsed)); // 할인금액의 디폴트는 0이고, 적립금을 선택하면 value값은 할인금액이다.
+				
+				if(discountMoney != 0) {
+					
+					updateCnt = 0;
+					// 적립금을 사용했다라면 포인트 테이블의 값을 update해준다.
+					for(int i=0; i<fk_odrcodeArr.length; i++) {
+						
+						// 포인트테이블의 주문코드(포인트 차감용도)
+						sql = " update tbl_point set p_status = 1, p_idle = 0 " + 
+							  " where fk_odrcode = ? ";
+						
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setString(1, fk_odrcodeArr[i]);
+						
+						updateCnt += pstmt.executeUpdate();
+						
+					}
+					if(updateCnt == fk_odrcodeArr.length) {
+					//	System.out.println("확인용 updateCnt(포인트테이블) : " + updateCnt);
+						// 적립금 사용한 것들의 주문코드 갯수와 update된 행들의 갯수가 같으면
+						success7 = 1;
+					}
+					
+				}
+				else {
+					success7 = 1; // 사용한 적립금이 없을 경우 update안해도된다.
+				}
+			}
+			System.out.println("확인용 success7 : " + success7);
 			
 			//////////////////////////////////////////////////////////////////////////////
 			

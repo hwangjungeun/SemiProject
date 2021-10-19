@@ -39,7 +39,7 @@ public class OrderEndAction extends AbstractController {
 		// orderForm으로부터 post방식으로 가져온거(form태그의 name)
 		
 		// destination,receiverName,postcode,address,detailAddress,extraAddress,hp1,hp2,hp3,email,deliveryMsg 아니고,
-		// 회원아이디, 주문총액 / 제품번호, 주문량, 주문가격 / 옵션번호
+		// 회원아이디, 주문총액 / 제품번호, 주문량, 주문가격 / 옵션번호 / 포인트테이블의 주문코드
 		
 		String userid = request.getParameter("userid");
 		String odrtotalprice = request.getParameter("odrtotalprice");
@@ -47,17 +47,25 @@ public class OrderEndAction extends AbstractController {
 		String oqtyjoin = request.getParameter("oqtyjoin");
 		String odrpricejoin = request.getParameter("odrpricejoin");
 		String fk_opseqjoin = request.getParameter("fk_opseqjoin");
-		
+		String fk_odrcodejoin = request.getParameter("fk_odrcodejoin");
+		//------------------------------------------------------------
+		String pointUsed = request.getParameter("pointUsed");
 		
 		String[] fk_pseqArr = fk_pseqjoin.split(",");
 		String[] oqtyArr  = oqtyjoin.split(",");
 		String[] odrpriceArr = odrpricejoin.split(",");
 		String[] fk_opseqArr = fk_opseqjoin.split(",");	
-				
+		String[] fk_odrcodeArr = fk_odrcodejoin.split("_");
+		
 	/*			
 		for(int i=0; i<fk_pseqArr.length; i++) { // fk_pseqArr의 개수나 oqtyArr의 개수나 똑같음
-            System.out.println("~~~~ 확인용 fk_pseq: " + fk_pseqArr[i] + ", oqty: " + oqtyArr[i] + ", odrprice: " + odrpriceArr[i] + ", fk_opseq: " + fk_opseqArr[i] ); 
-        }// end of for------------------------------------		
+            System.out.println("~~~~ 확인용 fk_pseq: " + fk_pseqArr[i]
+            						 + ", oqty: " + oqtyArr[i]
+            						 + ", odrprice: " + odrpriceArr[i]  
+            						 + ", fk_opseq: " + fk_opseqArr[i] 
+            					//	 + ", fk_odrcode: " + fk_odrcodeArr[i] // 얘는 fk_pseqArr의 갯수와 다름
+            				); 
+        }// end of for--------------------------------------------------------------------		
 	*/			
 		
 		
@@ -68,7 +76,7 @@ public class OrderEndAction extends AbstractController {
 		// 4) tbl_wishlist 해당목록delete
 		// * 5) tbl_recentViewProduct 해당목록delete(-> 안함!)
 		// 6) tbl_poption 의 cnt 감소 update
-		// 7) tbl_member 포인트 insert,delete
+		// 7) tbl_member 포인트 insert,update
 		
 		
 		// 결제성공했으니, orderEnd.jsp에 넘겨줄꺼야~~
@@ -79,6 +87,9 @@ public class OrderEndAction extends AbstractController {
 		paraMap.put("oqtyArr", oqtyArr);
 		paraMap.put("odrpriceArr", odrpriceArr);
 		paraMap.put("fk_opseqArr", fk_opseqArr);
+		paraMap.put("fk_odrcodeArr", fk_odrcodeArr);
+		//-----------------------------------------
+		paraMap.put("pointUsed",pointUsed);
 		
 		// 주문코드(명세서번호) 채번하기
         // 주문코드 형식 : s+날짜+sequence

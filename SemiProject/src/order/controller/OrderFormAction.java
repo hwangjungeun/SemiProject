@@ -59,7 +59,7 @@ public class OrderFormAction extends AbstractController {
 						for(int i=0; i<cntArr.length; i++) { // opseqArr과 cntArr는 길이 같으므로 아무거나 반복돌림.
 							map.put("fk_opseq", opseqArr[i]);
 							map.put("oqty", cntArr[i]);
-							map.put("userid", "eomjh"); // ################################userid->eomjh###################
+							map.put("userid", "leess"); // ################################userid->eomjh###################
 							
 							pdao.insertOdrProg(map); // 주문진행중 테이블에 insert
 						}// end of for--------------------------------------------
@@ -72,7 +72,7 @@ public class OrderFormAction extends AbstractController {
 						for(int i=0; i<opseqArr.length; i++) {
 							map.put("fk_opseq", opseqArr[i]);
 							map.put("oqty", "1");
-							map.put("userid", "eomjh"); // ################################userid->eomjh###################
+							map.put("userid", "leess"); // ################################userid->eomjh###################
 							
 							pdao.insertOdrProg(map); // 주문진행중 테이블에 insert
 						}// end of for--------------------------------------------
@@ -94,7 +94,7 @@ public class OrderFormAction extends AbstractController {
 					//	System.out.println("확인용 oqty => " + map.get("oqty"));
 						
 						// map이 pdao를 통해서 new HashMap으로 바꼈으므로 키값인 userid를 다시 넣어줘야함.
-						map.put("userid", "eomjh"); // ################################userid->eomjh###################
+						map.put("userid", "leess"); // ################################userid->eomjh###################
 						
 						pdao.insertOdrProg(map); // 주문진행중 테이블에 insert
 						
@@ -111,10 +111,14 @@ public class OrderFormAction extends AbstractController {
 				// 회원정보를 조회해서 뷰단에 보낸다.(getParameter로 넘어온 userid를 이용)
 				InterMemberDAO_OHJ mdao = new MemberDAO_OHJ();
 				
-				MemberVO_OHJ member = mdao.showMemberInfo("eomjh"); // 원래는 userid가 들어감##############################################
+				MemberVO_OHJ member = mdao.showMemberInfo("leess"); // 원래는 userid가 들어감##############################################
+				
+				// 해당user의 포인트에 대한 총합을 구해서 뷰단에 보낸다.
+				int totalPoint = mdao.showTotalPoint("leess"); // 원래는 userid가 들어감##############################################
 				
 				
 				request.setAttribute("member", member);
+				request.setAttribute("totalPoint", totalPoint);
 				request.setAttribute("orderProgList", orderProgList);
 				
 			//	super.setRedirect(false);
