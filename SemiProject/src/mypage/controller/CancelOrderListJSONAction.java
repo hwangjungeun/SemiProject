@@ -6,58 +6,38 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
- 
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import order.model.InterOrderDAO_HJE;
 import order.model.OrderDAO_HJE;
-//import member.model.MemberVO_PJW;
 import order.model.OrderdetailVO_HJE;
 
-public class OrderListJSONAction extends AbstractController {
+public class CancelOrderListJSONAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		HttpSession session = request.getSession();
-		
+
 //		HttpSession session = request.getSession();
 		
 //		MemberVO_PJW loginuser = (MemberVO_PJW) session.getAttribute("loginuser");
 //		String userid = loginuser.getUserid();
-//		String userid= request.getParameter("userid");
+		String userid= request.getParameter("userid");
 		
 		InterOrderDAO_HJE odao = new OrderDAO_HJE();
 		
-		// 사용자가 보고싶어하는 페이지 숫자
-		String currentShowPageNo = request.getParameter("currentShowPageNo");
-//		String currentShowPageNo = (String) session.getAttribute("currentShowPageNo");
-		
-		String date1 = request.getParameter("date1");
-		String date2 = request.getParameter("date2");
+		String date3 = request.getParameter("date3");
+		String date4 = request.getParameter("date4");
 
-		if(currentShowPageNo == null) {
-			currentShowPageNo = "1";
-		}
-		
-		try {
-			Integer.parseInt(currentShowPageNo);
-			
-		} catch (NumberFormatException e) {
-			currentShowPageNo = "1";
-		}
-		
 		Map<String,String> paraMap = new HashMap<>();
 		
 		paraMap.put("userid", userid );
-		paraMap.put("currentShowPageNo", currentShowPageNo);
-		paraMap.put("date1", date1);
-		paraMap.put("date2", date2);
+		paraMap.put("date3", date3);
+		paraMap.put("date4", date4);
 		
-		List<OrderdetailVO_HJE> orderList =  odao.selectPagingOrder(paraMap);
+		List<OrderdetailVO_HJE> orderList =  odao.showCancelOrder(paraMap);
 		
 		JSONArray jsonArr = new JSONArray();
 		
@@ -70,9 +50,23 @@ public class OrderListJSONAction extends AbstractController {
 				jsonObj.put("fk_odrcode", odvo.getFk_odrcode());    
 				jsonObj.put("pimage", odvo.getPvo().getPimage());
 				jsonObj.put("pname", odvo.getPvo().getPname());    
-				jsonObj.put("totalquantity", odvo.getOvo().getTotalquantity());    
-				jsonObj.put("odrtotalprice", odvo.getOvo().getOdrtotalprice());    
-				jsonObj.put("totalproduct", odvo.getOvo().getTotalproduct());    
+				jsonObj.put("oqty", odvo.getOqty());    
+				jsonObj.put("odrprice", odvo.getOdrprice());    
+
+				String cancelstatus = "";
+				if (odvo.getCancelstatus() == 0) {
+				}
+				else if (odvo.getCancelstatus() == 1) {
+					cancelstatus = "취소";
+				}
+				else if ( odvo.getCancelstatus() == 2 ) {
+					cancelstatus = "교환";
+				}
+				else if ( odvo.getCancelstatus() == 3 ) {
+					cancelstatus = "반품";
+				}
+				jsonObj.put("cancelstatus", cancelstatus);    
+	            
 			
 	            jsonArr.put(jsonObj);
 			} 
@@ -103,4 +97,3 @@ public class OrderListJSONAction extends AbstractController {
 	}
 
 }
-

@@ -1,5 +1,6 @@
 package order.model;
 
+import product.model.PColorVO_OHJ;
 import product.model.ProductVO_OHJ;
 
 public class OrderdetailVO_HJE {
@@ -15,6 +16,7 @@ public class OrderdetailVO_HJE {
 	
 	private ProductVO_OHJ pvo;
 	private OrderVO_HJE ovo;
+	private PColorVO_OHJ pcvo;
 	
 	public int getOdrseqnum() {
 		return odrseqnum;
@@ -76,6 +78,12 @@ public class OrderdetailVO_HJE {
 	}
 	public void setOvo(OrderVO_HJE ovo) {
 		this.ovo = ovo;
+	}
+	public PColorVO_OHJ getPcvo() {
+		return pcvo;
+	}
+	public void setPcvo(PColorVO_OHJ pcvo) {
+		this.pcvo = pcvo;
 	}
 	
 	

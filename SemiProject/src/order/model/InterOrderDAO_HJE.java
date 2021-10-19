@@ -15,6 +15,13 @@ public interface InterOrderDAO_HJE {
 	// 총 주문 개수 구하기
 	int getCountAllOrder(Map<String, String> paraMap) throws SQLException;
 
-	
+	// 취소한 주문리스트 출력하기
+	List<OrderdetailVO_HJE> showCancelOrder(Map<String, String> paraMap) throws SQLException;
+
+	// 총 취소 주문 개수 구하기
+	int getCountCancelOrder(Map<String, String> paraMap) throws SQLException;
+
+	// 해당 주문에 해당하는 주문상세 보기
+	List<OrderdetailVO_HJE> selectOrderDetail(String odrcode) throws SQLException;
 
 }

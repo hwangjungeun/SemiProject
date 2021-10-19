@@ -59,9 +59,6 @@
 		border-top: solid 1px #d6d6d6;
 		border-bottom: solid 1px #d6d6d6;
 	}
-	
-	
-	
 	button.btn {
 		padding: 1px 5px;
 	}
