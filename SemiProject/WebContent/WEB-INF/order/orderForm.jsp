@@ -875,12 +875,12 @@
 			<input type="hidden" name="oqtyjoin" value="" />
 			<input type="hidden" name="odrpricejoin" value="" />
 			<input type="hidden" name="fk_opseqjoin" value="" />
-			<input type="text"   name="fk_odrcodejoin" id="str_Fk_odrcode"/> <!-- 적립금조회(자식팝업창)에서 opener를 통해 여기에 값을 넣어준다. -->
+			<input type="hidden"   name="fk_odrcodejoin" id="str_Fk_odrcode"/> <!-- 적립금조회(자식팝업창)에서 opener를 통해 여기에 값을 넣어준다. -->
 			<!-- ------------------------------------------------------- -->
-			<input type="text" name="pointUsed" value="0" /> <!-- 할인받았는지아닌지 유무, 할인받으면 value를 할인액으로 바꿔줌 -->
+			<input type="hidden" name="pointUsed" value="0" /> <!-- 할인받았는지아닌지 유무, 할인받으면 value를 할인액으로 바꿔줌 -->
 		</form>
 		<!-- 결제완료시, orderEnd에 POST방식으로 보내기 위한 폼 끝 -->
-		<button type="button" onclick="test()" >결제완료되었을때 결과버튼</button>
+		<!-- <button type="button" onclick="test()" >결제완료되었을때 결과버튼</button> -->
 		
 		
 		
