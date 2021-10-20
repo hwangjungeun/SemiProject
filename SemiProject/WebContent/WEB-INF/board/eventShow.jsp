@@ -8,6 +8,7 @@
 	//		/SemiProject
 %>    
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="ko"> 
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -79,6 +80,79 @@ img {
     border-top: 0;
     color: #fff;
     line-height: 3;
+=======
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/SemiProject/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+<style type="text/css">
+
+.titleArea {
+    margin: 0 0 30px;
+    text-align: center;
+}
+
+.titleArea h2 {
+    display: inline-block;
+    position: relative;
+    margin: 10px auto 10px;
+    padding: 8px 15px;
+    min-width: 180px;
+    color: #353535;
+    font-size: 11pt;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 1px #ddd solid;
+}
+
+p.desc {
+	font-size: 9pt;
+}
+
+#container {
+    width: 1250px;
+    margin: auto;
+}
+
+#contents {
+   /*  position: relative; */
+    margin: auto;
+    min-height: auto;
+}
+
+div.typeWrite{
+	width: 1250px;
+	vertical-align: middle;
+	margin: auto;
+}
+
+img {
+	display: block;
+	width: 700px;
+	height: auto;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+
+.ec-base-table table {
+
+    width: 90%;
+    position: relative;
+    border-top: 1px solid #dfdfdf;
+    border-bottom: 1px solid #dfdfdf;
+    border-top: 0;
+    color: #fff;
+    line-height: 1.5;
+>>>>>>> refs/heads/kimminkyung
   }
 
 table {
@@ -114,7 +188,7 @@ tr.view {
 }
 .button {
 	width: 100px;
-	height: 35px;
+	height: 32px;
 	border: 1px solid #808080;
     float: right;
     text-align: center;

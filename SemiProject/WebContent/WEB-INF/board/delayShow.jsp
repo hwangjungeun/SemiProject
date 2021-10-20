@@ -122,7 +122,7 @@ span#delayred {
 }
 .button {
 	width: 100px;
-	height: 35px;
+	height: 32px;
 	border: 1px solid #8c8c8c;
     float: right;
     text-align: center;
@@ -166,7 +166,6 @@ span#delayred {
 				 <th scope="row">&nbsp;&nbsp;&nbsp;&nbsp;작성자</th>
 				   <td id="btt">&nbsp;&nbsp; oh! daily</td>
                             <td><span class="date">date</span><span class="txtNum">&nbsp;2021-10-01</span></td>
-				<!--    <td class="date">date 2021-10-01</td> -->
 		        </tr>
 				<tr>
 				   <td colspan="2"><img src="../images/delay.png" alt=""></td>		
@@ -215,14 +214,10 @@ span#delayred {
 				   	<p><span id="delaylist">tickle cardigan (3color)<br>▶ 10/25쯤 순차입고 및 순차배송 될 예정입니다.</span></p>
 				   	<p><span id="delaylist">tooth tee (5color)<br>▶ 화이트컬러 10/24쯤 순차입고 및 순차배송 될 예정입니다.</span></p>
 				   	<p><span id="delaylist">union denim<br>▶ S사이즈 다음주 주중 순차입고 및 순차배송 될 예정입니다.</span></p>
-				   	<br><br>
-				   	
+				   	<br><br> 	
 				   </td>
-                </tr>
+				   </tr>
 
-				   
-				   
-		        </tr>
 		 </table>
 </div>
 <br>

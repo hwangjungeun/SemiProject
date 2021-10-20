@@ -14,7 +14,7 @@ public class DelayShowAction extends AbstractController {
 		
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/delayShow.jsp");	
-			
+
 	}
 
 }
