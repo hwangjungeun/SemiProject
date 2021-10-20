@@ -13,8 +13,8 @@ public class MemberVO_PJW {
 	   private String detailaddress;      // 상세주소
 	   private String extraaddress;       // 참고주소
 	   private String birthday;           // 생년월일   
-	   private int height;				  // 키
-	   private int weight;				  // 몸무게
+	   private String height;				  // 키
+	   private String weight;				  // 몸무게
 	   private String topsize;			  // 상의 사이즈
 	   private String bottomsize;		  // 하의 사이즈
 	   private String registerday;        // 가입일자 
@@ -33,8 +33,9 @@ public class MemberVO_PJW {
 	   
 	   public MemberVO_PJW() {}
 	   
+	   //회원정보 변경시 사용하는 거
 	   public MemberVO_PJW(String userid, String pwd, String name, String email, String mobile, String postcode,
-	         String address, String detailaddress, String extraaddress) {
+	         String address, String detailaddress, String extraaddress, String height, String weight, String topsize, String bottomsize ) {
 	      this.userid = userid;
 	      this.pwd = pwd;
 	      this.name = name;
@@ -44,24 +45,12 @@ public class MemberVO_PJW {
 	      this.address = address;
 	      this.detailaddress = detailaddress;
 	      this.extraaddress = extraaddress;
+	      this.height = height;
+	      this.weight = weight;
+	      this.topsize = topsize;
+	      this.bottomsize = bottomsize;
 	   }
 	   
-	   public MemberVO_PJW(String userid, String pwd, String name, String email, String mobile, String postcode,
-	         String address, String detailaddress, String extraaddress,  String birthday) {
-	      this.userid = userid;
-	      this.pwd = pwd;
-	      this.name = name;
-	      this.email = email;
-	      this.mobile = mobile;
-	      this.postcode = postcode;
-	      this.address = address;
-	      this.detailaddress = detailaddress;
-	      this.extraaddress = extraaddress;
-	     
-	      this.birthday = birthday;
-	   }
-
-	
 		public String getUserid() {
 			return userid;
 		}
@@ -142,19 +131,19 @@ public class MemberVO_PJW {
 			this.birthday = birthday;
 		}
 
-		public int getHeight() {
+		public String getHeight() {
 			return height;
 		}
 
-		public void setHeight(int height) {
+		public void setHeight(String height) {
 			this.height = height;
 		}
 
-		public int getWeight() {
+		public String getWeight() {
 			return weight;
 		}
 
-		public void setWeight(int weight) {
+		public void setWeight(String weight) {
 			this.weight = weight;
 		}
 

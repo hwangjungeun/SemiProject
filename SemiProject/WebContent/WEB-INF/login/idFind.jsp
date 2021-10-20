@@ -20,6 +20,17 @@
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
 
+<style type="text/css">
+
+a.navbar-brand {
+		color: #4d4d4d;
+		font-family: Copperplate, Fantasy;
+		font-size: 28pt;
+	}
+
+</style>
+
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		
@@ -50,14 +61,20 @@
 </script> 
 
 <form name="idFindFrm">
+
+	   
+   <div class="topArea container-fluid navbar-header mx-auto text-center">
+    <div class="container-fluid p-3" style="background-color: #ffe6e6;" ></div>
+				<a class="navbar-brand mx-auto mb-3">o H ! &nbsp; D a i L Y</a>
+	</div>
    
    <ul style="list-style-type: none">
          <li style="margin: 25px 0">
-            <label for="userid" style="display: inline-block; width: 90px">성명</label>
+            <label for="userid" style="display: inline-block; width: 90px; color: #4d4d4d;">성명</label>
             <input type="text" name="name" id="name" size="25" placeholder="성명을입력하세요" autocomplete="off" required />
          </li>
          <li style="margin: 25px 0">
-            <label for="userid" style="display: inline-block; width: 90px">이메일</label>
+            <label for="userid" style="display: inline-block; width: 90px; color: #4d4d4d;">이메일</label>
             <input type="text" name="email" id="email" size="25" placeholder="abcd1234@gmail.com" autocomplete="off" required />
          </li>
    </ul>

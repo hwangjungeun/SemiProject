@@ -129,6 +129,7 @@
 			  goLogin(); // 로그인 시도합니다.
 		  }
 	  })  
+	 
 	})
   
   function goLogin(){
@@ -214,38 +215,11 @@
 	   </form>  
 	</div>
 	
-	 <%-- ****** 아이디 찾기 Modal ****** --%>
-  <%-- <div class="modal fade" id="userIdfind">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal header -->
-        <div class="modal-header">
-          <h4 class="modal-title">아이디 찾기</h4>
-          <button type="button" class="close myclose" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <div id="idFind">
-             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/idSearch.go">
-             </iframe>
-          </div>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div> --%>
   <div class="modal" tabindex="-1" role="dialog" id="userIdfind">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">아이디 찾기</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -257,40 +231,35 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger myclose" data-dismiss="modal" onClick= "window.location.reload()" >Close</button>
       </div>
     </div>
   </div>
 </div>
 	
-  <%-- ****** 비밀번호 찾기 Modal ****** --%>
-  <div class="modal fade" id="passwdFind">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal header -->
-        <div class="modal-header">
-          <h4 class="modal-title">비밀번호 찾기</h4>
-          <button type="button" class="close myclose" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <div id="pwFind">
-             <iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/pwdSearch.go">  
+ 
+  
+	 <div class="modal" tabindex="-1" role="dialog" id="passwdFind">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">비밀번호 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+      	<div id="pwFind">
+        	<iframe style="border: none; width: 100%; height: 350px;" src="<%= request.getContextPath() %>/login/pwdSearch.go">
              </iframe>
-          </div>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger myclose" data-dismiss="modal">Close</button>
         </div>
       </div>
-      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger myclose" data-dismiss="modal" onClick= "window.location.reload()" >Close</button>
+      </div>
     </div>
   </div>
-
+</div>
 	
 	
 	

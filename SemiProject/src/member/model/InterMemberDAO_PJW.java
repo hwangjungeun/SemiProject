@@ -22,5 +22,9 @@ public interface InterMemberDAO_PJW {
 	// 회원의 개인 정보 변경하기
 	int updateMember(MemberVO_PJW member) throws SQLException;
 
+	boolean emailDuplicateCheck(String email) throws SQLException;
+
+	
+
 	
 }

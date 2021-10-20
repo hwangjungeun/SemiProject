@@ -14,16 +14,18 @@
 <html lang="ko">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>오!데일리</title>
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%=ctxPath %>/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
@@ -86,6 +88,17 @@
 	display : inline-block;
 	}
 	
+	.xans-layout-statelogon toplog {
+    float: left;
+    line-height: 28px;
+    text-align: center;
+    font-size : 10pt;
+}
+	body > div.container > div > a {
+	color: pink;
+	margin-left:10px;
+	
+	}
 	
 </style>
 <script type="text/javascript">
@@ -129,14 +142,17 @@
 					<button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
 			    </form>
 			</div>
-
+		
+	
 			<div class="topArea container-fluid navbar-header mx-auto text-center">
 				<a class="navbar-brand mx-auto mb-3" href="<%= ctxPath %>/index.go">o H ! &nbsp; D a i L Y</a>
 				<i class="fas fa-shopping-basket fa-2x"></i>
 				<span class="badge badge-pill badge-light text-black-50">0</span>
 			</div>
+			</nav>
 			
-			<div class="bottomArea ml-auto my-3">
+			<div class="xans-layout-statelogon toplog ">
+			
 			<c:if test ="${empty sessionScope.loginuser}">
 				<a href="<%= ctxPath %>/login/logintry.go">LOGIN</a>
 				<a href="<%= ctxPath %>/member/memberRegister.go">JOIN US</a>
@@ -144,21 +160,28 @@
 			
 			<!-- 세션에 로그인 유저 아이디가 있을때 , 즉 로그인 성공 했을 때 -->
 			<c:if test = "${not empty sessionScope.loginuser }">
-			
-                                   어서오세요[<span style="color: black; font-weight: bold;">${(sessionScope.loginuser).name}</span>]님
+                                   어서오세요<span style="color: blue; font-weight: bold;">${(sessionScope.loginuser).name}</span>님
                 <br/>다양하고 특별한 혜택을 누리세요!
-                 &nbsp; &nbsp;<button type="button" class="btn btn-danger" onclick="goLogOut()">로그아웃</button><br/>
-             
-		    	<a href="<%= ctxPath %>/member/memberRegister.go">MyPage</a>
+                <br/>
 			</c:if>
+			
 			<!-- 어드민으로 로그인 했을때 만 매니저 란이 활성화 된다.  -->
 			<c:if test = "${(sessionScope.loginuser).userid == 'admin' }">
 				<a href="#">MANAGER</a>
 			</c:if>
-				<a href="#">NOTICE</a>
-				<a href="#">Q&amp;A</a>
+			<c:if test = "${not empty sessionScope.loginuser }">
+			<a href="javascript:goLogOut();">LogOut</a>
+			<a href="<%= ctxPath %>/member/memberEdit.go?userid=${sessionScope.loginuser.userid}">MODIFY</a>
+			<a href="<%= ctxPath %>/member/memberLookup.go?userid=${sessionScope.loginuser.userid}">MYPAGE</a>
+			</c:if>
+			<a href="#">CART <span class="count ">(<span class="EC-Layout-Basket-count">0</span>)</span></a>
+			<a href="#">ORDER</a>
+			
+			
+			
 			</div>
-		</nav>
+			</div>
+	
 			
 		<!-- 아코디언 같은 Navigation Bar 만들기 -->
 		<nav class="navbar navbar-expand-md navbar-light">
@@ -169,7 +192,7 @@
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="nav mx-auto">
 					<li class="nav-item mx-2"><a class="nav-link" href="#">BEST</a></li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li>
+					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">NEW 5%</a></li> -->
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="outerDropdown" data-toggle="dropdown">OUTER</a>
 						<div class="dropdown-menu" aria-labelledby="outerDropdown">
@@ -234,13 +257,13 @@
 				           <a class="dropdown-item" href="#">기타</a>
 				         </div>
 					</li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li>
-					<li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li>
+					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">당일발송</a></li> -->
+					<!-- <li class="nav-item mx-2"><a class="nav-link" href="#">SALE</a></li> -->
 					<li class="nav-item mx-2">
 						<a class="nav-link" href="#" id="Dropdown" data-toggle="dropdown">COMMUNITY</a>
 						<div class="dropdown-menu" aria-labelledby="Dropdown">
 				           <a class="dropdown-item" href="#">Notice</a>
-				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q&A</a>
+				           <a class="dropdown-item" href="/WEB-INF/board/qna.jsp">Q &amp; A</a>
 				           <a class="dropdown-item" href="#">Review</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/event.jsp">Event</a>
 				           <a class="dropdown-item" href="/WEB-INF/board/delay.jsp">Delay</a>
